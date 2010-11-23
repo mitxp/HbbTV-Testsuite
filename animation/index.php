@@ -136,7 +136,7 @@ function animImageOpacity() {
 
 <div id="moretxt" class="txtdiv txtlg" style="left: 100px; top: 440px; width: 450px; height: 158px;">Lorem ipsum dolor sit amet,<br />consectetur adipiscing elit.<br />Praesent ac nulla sit amet felis<br />condimentum tempus.<br />Praesent dictum molestie<br />at luctus mauris adipiscing non. Vestibulum rutrum aliquam hendrerit.</div>
 <div style="left: 700px; top: 480px; width: 500px; height: 100px; background-color: #ffffff;">
-  <img id="aimg" src="../logo.png" style="left: 122px; top: 28px; width: 256px; height: 44px; position: absolute;" />
+  <img id="aimg" src="logo.png" style="left: 122px; top: 28px; width: 256px; height: 44px; position: absolute;" />
 </div>
 
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
