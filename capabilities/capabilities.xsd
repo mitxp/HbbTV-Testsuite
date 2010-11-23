@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema xmlns="urn:oipf:config:oitf:oitfCapabilities:2009"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="urn:oipf:config:oitf:oitfCapabilities:2009"
+elementFormDefault="qualified" attributeFormDefault="unqualified">
+<!-- schema filename is config-oitf-oitfCapabilities.xsd -->
+<!-- Redefined uiExtensionsType of the original schema as defined in Annex C of CEA-2014
+(i.e. imports/ce-html-profiles-1-0.xsd) to add the new elements defined in Section 9.2
+of Open IPTV forum Volume 5 Declarative Application Environment Release 1 specification.
+-->
+<xs:redefine schemaLocation="imports/ce-html-profiles-1-0.xsd">
+<xs:complexType name="uiExtensionType">
+<xs:complexContent>
+<xs:extension base="uiExtensionType">
+<xs:choice minOccurs="0" maxOccurs="unbounded">
+<xs:element name="video_broadcast" type="videoBroadcastType" minOccurs="0"
+maxOccurs="unbounded"/>
+<xs:element name="overlaylocaltuner" type="overlayType"/>
+<xs:element name="overlayIPbroadcast" type="overlayType"/>
+<xs:element name="recording" type="pvrType"/>
+<xs:element name="parentalcontrol" type="parentalControlType"/>
+<xs:element name="extendedAVControl" type="xs:boolean"/>
+<xs:element name="clientMetadata" type="metadataType"/>
+<xs:element name="configurationChanges" type="xs:boolean"/>
+<xs:element name="ims" type="xs:boolean"/>
+<xs:element name="communication_services" type="xs:boolean"/>
+<xs:element name="drm" type="drmType" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="remote_diagnostics" type="xs:boolean"/>
+<xs:element name="pollingNotifications" type="xs:boolean"/>
+<xs:element name="mdtf" type="xs:boolean"/>
+</xs:choice>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<!-- Redefined downloadType to add attribute manageDownloads -->
+<xs:complexType name="downloadType">
+<xs:simpleContent>
+<xs:extension base="downloadType">
+<xs:attribute name="manageDownloads" type="manageDownloadsType" default="none"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+<!-- Redefined audioProfileType to add attribute DRMSystemID -->
+<xs:complexType name="audioProfileType">
+<xs:complexContent>
+<xs:extension base="audioProfileType">
+<xs:attribute name="DRMSystemID" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<!-- Redefined videoProfileType to add attribute DRMSystemID -->
+<xs:complexType name="videoProfileType">
+<xs:complexContent>
+<xs:extension base="videoProfileType">
+<xs:attribute name="DRMSystemID" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:redefine>
+<!-- ADDED: type definitions for the new elements defined in Section 9.2 of the
+Open IPTV forum Volume 5 Declarative Application Environment Release 1 specification
+-->
+<xs:simpleType name="manageDownloadsType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="none"/>
+<xs:enumeration value="initiator"/>
+<xs:enumeration value="samedomain"/>
+<xs:enumeration value="all"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:complexType name="videoBroadcastType">
+<xs:attribute name="type" type="xs:string" use="required"/>
+<xs:attribute name="transport" type="xs:string"/>
+<xs:attribute name="nrstreams" type="xs:unsignedInt" default="1"/>
+<xs:attribute name="scaling" type="scalingType" default="arbitrary"/>
+<xs:attribute name="minSize" type="xs:unsignedInt" default="0"/>
+<xs:attribute name="postList" type="xs:boolean" default="false"/>
+</xs:complexType>
+<xs:complexType name="pvrType">
+<xs:simpleContent>
+<xs:extension base="xs:boolean">
+<xs:attribute name="ipBroadcast" type="xs:boolean" default="false"/>
+<xs:attribute name="manageRecordings" type="xs:string"/>
+<xs:attribute name="postList" type="xs:boolean" default="false"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+<xs:complexType name="parentalControlType">
+<xs:simpleContent>
+<xs:extension base="xs:boolean">
+<xs:attribute name="schemes" type="xs:string"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+<xs:complexType name="metadataType">
+<xs:simpleContent>
+<xs:extension base="xs:boolean">
+<xs:attribute name="type" type="xs:string"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+<xs:complexType name="drmType">
+<xs:simpleContent>
+<xs:extension base="xs:string">
+<xs:attribute name="DRMSystemID" type="xs:string" use="required"/>
+<xs:attribute name="protectionGateways" type="xs:string"/>
+</xs:extension>
+</xs:simpleContent>
+</xs:complexType>
+<xs:simpleType name="scalingType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="arbitrary"/>
+<xs:enumeration value="quartersize"/>
+<xs:enumeration value="none"/>
+<xs:enumeration value="0.33x0.33"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
+

@@ -1,0 +1,3 @@
+SSLVerifyClient require
+SSLVerifyDepth  10
+
