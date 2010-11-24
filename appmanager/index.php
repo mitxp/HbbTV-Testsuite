@@ -124,10 +124,10 @@ function runStep(name) {
     }, 3000);
   } else if (name=='freemem') {
     try {
-      var freemem = document.getElementById('appmgr').getOwnerApplication(document).getFreeMem();
-      showStatus(true, 'Application.getFreeMem() returned: '+freemem);
+      var freemem = document.getElementById('appmgr').getOwnerApplication(document).privateData.getFreeMem();
+      showStatus(true, 'ApplicationPrivateData.getFreeMem() returned: '+freemem);
     } catch (e) {
-      showStatus(false, 'Application.getFreeMem() call failed.');
+      showStatus(false, 'ApplicationPrivateData.getFreeMem() call failed.');
     }
   }
 }
