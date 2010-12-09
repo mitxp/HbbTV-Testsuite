@@ -84,16 +84,25 @@ function runStep(name) {
   if (name=='valid') {
     vid.data = 'http://itv.ard.de/video/trailer.php';
     vid.play(1);
+    checkpausetimer(); // pause video and restart it in order to check if events are sent correctly
+  } else if (name=='invalid') {
+    vid.data = 'http://itv.mit-xperts.com/hbbtvtest/playerevents/novideo.mp4';
+    vid.play(1);
+  }
+}
+function checkpausetimer() {
+  var vid = document.getElementById('video');
+  var state = (vid && vid.playState) ? vid.playState : 0;
+  if (state==3 || state==4) { // still connecting or buffering
+    pausetimer = setTimeout(function() { checkpausetimer(); }, 2000);
+  } else {
     pausetimer = setTimeout(function() {
       vid.play(0);
       pausetimer = setTimeout(function() {
         vid.play(1);
         pausetimer = false;
       }, 5000);
-    }, 16000);
-  } else if (name=='invalid') {
-    vid.data = 'http://itv.mit-xperts.com/hbbtvtest/playerevents/novideo.mp4';
-    vid.play(1);
+    }, 12000);
   }
 }
 function showResult(name) {
