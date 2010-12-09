@@ -32,9 +32,12 @@ if ($msg) {
   }
   $msg = 'OK';
 }
-#$fp = @fopen('/tmp/heide','at');
-#@fputs($fp, $msg.' - '.date('Y-m-d H:i:s')."\n");
+
+# uncomment this for logging
+#$fp = @fopen('/tmp/clientssltest','at');
+#@fputs($fp, date('Y-m-d H:i:s').':'.$_SERVER['REMOTE_ADDR'].':'.$msg."\n");
 #@fclose($fp);
+
 if ($_REQUEST['html']) {
   echo '<?xml version="1.0" encoding="utf-8" ?>'."\n".'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n".'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de"><head><title>SSL Check</title>'."\n";
   echo '<style type="text/css">'."\nbody { width: 1280px; height: 720px; margin: 0; background-color: #000000; } p { color: #ffffff; padding: 100px; font-size: 24px; }\n</style>\n";
