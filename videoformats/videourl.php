@@ -13,7 +13,7 @@ if ($id=='ardepg') {
 } else if ($id=='audiomp3') {
   echo 'audio/mpeg#http://swr.ic.llnwd.net/stream/swr_mp3_m_swr3a';
 } else if ($id=='audiomp4') {
-  echo 'audio/mpeg#http://itv.ard.de/video/audio.php';
+  echo 'audio/mp4#http://itv.ard.de/video/audio.php';
 } else if ($id=='irthd') {
   echo 'video/mp4#http://itv.ard.de/video/irthd.mp4';
 } else if ($id=='zdf') {
