@@ -19,12 +19,12 @@ function validateUserAgent($uagent, &$msg) {
     $msg = 'version is not followed by a space and an opening bracket';
     return false;
   }
-  $uagent = substr($uagent, 2);
-  if (substr($uagent, -1)!=')') {
+  $i = strpos($uagent, ')');
+  if (!$i) {
     $msg = 'does not end with a closing bracket';
     return false;
   }
-  $uagent = substr($uagent, 0, strlen($uagent)-1);
+  $uagent = substr($uagent, 2, $i-2);
   $data = explode(';', $uagent, 6);
   $capabilities = trim($data[0]);
   $capabilities = str_replace('+DL', '', $capabilities);
@@ -36,4 +36,5 @@ function validateUserAgent($uagent, &$msg) {
   }
   return true;
 }
+
 ?>
