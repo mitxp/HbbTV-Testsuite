@@ -19,6 +19,10 @@ if (typeof(KeyEvent)!='undefined') {
     var VK_PAUSE = KeyEvent.VK_PAUSE;
     var VK_STOP = KeyEvent.VK_STOP;
   }
+  if (typeof(KeyEvent.VK_FAST_FWD)!='undefined') {
+    var VK_FAST_FWD = KeyEvent.VK_FAST_FWD;
+    var VK_REWIND = KeyEvent.VK_REWIND;
+  }
   if (typeof(KeyEvent.VK_BACK)!='undefined') {
     var VK_BACK = KeyEvent.VK_BACK;
   }
@@ -54,6 +58,10 @@ if (typeof(VK_PLAY)=='undefined') {
   var VK_PLAY = 0x50;
   var VK_PAUSE = 0x51;
   var VK_STOP = 0x53;
+}
+if (typeof(VK_FAST_FWD)=='undefined') {
+  var VK_FAST_FWD = 0x46;
+  var VK_REWIND = 0x52;
 }
 if (typeof(VK_BACK)=='undefined') {
   var VK_BACK = 0xa6;
