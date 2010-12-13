@@ -9,6 +9,7 @@ $ALLOWEDCN['icordhdplus.humaxdigital.com'] = 1;
 $ALLOWEDCN['icordhd-plus.humaxdigital.com'] = 1;
 $ALLOWEDCN['600s.videoweb.de'] = 1;
 $ALLOWEDCN['testbox.mit-xperts.com'] = 1;
+$ALLOWEDCN['testbox2.mit-xperts.com'] = 1;
 $ALLOWEDCN['volksbox.inverto.tv'] = 1;
 
 $msg = '';
