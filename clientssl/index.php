@@ -93,7 +93,7 @@ function debug(txt) {
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
-<div class="txtdiv" style="left: 110px; top: 200px; width: 400px; height: 400px; font-face: bold">Important: For this test to succeed, you need to send us the client SSL certificate stored on your device first.<br /><br />If you don't have one, you can temporarily use our test certificate. Download it from https://itv.mit-xperts.com/clientssl/issue/dload/index.php?id=1330221600</div>
+<div class="txtdiv" style="left: 110px; top: 200px; width: 400px; height: 400px; font-face: bold">Important: For this test to succeed, you need to send us the client SSL certificate stored on your device first.<br /><br />If you don't have one, you can temporarily use our test certificate. Download it from https://itv.mit-xperts.com/clientssl/issue/dload/sample.php</div>
 
 </body>
 </html>
