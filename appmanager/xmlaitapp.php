@@ -36,25 +36,22 @@ function runStep(name) {
   showStatus(true, '');
   if (name=='switchch') {
     var vid = document.getElementById('video');
-    var lst = null;
-    try {
-      lst = vid.getChannelConfig().channelList;
-    } catch (e) {
-      lst = null;
-    }
-    if (!lst) {
-      showStatus(false, 'could not get channelList.');
-      return;
-    }
     var ch = null;
     try {
-      ch = lst.getChannelByTriplet(service1[0], service1[1], service1[2]);
+      // OIPF 7.13.1.3 says that dsd is binary encoded, so decode hex string to latin-1 dsd
+      var dsd = '';
+      var hex = service1[3];
+      for (var i=0; i+1<hex.length; i+=2) {
+	dsd += String.fromCharCode(parseInt(hex.substring(i, i+2), 16));
+      }
+      alert(dsd);
+      ch = vid.createChannelObject(0, dsd, service1[2]);
     } catch (e) {
-      showStatus(false, 'getChannelByTriplet failed for '+onid+'.'+tsid+'.'+sid);
+      showStatus(false, 'createChannelObject failed for '+onid+'.'+tsid+'.'+sid);
       return;
     }
     if (!ch) {
-      showStatus(false, 'getChannelByTriplet did not return anything.');
+      showStatus(false, 'createChannelObject did not return anything.');
       return;
     }
     try {
