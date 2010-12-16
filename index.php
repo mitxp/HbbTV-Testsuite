@@ -108,7 +108,9 @@ In case you have questions and/or comments, you can reach us at<br />info &#x004
   <li name="keycodes" descr="Check for correctly defined key codes and key events.">Key codes / key events</li>
   <li name="keyset" descr="Set keyset mask for user-input keys.">Keyset mask</li>
   <li name="keypress" descr="Check whether keypress event is sent for non-unicode characters.">Keypress events</li>
-  <li name="capabilities" descr="Check the application/oipfCapabilities object.">Capabilities</li>
+  <li name="capabilities" descr="Check the application/oipfCapabilities object.">OIPF Capabilities</li>
+  <li name="configuration" descr="Check the application/oipfConfiguration object.">OIPF Configuration</li>
+  <li name="parentalcontrol" descr="Check the application/oipfParentalControlManager object.">OIPF Parental Control</li>
   <li name="navigatordebug" descr="Check access to the Navigator class and the Debug print API.">Navigator and Debug</li>
   <li name="fontrendering" descr="Check whether the device performs correct font rendering.">Font rendering</li>
   <li name="clientssl" descr="Check support for client SSL certificates.">Client SSL certificate</li>
