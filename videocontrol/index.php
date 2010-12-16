@@ -96,7 +96,7 @@ function setSpeed(fact) {
 function gotoPos(scnds) {
   try {
     var vid = document.getElementById('video');
-    vid.seek(scnds);
+    vid.seek(scnds*1000);
     setInstr('Waiting 10 seconds to check reported playback position...');
     setTimeout(function() {
       var secs = isNaN(vid.playPosition) ? -1 : Math.floor(vid.playPosition/1000);
