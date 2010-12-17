@@ -178,29 +178,6 @@ function runStep(name) {
       showStatus(false, 'prevChannel() failed.');
       return;
     }
-  } else if (name=='vol50') {
-    setVolume(50);
-  } else if (name=='vol100') {
-    setVolume(100);
-  }
-}
-function setVolume(perc) {
-  var vid = document.getElementById('video');
-  try {
-    vid.setVolume(perc);
-  } catch (e) {
-    showStatus(false, 'setVolume() failed.');
-    return;
-  }
-  try {
-    if (vid.getVolume()==perc) {
-      showStatus(true, 'setVolume() succeeded.');
-    } else {
-      showStatus(false, 'getVolume() did not return '+perc);
-    }
-  } catch (e) {
-    showStatus(false, 'getVolume() failed.');
-    return;
   }
 }
 
