@@ -61,7 +61,8 @@ In case you think a test may need a fix, please contact us (or submit a fix your
 
 <div id="txtdiv" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 600px;"><u>About this testsuite:</u><br />
 This test suite is for HbbTV terminal developers to test their implementation of the HbbTV 1.1.1 standard. Although this test suite contains a lot of test, it is not complete. It contains the most important interoperability issues disvocered in current applications. Tested parts are not covered by 100%, but the most importent checks are performed. Identified parts of the specification that are not covered so far are:<ul>
-<li>application/oipfDrmAgent (HbbTV 8.2.3)</li>
+<li>application/oipfDrmAgent (OIPF 7.6 + HbbTV 8.2.3)</li>
+<li>tests for HbbTV options (+DL, +PVR, +RTSP)</li>
 <li>JavaScript tests</li>
 <li>CSS navigation</li>
 </ul>
