@@ -132,6 +132,75 @@ function runStep(name) {
         showStatus(false, 'wrong service reported.');
       }
     };
+  } else if (name=='getprivdata') {
+    try {
+      var ch = document.getElementById('appmgr').getOwnerApplication(document).privateData.currentChannel;
+      var type = ch.channelType;
+      type = type==ch.TYPE_TV?'TV':(type==ch.TYPE_RADIO?'Radio':'unknown');
+      var succ = type=='TV'
+      && ((ch.onid==service1[0]&&ch.tsid==service1[1]&&ch.sid==service1[2])
+       || (ch.onid==service2[0]&&ch.tsid==service2[1]&&ch.sid==service2[2]));
+      showStatus(succ, 'channel=DVB tripe('+ch.onid+'.'+ch.tsid+'.'+ch.sid+'), type='+type+', name='+ch.name);
+    } catch (e) {
+      showStatus(false, 'cannot determine current channel');
+    }
+  } else if (name=='nextc') {
+    var vid = document.getElementById('video');
+    try {
+      vid.onChannelChangeSucceeded = function() {
+        vid.onChannelChangeSucceeded = null;
+        if (vid.currentChannel) {
+          showStatus(true, 'channel change succeeded.');
+        } else {
+          showStatus(false, 'channel change failed.');
+        }
+      };
+      setInstr('Setting channel, waiting for onChannelChangeSucceeded...');
+      vid.nextChannel();
+    } catch (e) {
+      showStatus(false, 'nextChannel() failed.');
+      return;
+    }
+  } else if (name=='prevc') {
+    var vid = document.getElementById('video');
+    try {
+      vid.onChannelChangeSucceeded = function() {
+        vid.onChannelChangeSucceeded = null;
+        if (vid.currentChannel) {
+          showStatus(true, 'channel change succeeded.');
+        } else {
+          showStatus(false, 'channel change failed.');
+        }
+      };
+      setInstr('Setting channel, waiting for onChannelChangeSucceeded...');
+      vid.prevChannel();
+    } catch (e) {
+      showStatus(false, 'prevChannel() failed.');
+      return;
+    }
+  } else if (name=='vol50') {
+    setVolume(50);
+  } else if (name=='vol100') {
+    setVolume(100);
+  }
+}
+function setVolume(perc) {
+  var vid = document.getElementById('video');
+  try {
+    vid.setVolume(perc);
+  } catch (e) {
+    showStatus(false, 'setVolume() failed.');
+    return;
+  }
+  try {
+    if (vid.getVolume()==perc) {
+      showStatus(true, 'setVolume() succeeded.');
+    } else {
+      showStatus(false, 'getVolume() did not return '+perc);
+    }
+  } catch (e) {
+    showStatus(false, 'getVolume() failed.');
+    return;
   }
 }
 
@@ -151,6 +220,11 @@ echo appmgrObject(); ?>
   <li name="get">Test 1: currentChannel</li>
   <li name="set">Test 2: setChannel</li>
   <li name="wait">Test 3: onChannelChangeSucceeded</li>
+  <li name="getprivdata">Test 4: currentChannel via privateData</li>
+  <li name="nextc">Test 5: nextChannel()</li>
+  <li name="prevc">Test 6: prevChannel()</li>
+  <li name="vol50">Test 7: volume 50%</li>
+  <li name="vol100">Test 8: volume 100%</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

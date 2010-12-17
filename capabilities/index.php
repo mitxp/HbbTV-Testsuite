@@ -66,6 +66,30 @@ function runStep(name) {
     }
     req.open('GET', 'validate.php?data='+xmlp);
     req.send(null);
+  } else if (name=='extrasd') {
+    var num = 'undefined';
+    try {
+      num = co.extraSDVideoDecodes;
+    } catch (e) {
+      // ignore
+    }
+    if (isNaN(num)) {
+      showStatus(false, 'extraSDVideoDecodes oipfCapabilities extension (A.2.3) is not numeric: '+num);
+    } else {
+      showStatus(false, 'extraSDVideoDecodes = '+num);
+    }
+  } else if (name=='extrahd') {
+    var num = 'undefined';
+    try {
+      num = co.extraHDVideoDecodes;
+    } catch (e) {
+      // ignore
+    }
+    if (isNaN(num)) {
+      showStatus(false, 'extraHDVideoDecodes oipfCapabilities extension (A.2.3) is not numeric: '+num);
+    } else {
+      showStatus(false, 'extraHDVideoDecodes = '+num);
+    }
   } else {
     try {
       showStatus(true, name+' capability is '+(co.hasCapability(name)?'':'not ')+'available.');
@@ -92,6 +116,8 @@ function runStep(name) {
   <li name="+DL">Test +DL capability</li>
   <li name="+PVR">Test +PVR capability</li>
   <li name="+RTSP">Test +RTSP capability</li>
+  <li name="extrasd">Show number of SD video decoders</li>
+  <li name="extrahd">Show number of HD video decoders</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 300px; width: 400px; height: 400px;"></div>
