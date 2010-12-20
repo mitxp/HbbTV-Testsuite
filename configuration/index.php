@@ -42,16 +42,20 @@ function runStep(name) {
   var config = oipfcfg.configuration;
   var result;
   var attrib;
+  var valid = false;
   try {
     if (name=='audlang') {
       attrib = 'preferredAudioLanguage';
       result = config.preferredAudioLanguage;
+      valid = validateLanguageList(result);
     } else if (name=='sublang') {
       attrib = 'preferredSubtitleLanguage';
       result = config.preferredSubtitleLanguage;
+      valid = validateLanguageList(result);
     } else if (name=='country') {
       attrib = 'countryId';
       result = config.countryId;
+      valid = validateLanguageList(result) && result.length==3;
     } else {
       showStatus(false, 'Unknown test name '+name);
       return;
@@ -59,11 +63,30 @@ function runStep(name) {
   } catch (e) {
     showStatus(false, 'Error while accessing '+attrib+' attribute');
   }
-  if (result && result.length==3) {
+  if (valid) {
     showStatus(true, attrib+' = '+result);
   } else {
     showStatus(false, 'Configuration attribute '+attrib+' has invalid value: '+result);
   }
+}
+function validateLanguageList(txt) {
+  txt = txt.toUpperCase();
+  if (!txt) return false;
+  while (txt) {
+    if (txt.length<3) {
+      return false;
+    }
+    for (var i=0; i<3; i++) {
+      var c = txt.charCodeAt(i);
+      if (c<0x41 || c>0x5a) return false;
+    }
+    txt = txt.substring(3);
+    if (txt.length>0) {
+      if (txt.substring(0, 1)!=',') return false;
+      txt = txt.substring(1);
+    }
+  }
+  return true;
 }
 //]]>
 </script>
