@@ -37,15 +37,21 @@ function handleKeyCode(kc) {
 function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');
-  var e = document.getElementById('vidctrbg');
-  e.style.display = 'none';
   if (name=='lright') {
-    setvidsize(700, 480, 320, 180, 'on the lower left of the screen.');
+    setvidsize(700, 480, 320, 180, 'on the lower right of the screen.');
   } else if (name=='lcenter') {
-    e.style.display = 'block';
-    setvidsize(100, 480, 1080, 180, 'on the lower center of the screen (video aspect ratio should be correct, and it should have a black border on the left/right).');
+    setvidsize(170, 480, 1010, 180, 'on the lower center of the screen (video aspect ratio should be correct, and it should have big black bars on the left/right).');
+    markVideoPosition(515, 480, 320, 180);
   } else if (name=='full') {
     setvidsize(0, 0, 1280, 720, 'fullscreen in the background.');
+  } else if (name=='vidclip') {
+    var e = document.getElementById('vidcontainer');
+    e.style.left = '700px';
+    e.style.top = '260px';
+    e.style.width = '320px';
+    e.style.height = '180px';
+    setvidsize(-64, -36, 448, 252, 'on the right of the screen (vertically centered, only partially visible).');
+    markVideoPosition(700, 260, 320, 180);
   } else if (name=='togglefs') {
     togglefullscreen();
   } else if (name=='vidbroadcast') {
@@ -59,6 +65,7 @@ function runStep(name) {
     } catch (e) {
       showStatus(false, 'Stopping video failed.');
     }
+    showVideoPosition(false);
   }
 }
 function setvidsize(x, y, w, h, txt) {
@@ -69,6 +76,23 @@ function setvidsize(x, y, w, h, txt) {
   vid.style.height = h+'px'; 
   showStatus(true, 'Please check visual result.');
   setInstr('Video position should now be '+txt);
+  markVideoPosition(x, y, w, h);
+}
+function markVideoPosition(x, y, w, h) {
+  var e = document.getElementById('vidpostxt');
+  e.style.left = x+'px';
+  e.style.top = (y-30)+'px';
+  e = document.getElementById('vidposborder');
+  e.style.left = (x-4)+'px'; 
+  e.style.top = (y-4)+'px'; 
+  e.style.width = w+'px'; 
+  e.style.height = h+'px'; 
+}
+function showVideoPosition(isshowing) {
+  var e = document.getElementById('vidpostxt');
+  e.style.display = isshowing ? 'block' : 'none';
+  e = document.getElementById('vidposborder');
+  e.style.display = isshowing ? 'block' : 'none';
 }
 function togglefullscreen() {
   fullscreen = !fullscreen;
@@ -80,6 +104,7 @@ function togglefullscreen() {
     showStatus(false, 'Setting fullsceen('+fullscreen+') mode failed');
   }
   menuSelect(oldsel);
+  showVideoPosition(!fullscreen);
 }
 function govid(typ) {
   var elem = document.getElementById('vidcontainer');
@@ -96,6 +121,10 @@ function govid(typ) {
   }
   var mtype = typ ? 'video/mp4' : 'video/broadcast';
   var ihtml = '<object id="video" type="'+mtype+'" style="position: absolute; left: 600; top: 250; width: 160px; height: 90px;"><'+'/object>';
+  elem.style.left = '0px';
+  elem.style.top = '0px';
+  elem.style.width = '1280px';
+  elem.style.height = '720px';
   elem.innerHTML = ihtml;
   var succss = false;
   var phase = 1;
@@ -124,6 +153,8 @@ function govid(typ) {
     // ignore
   }
   showStatus(succss, 'Setting the video object '+mtype+' '+(succss?'succeeded':'failed in phase '+phase));
+  markVideoPosition(600, 250, 160, 90);
+  showVideoPosition(true);
 }
 
 //]]>
@@ -133,9 +164,12 @@ function govid(typ) {
 
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
-<div id="vidctrbg" style="left: 480px; top: 460px; width: 320px; height: 220px; background-color: #f0f0f0; display: none;"></div>
 <div id="vidcontainer" style="left: 0px; top: 0px; width: 1280px; height: 720px;"></div>
 <?php echo appmgrObject(); ?>
+<div style="left: 0px; top: 0px; width: 1280px; height: 720px;">
+  <div id="vidpostxt" class="txtdiv" style="left: 480px; top: 430px; width: 320px; height: 30px; color: #ffffff; display: none;">Expected video position:</div>
+  <div id="vidposborder" style="left: 480px; top: 460px; width: 320px; height: 220px; border: 4px solid #ffffff; display: none;"></div>
+</div>
 
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
@@ -144,13 +178,14 @@ function govid(typ) {
   <li name="lright">Test 2: lower right</li>
   <li name="lcenter">Test 3: lower center</li>
   <li name="full">Test 4: fullscreen (background)</li>
-  <li name="vidstop">Test 5: stop video</li>
-  <li name="vidstream">Test 6: start streaming video</li>
-  <li name="lright">Test 7: lower right</li>
-  <li name="togglefs">Test 8: toggle fullscreen mode</li>
-  <li name="lcenter">Test 9: lower center</li>
-  <li name="full">Test 10: fullscreen (background)</li>
-  <li name="vidbroadcast">Test 11: start broadcast video</li>
+  <li name="vidclip">Test 5: video clipping test</li>
+  <li name="vidstop">Test 6: stop video</li>
+  <li name="vidstream">Test 7: start streaming video</li>
+  <li name="lright">Test 8: lower right</li>
+  <li name="togglefs">Test 9: toggle fullscreen mode</li>
+  <li name="lcenter">Test 10: lower center</li>
+  <li name="full">Test 11: fullscreen (background)</li>
+  <li name="vidbroadcast">Test 12: start broadcast video</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
