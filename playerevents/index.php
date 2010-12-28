@@ -95,6 +95,9 @@ function runStep(name) {
   } else if (name=='invalid2') {
     vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>novideo.php/video.mp4';
     vid.play(1);
+  } else if (name=='invalid3') {
+    vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>notfound.mp4';
+    vid.play(1);
   }
 }
 function checkpausetimer() {
@@ -158,6 +161,8 @@ function showResult(name, errorno) {
       errmsg += '<br />ERROR variable set to '+errorno+', should be 1';
     } else if (name=='invalid2' && errorno!=0 && errorno!=2) {
       errmsg += '<br />ERROR variable set to '+errorno+', should be 0 or 2';
+    } else if (name=='invalid3' && errorno!=1 && errorno!=2) {
+      errmsg += '<br />ERROR variable set to '+errorno+', should be 1 or 2';
     }
   }
   if (errmsg) {
@@ -186,6 +191,7 @@ function showResult(name, errorno) {
   <li name="invalid0">Test 2: invalid video (A/V format)</li>
   <li name="invalid1">Test 3: invalid video (cannot connect)</li>
   <li name="invalid2">Test 4: invalid video (bad content)</li>
+  <li name="invalid3">Test 5: invalid video (404 not found)</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
