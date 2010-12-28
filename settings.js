@@ -1,4 +1,4 @@
-var releaseinfo = '1.3.1 (20101217)';
+var releaseinfo = '1.3.2 (20101228)';
 var service1 = [1,1068,5004,'430b011778000192a102750003'];
 var service2 = [1,1068,5008,service1[3]];
 var autostartappname = 'This testsuite application';
