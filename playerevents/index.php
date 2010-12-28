@@ -70,7 +70,8 @@ function runStep(name) {
     eventtxt += '<br />@sec '+Math.floor((new Date().getTime()-starttime)/1000)+': '+ename;
     setInstr('Waiting while playing video (test result is displayed at end of video...'+eventtxt);
     if (state==5 || state==6) {
-      showResult(name);
+      var errorno = isNaN(vid.error) ? -1 : 0;
+      showResult(name, errorno);
     }
   };
   vid.onPlaySpeedChanged = function() {
@@ -85,8 +86,14 @@ function runStep(name) {
     vid.data = 'http://itv.ard.de/video/trailer.php';
     vid.play(1);
     checkpausetimer(); // pause video and restart it in order to check if events are sent correctly
-  } else if (name=='invalid') {
-    vid.data = 'http://itv.mit-xperts.com/hbbtvtest/playerevents/novideo.mp4';
+  } else if (name=='invalid0') {
+    vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>invalidformat.php';
+    vid.play(1);
+  } else if (name=='invalid1') {
+    vid.data = 'http://1.1.1.1/cannotconnect.mp4';
+    vid.play(1);
+  } else if (name=='invalid2') {
+    vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>novideo.php/video.mp4';
     vid.play(1);
   }
 }
@@ -105,7 +112,7 @@ function checkpausetimer() {
     }, 12000);
   }
 }
-function showResult(name) {
+function showResult(name, errorno) {
   var errmsg = '';
   if (name=='valid') {
     if (foundevents[1]!=2) {
@@ -132,7 +139,7 @@ function showResult(name) {
     if (!poschangereceived) {
       errmsg += '<br />no onPlayPositionChanged event received';
     }
-  } else if (name=='invalid') {
+  } else { // invalid video should cause a single error event
     if (foundevents[1]) {
       errmsg += '<br />PLAYING event received';
     }
@@ -145,9 +152,16 @@ function showResult(name) {
     if (!foundevents[6]) {
       errmsg += '<br />no ERROR event received';
     }
+    if (name=='invalid0' && errorno!=0) {
+      errmsg += '<br />ERROR variable set to '+errorno+', should be 0';
+    } else if (name=='invalid1' && errorno!=1) {
+      errmsg += '<br />ERROR variable set to '+errorno+', should be 1';
+    } else if (name=='invalid2' && errorno!=0 && errorno!=2) {
+      errmsg += '<br />ERROR variable set to '+errorno+', should be 0 or 2';
+    }
   }
   if (errmsg) {
-    showStatus(false, 'The received events were not correct.');
+    showStatus(false, 'The received events were not correct (see above).');
     setInstr('The following problems were detected:'+errmsg);
   } else {
     showStatus(true, 'Test succeeded.');
@@ -169,7 +183,9 @@ function showResult(name) {
 <div id="vidstate" class="txtdiv" style="left: 700px; top: 420px; width: 400px; height: 60px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="valid">Test 1: play valid video</li>
-  <li name="invalid">Test 2: play invalid video</li>
+  <li name="invalid0">Test 2: invalid video (A/V format)</li>
+  <li name="invalid1">Test 3: invalid video (cannot connect)</li>
+  <li name="invalid2">Test 4: invalid video (bad content)</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
