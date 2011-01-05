@@ -76,7 +76,7 @@ function runStep(name) {
     if (isNaN(num)) {
       showStatus(false, 'extraSDVideoDecodes oipfCapabilities extension (A.2.3) is not numeric: '+num);
     } else {
-      showStatus(false, 'extraSDVideoDecodes = '+num);
+      showStatus(true, 'extraSDVideoDecodes = '+num);
     }
   } else if (name=='extrahd') {
     var num = 'undefined';
@@ -88,7 +88,7 @@ function runStep(name) {
     if (isNaN(num)) {
       showStatus(false, 'extraHDVideoDecodes oipfCapabilities extension (A.2.3) is not numeric: '+num);
     } else {
-      showStatus(false, 'extraHDVideoDecodes = '+num);
+      showStatus(true, 'extraHDVideoDecodes = '+num);
     }
   } else {
     try {
