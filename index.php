@@ -10,8 +10,6 @@ $referer = addcslashes($referer, "\0..\37'\\");
 sendContentType();
 openDocument('MIT-xperts HBBTV testsuite');
 ?>
-<script type="text/javascript" src="keycodes.js"></script>
-<script type="text/javascript" src="base.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 window.onload = function() {
