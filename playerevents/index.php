@@ -70,7 +70,7 @@ function runStep(name) {
     eventtxt += '<br />@sec '+Math.floor((new Date().getTime()-starttime)/1000)+': '+ename;
     setInstr('Waiting while playing video (test result is displayed at end of video...'+eventtxt);
     if (state==5 || state==6) {
-      var errorno = isNaN(vid.error) ? -1 : 0;
+      var errorno = isNaN(vid.error) ? -1 : vid.error;
       showResult(name, errorno);
     }
   };
