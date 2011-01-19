@@ -136,9 +136,6 @@ function showResult(name, errorno) {
     if (foundevents[6]) {
       errmsg += '<br />ERROR event received';
     }
-    if (!speedchangereceived) {
-      errmsg += '<br />no onPlaySpeedChanged event received';
-    }
     if (!poschangereceived) {
       errmsg += '<br />no onPlayPositionChanged event received';
     }
