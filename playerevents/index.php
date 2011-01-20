@@ -40,8 +40,6 @@ function handleKeyCode(kc) {
   return false;
 }
 function runStep(name) {
-  setInstr('Starting video...');
-  showStatus(true, '');
   var vid = document.getElementById('video');
   vid.onPlayStateChange = null;
   vid.onPlaySpeedChanged = null;
@@ -54,6 +52,9 @@ function runStep(name) {
   } catch (e) {
     // ignore
   }
+  setInstr('Starting video...');
+  showStatus(true, '');
+  eventtxt = '';
   for (var i=0; i<eventnames.length; i++) {
     foundevents[i] = 0;
   }
