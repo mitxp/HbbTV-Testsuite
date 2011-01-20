@@ -8,7 +8,7 @@ $referer = substr(strrchr($referer, '/'), 1);
 $referer = addcslashes($referer, "\0..\37'\\");
 
 sendContentType();
-openDocument('MIT-xperts HBBTV testsuite');
+openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -80,14 +80,16 @@ echo appmgrObject();
 ?>
 
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
-<div class="txtdiv txtlg" style="left: 113px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
-<div class="txtdiv" style="left: 113px; top: 640px; width: 500px; height: 30px;">Testsuite release: <span id="relid"></span></div>
-<div style="left: 690px; top: 56px; width: 590px; height: 52px; background-color: #ffffff;"></div>
-<div class="imgdiv" style="left: 700px; top: 60px; width: 356px; height: 44px; background-image: url(logo.png);"></div>
-<div class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 580px;"><u>Instructions:</u><br /><br />
-Please select the desired test using the cursor keys, then press OK.  After that, test-specific instructions will appear.<br /><br />
-In case you have questions and/or comments, you can reach us at<br />info &#x0040; mit-xperts&#x002e;com<br /><br />
-<u>Test description:</u><br /><br />
+<div class="txtdiv txtlg" style="left: 111px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV testsuite</div>
+<div class="txtdiv" style="left: 111px; top: 640px; width: 500px; height: 30px;">Testsuite release: <span id="relid"></span></div>
+<div style="left: 690px; top: 56px; width: 590px; height: 130px; background-color: #ffffff;">
+  <div class="txtdiv" style="left: 10px; top: 4px; width: 500px; height: 30px; color: #000000;">HBBTV testsuite project initiated/maintained by:</div>
+  <div class="imgdiv" style="left: 10px; top: 34px; width: 356px; height: 44px; background-image: url(logo.png);"></div>
+</div>
+<div class="txtdiv" style="left: 700px; top: 200px; width: 450px; height: 500px;"><u>Instructions:</u><br />
+Please select the desired test using the cursor keys, then press OK. After that, test-specific instructions will appear. More information is available under &quot;About / Imprint&quot;.<br />
+In case you have questions and/or comments, you can reach us at info&#160;&#x0040;&#160;mit-xperts&#x002e;com<br /><br />
+<u>Test description:</u><br />
 <span id="descr">&#160;</span>
 </div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
