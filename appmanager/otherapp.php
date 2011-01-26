@@ -62,7 +62,7 @@ function runStep(name) {
       vid.style.top = '200px';
       vid.style.width = '320px';
       vid.style.height = '160px';
-      showStatus(true, 'Please check visual result: is video on the lower right of the screen?');
+      showStatus(true, 'Please check visual result: did the video move from the left part of the screen to the right part?');
     } catch (e) {
       showStatus(false, 'Could not change video position');
       return;
@@ -81,7 +81,7 @@ function runStep(name) {
       req = null;
     };
     try {
-      req.open('GET', 'http://rc.mit-xperts.com/randomvalue.php');
+      req.open('GET', boundarytesturls[0]);
       req.send(null);
     } catch (e) {
       showStatus(false, 'Request of URL failed, even though signalled in AIT application boundary.');
@@ -100,7 +100,7 @@ function runStep(name) {
       req = null;
     };
     try {
-      req.open('GET', 'http://www.hbbtv.org/');
+      req.open('GET', boundarytesturls[1]);
       req.send(null);
     } catch (e) {
       showStatus(true, 'Request of URL failed, probably because it is not signalled in AIT application boundary (this is good!).');
