@@ -128,9 +128,8 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="audiomp3">Audio stream (MP3)</li>
   <li name="audiomp4">Test audio (MP4)</li>
   <li name="irthd">IRT test (HD, MP4)</li>
-  <li name="zdftest1">ZDF test 1 (MP4)</li>
-  <li name="zdftest2">ZDF test 2 (MP4)</li>
-  <li name="zdftest3">ZDF test 3 (MP4)</li>
+  <li name="zdflonggop">ZDF test (long GOP)</li>
+  <li name="tsstream">Live stream test (TS, no seeking!)</li>
   <li name="queue">Video queuing test</li>
   <li name="exit">Return to test menu</li>
 </ul>
