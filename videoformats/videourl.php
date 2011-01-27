@@ -7,7 +7,7 @@ $id = $_REQUEST['id'];
 if ($id=='ardepg') {
   echo 'video/mp4#http://itv.ard.de/video/trailer.php';
 } else if ($id=='mpegts') {
-  echo 'video/mpeg#http://itv.ard.de/video/trailer.mpeg';
+  echo 'video/mpeg#http://itv.ard.de/video/timecode.mpeg';
 } else if ($id=='rtl') {
   echo 'video/mp4#http://bilder.rtl.de/tt_hd/trailer_hotelinspektor.mp4';
 } else if ($id=='audiomp3') {
