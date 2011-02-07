@@ -200,8 +200,6 @@ echo appmgrObject(); ?>
   <li name="getprivdata">Test 4: currentChannel via privateData</li>
   <li name="nextc">Test 5: nextChannel()</li>
   <li name="prevc">Test 6: prevChannel()</li>
-  <li name="vol50">Test 7: volume 50%</li>
-  <li name="vol100">Test 8: volume 100%</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
