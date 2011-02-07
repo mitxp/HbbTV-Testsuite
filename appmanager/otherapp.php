@@ -67,44 +67,6 @@ function runStep(name) {
       showStatus(false, 'Could not change video position');
       return;
     }
-  } else if (name=='xmlreq1') {
-    var req = new XMLHttpRequest();
-    req.onreadystatechange = function() {
-      if (req.readyState!=4) return;
-      var succ = req.status==200 && req.responseText;
-      if (succ) {
-        showStatus(true, 'Call to application boundary URL succeeded.');
-      } else {
-        showStatus(false, 'Call to URL failed, even though signalled in AIT application boundary.');
-      }
-      req.onreadystatechange = null;
-      req = null;
-    };
-    try {
-      req.open('GET', boundarytesturls[0]);
-      req.send(null);
-    } catch (e) {
-      showStatus(false, 'Request of URL failed, even though signalled in AIT application boundary.');
-    }
-  } else if (name=='xmlreq2') {
-    var req = new XMLHttpRequest();
-    req.onreadystatechange = function() {
-      if (req.readyState!=4) return;
-      var succ = req.status==200 && req.responseText;
-      if (succ) {
-        showStatus(false, 'Call to application boundary URL succeeded (but should fail, as URL is not within application boundary).');
-      } else {
-        showStatus(true, 'Call to URL failed, probably because it is not signalled in AIT application boundary (this is good!).');
-      }
-      req.onreadystatechange = null;
-      req = null;
-    };
-    try {
-      req.open('GET', boundarytesturls[1]);
-      req.send(null);
-    } catch (e) {
-      showStatus(true, 'Request of URL failed, probably because it is not signalled in AIT application boundary (this is good!).');
-    }
   } else if (name=='runapp') {
     var app;
     try {
@@ -142,9 +104,7 @@ function runStep(name) {
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="params">Test 1: check parameters</li>
   <li name="video">Test 2: check access to video</li>
-  <li name="xmlreq1">Test 3: application boundary (ok)</li>
-  <li name="xmlreq2">Test 4: application boundary (not ok)</li>
-  <li name="runapp">Test 5: start testsuite app again</li>
+  <li name="runapp">Test 3: start testsuite app again</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
 

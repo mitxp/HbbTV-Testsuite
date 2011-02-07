@@ -44,8 +44,7 @@ function runStep(name) {
       for (var i=0; i+1<hex.length; i+=2) {
 	dsd += String.fromCharCode(parseInt(hex.substring(i, i+2), 16));
       }
-      alert(dsd);
-      ch = vid.createChannelObject(0, dsd, service1[2]);
+      ch = vid.createChannelObject(13, dsd, service1[2]);
     } catch (e) {
       showStatus(false, 'createChannelObject failed for '+onid+'.'+tsid+'.'+sid);
       return;
