@@ -8,6 +8,7 @@ openDocument();
 <script type="text/javascript">
 //<![CDATA[
 var playing = false;
+var testTimeout = false;
 
 window.onload = function() {
   menuInit();
@@ -97,18 +98,30 @@ function gotoPos(scnds) {
   try {
     var vid = document.getElementById('video');
     vid.seek(scnds*1000);
-    setInstr('Waiting 10 seconds to check reported playback position...');
-    setTimeout(function() {
-      var secs = isNaN(vid.playPosition) ? -1 : Math.floor(vid.playPosition/1000);
-      if (secs>=0 && secs>=scnds && secs<=scnds+10) {
-        showStatus(true, 'Video playback position is at '+secs+' seconds');
-      } else {
-        showStatus(false, 'Seek succeeded, but reported playbackposition is at '+secs+' seconds');
-      }
-    }, 10000);
+    setInstr('Waiting for playback to resume to check reported playback position...');
+    testPos(scnds);
   } catch (e) {
     showStatus(false, 'Cannot change playback position');
   }
+}
+function testPos(scnds) {
+  if (testTimeout) {
+    clearTimeout(testTimeout);
+  }
+  var vid = document.getElementById('video');
+  testTimeout = setTimeout(function() {
+    testTimeout = false;
+    if (vid.playState && (vid.playState==3 || vid.playState==4)) {
+      testPos(scnds); // delay test, we are not playing yet.
+      return;
+    }
+    var secs = isNaN(vid.playPosition) ? -1 : Math.floor(vid.playPosition/1000);
+    if (secs>=0 && secs>=scnds && secs<=scnds+10) {
+      showStatus(true, 'Video playback position is at '+secs+' seconds');
+    } else {
+      showStatus(false, 'Seek succeeded, but reported playbackposition is at '+secs+' seconds');
+    }
+  }, 2000);
 }
 
 
