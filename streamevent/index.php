@@ -15,6 +15,7 @@ window.onload = function() {
   menuInit();
   registerKeyEventListener();
   initApp();
+  initVideo();
 };
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
