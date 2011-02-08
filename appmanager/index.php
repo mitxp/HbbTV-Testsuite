@@ -93,7 +93,7 @@ function runStep(name) {
       return;
     }
     try {
-      if (app.createApplication('xmlait.php', false)) {
+      if (app.createApplication('xmlait.php/ait.aitx', false)) { // ETSI TS 102 809 requires extension .aitx
         app.destroyApplication();
         showStatus(true, 'Starting of application via XML succeeded, please stand by...');
       } else {
