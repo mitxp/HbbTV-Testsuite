@@ -15,7 +15,7 @@ window.onload = function() {
   initVideo();
   registerKeyEventListener();
   initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. Please note: this test is still incomplete, we will have a new broadcast stream with 2 audio components and a subtitle component in January 2011. Until then, subtitle support cannot be tested.');
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. Please note: even though subtitles are signalled in PMT, most of the time no subtitles are shown.');
 };
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
@@ -35,8 +35,29 @@ function handleKeyCode(kc) {
   }
   return false;
 }
+function getFakeIntType(type) {
+  if (type=='vid') {
+    return 0;
+  } else if (type=='aud') {
+    return 1;
+  } else if (type=='sub') {
+    return 2;
+  }
+}
+function getFakeComponents(type) {
+  var ret = [ ];
+  var expected = vbcomponents[type];
+  for (var i=expected.length-1; i>=0; i--) {
+    var vc = { };
+    vc.type = getFakeIntType(type);
+    for (var key in expected[i]) {
+      vc[key] = expected[i][key];
+    }
+    ret.push(vc);
+  }
+  return ret;
+}
 function getComponents(type) {
-  var vc;
   intType = -1;
   try {
     if (type=='vid') {
@@ -53,6 +74,7 @@ function getComponents(type) {
     showStatus(false, 'COMPONENT_TYPE for '+type+' undefined');
     return false;
   }
+  var vc = false;
   try {
     vc = vid.getComponents(intType);
   } catch (e) {
@@ -136,7 +158,7 @@ function selectComponents(type, index) {
     try {
       vid.selectComponent(shouldBe);
     } catch (e) {
-      showStatus(false, 'cannot select component '+vc[index]);
+      showStatus(false, 'cannot select component '+type+index+' = '+vc[index]);
       return false;
     }
     try {
@@ -203,7 +225,7 @@ function runStep(name) {
 
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
-<?php echo videoObject(100, 480, 320, 180);
+<?php echo videoObject(700, 300, 320, 180);
 echo appmgrObject(); ?>
 
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
@@ -216,7 +238,6 @@ echo appmgrObject(); ?>
   <li name="selvideo1">Test 5: select video</li>
   <li name="selaudio0">Test 6: unselect audio</li>
   <li name="selaudio1">Test 7: select audio1</li>
-  <li name="selaudio2">Test 8: select audio2</li>
   <li name="selaudio2">Test 8: select audio2</li>
   <li name="selsub1">Test 9: select subtitles</li>
   <li name="selsub0">Test 10: unselect subtitles</li>
