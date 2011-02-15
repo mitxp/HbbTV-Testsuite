@@ -24,7 +24,7 @@ function appmgrObject() {
   return '<object id="appmgr" type="application/oipfApplicationManager" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object><object id="oipfcfg" type="application/oipfConfiguration" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>';
 }
 
-function openDocument($title='MIT-xperts HBBTV testsuite', $allscripts=1, $addheaders='') {
+function openDocument($title='MIT-xperts HbbTV testsuite', $allscripts=1, $addheaders='') {
   global $ROOTDIR;
   echo '<?xml version="1.0" encoding="utf-8" ?>'."\n";
   echo '<!DOCTYPE html PUBLIC "-//HbbTV//1.1.1//EN" "http://www.hbbtv.org/dtd/HbbTV-1.1.1.dtd">'."\n";
