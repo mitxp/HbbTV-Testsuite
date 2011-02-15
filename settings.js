@@ -4,7 +4,6 @@ var service2 = [1,1068,5008,service1[3]];
 var autostartappname = 'This testsuite application';
 var otherappurl = 'dvb://current.ait/13.1f5?param2=value2';
 var myappurl = 'dvb://current.ait/13.a';
-var boundarytesturls = [ '/requesttest1/index.php', '/requesttest2/index.php' ];
 var isdsmcc = false;
 var dsmccctag = 23;
 var seventctag = 19;
