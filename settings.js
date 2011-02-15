@@ -1,4 +1,4 @@
-var releaseinfo = '1.3.5 (20110127)';
+var releaseinfo = '1.3.6 (20110215)';
 var service1 = [1,1068,5004,'430b011778000192a102750003'];
 var service2 = [1,1068,5008,service1[3]];
 var autostartappname = 'This testsuite application';
@@ -10,6 +10,6 @@ var dsmccctag = 23;
 var seventctag = 19;
 var vbcomponents = {
   'vid' : [ {'encoding':'MPEG2_SD_25', 'encrypted':false, 'aspectRatio':1.78} ],
-  'aud' : [ {'encoding':'MPEG1_L2', 'encrypted':false, 'language':'deu', 'audioDescription':false, 'audioChannels':2} ],
-  'sub' : [ ]
+  'aud' : [ {'encoding':'MPEG1_L2', 'encrypted':false, 'language':'deu', 'audioDescription':false, 'audioChannels':2}, {'encoding':'MPEG1_L2', 'encrypted':false, 'language':'fra', 'audioDescription':false, 'audioChannels':2} ],
+  'sub' : [ {'encrypted':false, 'language':'deu', 'hearingImpaired':false } ]
 };

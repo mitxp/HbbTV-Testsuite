@@ -215,7 +215,11 @@ echo appmgrObject(); ?>
   <li name="selvideo0">Test 4: unselect video</li>
   <li name="selvideo1">Test 5: select video</li>
   <li name="selaudio0">Test 6: unselect audio</li>
-  <li name="selaudio1">Test 7: select audio</li>
+  <li name="selaudio1">Test 7: select audio1</li>
+  <li name="selaudio2">Test 8: select audio2</li>
+  <li name="selaudio2">Test 8: select audio2</li>
+  <li name="selsub1">Test 9: select subtitles</li>
+  <li name="selsub0">Test 10: unselect subtitles</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
