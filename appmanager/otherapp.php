@@ -79,12 +79,19 @@ function runStep(name) {
     try {
       if (app.createApplication(myappurl, false)) {
         showStatus(true, 'Starting of Testsuite application, please stand by...');
+        app.destroyApplication();
       } else {
         showStatus(false, 'Starting of Testsuite application failed.');
       }
     } catch (e) {
       showStatus(false, 'Exception while calling createApplication');
       return;
+    }
+  } else if (name=='checkhash') {
+    if (window.location && '#foo'==window.location.hash) {
+      showStatus(true, '#foo hash is set correctly from createApplication call.');
+    } else {
+      showStatus(false, '#foo hash is NOT set correctly from createApplication call. window.location.hash='+window.location.hash);
     }
   }
 }
@@ -103,8 +110,9 @@ function runStep(name) {
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="params">Test 1: check parameters</li>
-  <li name="video">Test 2: check access to video</li>
-  <li name="runapp">Test 3: start testsuite app again</li>
+  <li name="checkhash">Test 2: check location.hash</li>
+  <li name="video">Test 3: check access to video</li>
+  <li name="runapp">Test 4: start testsuite app again</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
 

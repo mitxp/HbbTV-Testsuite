@@ -55,7 +55,7 @@ function runStep(name) {
       try {
         var mgr = document.getElementById('appmgr');
         var app = mgr.getOwnerApplication(document);
-        if (app.createApplication(otherappurl, false)) {
+        if (app.createApplication(otherappurl+'#foo', false)) {
           app.destroyApplication();
           succss = true;
         }
