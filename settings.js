@@ -1,6 +1,6 @@
-var releaseinfo = '1.3.6 (20110215)';
-var service1 = [1,1068,5004,'430b011778000192a102750003'];
-var service2 = [1,1068,5008,service1[3]];
+var releaseinfo = '1.3.6 (20110222)';
+var service1 = [1,65282,28194,'430b010847000192a102200004'];
+var service2 = [1,65282,28194,service1[3]];
 var autostartappname = 'This testsuite application';
 var otherappurl = 'dvb://current.ait/13.1f5?param2=value2';
 var myappurl = 'dvb://current.ait/13.a';
