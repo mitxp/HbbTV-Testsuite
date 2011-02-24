@@ -116,7 +116,7 @@ function testPos(scnds) {
       return;
     }
     var secs = isNaN(vid.playPosition) ? -1 : Math.floor(vid.playPosition/1000);
-    if (secs>=0 && secs>=scnds && secs<=scnds+10) {
+    if (secs>=0 && secs>=(scnds-2) && secs<=(scnds+10)) {
       showStatus(true, 'Video playback position is at '+secs+' seconds');
     } else {
       showStatus(false, 'Seek succeeded, but reported playbackposition is at '+secs+' seconds');
