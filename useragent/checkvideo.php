@@ -6,7 +6,7 @@ $id = (int)$_REQUEST['id'];
 $uagent = $_SERVER['HTTP_USER_AGENT'];
 $uagentok = validateUserAgent($uagent, $uagentmsg);
 if ($uagentok) {
-  $msg = 'OK';
+  $msg = 'OK: '.htmlspecialchars($uagentmsg);
 } else {
   $msg = 'User agent '.htmlspecialchars($uagent).' is invalid: '.htmlspecialchars($uagentmsg);
 }

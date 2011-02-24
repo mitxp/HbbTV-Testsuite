@@ -84,8 +84,8 @@ function checkPlayer() {
   req.onreadystatechange = function() {
     if (req.readyState!=4 || req.status!=200) return;
     var s = req.responseText;
-    if (s=='OK') {
-      showStatus(true, 'Video player user agent OK');
+    if (s.length>2 && s.substring(0, 2)=='OK') {
+      showStatus(true, 'Video player user agent '+s);
     } else {
       showStatus(false, 'Video player user agent invalid: '+s);
     }

@@ -25,6 +25,10 @@ function validateUserAgent($uagent, &$msg) {
     return false;
   }
   $uagent = substr($uagent, 2, $i-2);
+  if (substr_count($uagent, ';')<5) {
+    $msg = 'not enough semicolons fount (need at least 5)';
+    return false;
+  }
   $data = explode(';', $uagent, 6);
   $capabilities = trim($data[0]);
   $capabilities = str_replace('+DL', '', $capabilities);
@@ -32,6 +36,14 @@ function validateUserAgent($uagent, &$msg) {
   $capabilities = str_replace('+RTSP', '', $capabilities);
   if ($capabilities) {
     $msg = 'invalid capabilities '.$capabilities;
+    return false;
+  }
+  if (!$data[1]) {
+    $msg = 'missing vendor name';
+    return false;
+  }
+  if (!$data[2]) {
+    $msg = 'missing model name';
     return false;
   }
   return true;
