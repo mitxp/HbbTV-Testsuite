@@ -78,7 +78,7 @@ function runStep(name) {
   }
 }
 function setSpeed(fact) {
-  var addmsg = (fact==0||fact==1) ? '' : '. Note: spec is not quite clear about whether that feature is mandatory.';
+  var addmsg = (fact==0||fact==1) ? '' : '. Note: test is OK even though this test failed, as feature is not mandatory.';
   try {
     var vid = document.getElementById('video');
     vid.play(fact);
