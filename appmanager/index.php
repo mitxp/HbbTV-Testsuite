@@ -31,12 +31,25 @@ function handleKeyCode(kc) {
   }
   return false;
 }
+var countdownTimeout = null;
+function countDown(secs, msg, runfunc) {
+  countdownTimeout = null;
+  setInstr('In '+secs+' seconds, '+msg);
+  if (secs<=0) {
+    runfunc();
+    return;
+  }
+  secs--;
+  countdownTimeout = setTimeout(function() {countDown(secs, msg, runfunc);}, 1000);
+}
 function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');
+  if (countdownTimeout) {
+    clearTimeout(countdownTimeout);
+  }
   if (name=='destroy') {
-    setInstr('In 5 seconds, this application will be destroyed, and the autostart application should be launched: '+autostartappname+'. You should see the broadcast video during the transition.');
-    setTimeout(function() {
+    countDown(5, 'this application will be destroyed, and the autostart application should be launched: '+autostartappname+'. You should see the broadcast video during the transition.', function() {
       var succss = false;
       try {
         var mgr = document.getElementById('appmgr');
@@ -47,15 +60,14 @@ function runStep(name) {
         // failed
       }
       showStatus(succss, 'call to destroyApplication() '+(succss?'succeeded':'failed'));
-    }, 5000);
-  } else if (name=='start') {
-    setInstr('In 5 seconds, this application will be destroyed, and a different testsuite application should be launched. Please run all test steps in that application. The last test step will return to this application.');
-    setTimeout(function() {
+    });
+  } else if (name=='start1') {
+    countDown(5, 'this application will be destroyed, and a different testsuite application should be launched. Please run all test steps in that application. The last test step will return to this application.', function() {
       var succss = false;
       try {
         var mgr = document.getElementById('appmgr');
         var app = mgr.getOwnerApplication(document);
-        if (app.createApplication(otherappurl+'#foo', false)) {
+        if (app.createApplication(otherappurl+'?param2=value2#foo', false)) {
           app.destroyApplication();
           succss = true;
         }
@@ -63,7 +75,22 @@ function runStep(name) {
         // failed
       }
       showStatus(succss, 'Starting application via appmgr '+(succss?'succeeded':'failed'));
-    }, 5000);
+    });
+  } else if (name=='start2') {
+    countDown(5, 'this application will be destroyed, and a different testsuite application should be launched. Please run all test steps in that application. The last test step will return to this application.', function() {
+      var succss = false;
+      try {
+        var mgr = document.getElementById('appmgr');
+        var app = mgr.getOwnerApplication(document);
+        if (app.createApplication(otherappurl+'#foo2', false)) {
+          app.destroyApplication();
+          succss = true;
+        }
+      } catch (e) {
+        // failed
+      }
+      showStatus(succss, 'Starting application via appmgr '+(succss?'succeeded':'failed'));
+    });
   } else if (name=='startfail') {
     var app;
     try {
@@ -104,24 +131,26 @@ function runStep(name) {
       return;
     }
   } else if (name=='hide') {
-    var succss = true;
-    try {
-      document.getElementById('appmgr').getOwnerApplication(document).hide();
-    } catch (e) {
-      succss = false;
-    }
-    setTimeout(function() {
+    countDown(5, 'the application will be hidden. It should re-appear after 3 seconds.', function() {
+      var succss = true;
       try {
-        document.getElementById('appmgr').getOwnerApplication(document).show();
+        document.getElementById('appmgr').getOwnerApplication(document).hide();
       } catch (e) {
         succss = false;
       }
-      if (succss) {
-         showStatus(true, 'Application should have been invisible (broadcast video fullscreen visible) for the last 5 seconds.');
-      } else {
-         showStatus(false, 'Application.hide() or Application.show() call failed.');
-      }
-    }, 3000);
+      countdownTimeout = setTimeout(function() {
+        try {
+          document.getElementById('appmgr').getOwnerApplication(document).show();
+        } catch (e) {
+          succss = false;
+        }
+        if (succss) {
+           showStatus(true, 'Application should have been invisible (broadcast video fullscreen visible) for 3 seconds.');
+        } else {
+           showStatus(false, 'Application.hide() or Application.show() call failed.');
+        }
+      }, 3000);
+    });
   } else if (name=='freemem') {
     try {
       var freemem = document.getElementById('appmgr').getOwnerApplication(document).privateData.getFreeMem();
@@ -145,11 +174,12 @@ function runStep(name) {
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="destroy">Test 1: destroy application</li>
-  <li name="start">Test 2: start other app</li>
-  <li name="startfail">Test 3: start non-existing app</li>
-  <li name="startxml">Test 4: start app via XML AIT</li>
-  <li name="hide">Test 5: app.hide() and show()</li>
-  <li name="freemem">Test 6: app.getFreeMem()</li>
+  <li name="start1">Test 2: start other app (params+hash)</li>
+  <li name="start2">Test 3: start other app (hash only)</li>
+  <li name="startfail">Test 4: start non-existing app</li>
+  <li name="startxml">Test 5: start app via XML AIT</li>
+  <li name="hide">Test 6: app.hide() and show()</li>
+  <li name="freemem">Test 7: app.getFreeMem()</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

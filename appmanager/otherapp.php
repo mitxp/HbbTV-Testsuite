@@ -38,10 +38,11 @@ function runStep(name) {
   if (name=='params') {
     var param1 = "<?php echo htmlspecialchars($_REQUEST['param1']); ?>"; // set from URL query string
     var param2 = "<?php echo htmlspecialchars($_REQUEST['param2']); ?>"; // also set from URL query string
-    if (param1=='value1' && param2=='value2') {
+    var shouldbe2 = '#foo2'==window.location.hash ? '' : 'value2';
+    if (param1=='value1' && param2==shouldbe2) {
       showStatus(true, 'All parmeters were passed correctly.');
     } else {
-      showStatus(false, 'Not all parameters passed to this application are correct: param1 is '+param1+', should be value1 / param2 is '+param2+', should be value2');
+      showStatus(false, 'Not all parameters passed to this application are correct: param1 is '+param1+', should be value1 / param2 is '+param2+', should be '+shouldbe2);
     }
   } else if (name=='video') {
     try {
@@ -90,6 +91,8 @@ function runStep(name) {
   } else if (name=='checkhash') {
     if (window.location && '#foo'==window.location.hash) {
       showStatus(true, '#foo hash is set correctly from createApplication call.');
+    } else if (window.location && '#foo2'==window.location.hash) {
+      showStatus(true, '#foo2 hash is set correctly from createApplication call.');
     } else {
       showStatus(false, '#foo hash is NOT set correctly from createApplication call. window.location.hash='+window.location.hash);
     }
