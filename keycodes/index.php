@@ -9,6 +9,7 @@ openDocument();
 //<![CDATA[
 var keynames = ['ENTER', 'LEFT', 'DOWN', 'PLAY', 'PAUSE', 'STOP', 'FAST_FWD', 'REWIND', 'BACK', '0', '5', '9', 'GREEN', 'YELLOW', 'RED'];
 var keycodes = [];
+var playpausecode = -1;
 var nextidx = 0;
 
 window.onload = function() {
@@ -22,6 +23,11 @@ window.onload = function() {
     } catch (e) {
       // ignore
     }
+  }
+  try {
+    playpausecode = KeyEvent.VK_PLAY_PAUSE;
+  } catch (e) {
+    // ignore
   }
   updateMsg();
   setKeyset(0x1+0x2+0x4+0x8+0x10+0x20+0x100);
@@ -41,7 +47,7 @@ function handleKeyCode(kc) {
       updateMsg();
     }
     return true;
-  } else if (kc==keycodes[nextidx]) {
+  } else if (kc==keycodes[nextidx] || ((keynames[nextidx]=='PLAY'||keynames[nextidx]=='PAUSE')&&kc==playpausecode)) {
     nextidx++;
     showStatus(true, 'Correct key event received, continuing with next key...');
     updateMsg();

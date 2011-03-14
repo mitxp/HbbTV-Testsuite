@@ -7,7 +7,7 @@ openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
-var keynames = ['GREEN', 'LEFT', 'BACK', '9', 'PAUSE', 'FAST_FWD'];
+var keynames = ['GREEN', 'LEFT', 'BACK', '9', 'STOP', 'FAST_FWD'];
 var keymaskbits = ['GREEN', 'NAVIGATION', 'NAVIGATION', 'NUMERIC', 'VCR', 'VCR'];
 var keycodes = [];
 var keypressed = [];
