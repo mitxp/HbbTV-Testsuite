@@ -51,7 +51,7 @@ function runStep(name) {
 
 <div class="imgdiv" style="left: 100px; top: 200px; width: 419px; height: 193px; background-image: url(width.png);"></div>
 <div class="txtdiv" style="left: 102px; top: 260px; width: 600px; height: 30px; font-size: 24px; font-family: Tiresias;">The quick brown fox jumps äöüß#?!_</div>
-<div class="txtdiv" style="left: 102px; top: 358px; width: 600px; height: 30px; font-size: 24px; font-family: Letter Gothic 12 Pitch;">The quick brown fox äöüß#?!_</div>
+<div class="txtdiv" style="left: 102px; top: 358px; width: 600px; height: 30px; font-size: 24px; font-family: 'Letter Gothic 12 Pitch';">The quick brown fox äöüß#?!_</div>
 <div class="txtdiv" style="left: 102px; top: 460px; width: 600px; height: 120px; font-size: 20px; font-family: monospace;">font-family: monospace;<br />The quick brown fox jumps äöüß#?!_<br />12345678901234567890<br />890a23b56w890i23m567</div>
 
 <div class="txtdiv" style="left: 700px; top: 300px; width: 400px; height: 30px; color: #000000; font-size: 24px;">line-height test:</div>
