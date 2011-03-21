@@ -9,6 +9,6 @@ var dsmccctag = 23;
 var seventctag = 19;
 var vbcomponents = {
   'vid' : [ {'encoding':'MPEG2_SD_25', 'encrypted':false, 'aspectRatio':1.78} ],
-  'aud' : [ {'encoding':'MPEG1_L2', 'encrypted':false, 'language':'deu', 'audioDescription':false, 'audioChannels':2}, {'encoding':'MPEG1_L2', 'encrypted':false, 'language':'fra', 'audioDescription':false, 'audioChannels':2} ],
+  'aud' : [ {'encrypted':false, 'language':'deu', 'audioDescription':false}, {'encrypted':false, 'language':'fra', 'audioDescription':false} ],
   'sub' : [ {'encrypted':false, 'language':'deu', 'hearingImpaired':false } ]
 };
