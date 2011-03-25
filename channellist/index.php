@@ -50,8 +50,8 @@ function runStep(name) {
     try {
       var txt = 'Channel list items:';
       for (var i=0; i<lst.length && i<20; i++) {
-	var ch = lst.item(i);
-	txt += '<br />'+i+': '+ch.name;
+        var ch = lst.item(i);
+        txt += '<br />'+i+': '+ch.name;
       }
       showStatus(true, 'accessing channel list succeeded.');
       setInstr(txt);
@@ -65,6 +65,9 @@ function runStep(name) {
     try {
       ccid = vid.currentChannel.ccid;
     } catch (e) {
+      ccid = null;
+    }
+    if (!ccid) {
       showStatus(false, 'cannot determine current channel');
       return;
     }
@@ -78,7 +81,14 @@ function runStep(name) {
       showStatus(false, 'could not get channelList.');
       return;
     }
-    if (lst.getChannel(ccid)) {
+    var chobj = null;
+    try {
+      chobj = lst.getChannel(ccid);
+    } catch (e) {
+      showStatus(false, 'lst.getChannel(ccid) failed.');
+      return;
+    }
+    if (chobj) {
       showStatus(true, 'channel for ccid='+ccid+' found.');
     } else {
       showStatus(false, 'channel for ccid='+ccid+' not found.');
