@@ -46,7 +46,7 @@ function runStep(name) {
       }
       ch = vid.createChannelObject(13, dsd, service1[2]);
     } catch (e) {
-      showStatus(false, 'createChannelObject failed for '+onid+'.'+tsid+'.'+sid);
+      showStatus(false, 'createChannelObject failed for service ID '+service1[2]);
       return;
     }
     if (!ch) {
