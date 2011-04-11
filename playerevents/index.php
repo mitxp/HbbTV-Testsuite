@@ -119,26 +119,20 @@ function checkpausetimer() {
 function showResult(name, errorno) {
   var errmsg = '';
   if (name=='valid') {
-    if (foundevents[1]!=2) {
-      errmsg += '<br />not 2x PLAYING events received ('+foundevents[1]+'x instead)';
+    if (foundevents[1]<2) {
+      errmsg += '<br />not at least 2x PLAYING events received ('+foundevents[1]+'x instead)';
     }
-    if (foundevents[2]!=1) {
-      errmsg += '<br />not 1x PAUSED event received ('+foundevents[2]+'x instead)';
-    }
-    if (!foundevents[3]) {
-      errmsg += '<br />no CONNECTING event received';
+    if (foundevents[2]<1) {
+      errmsg += '<br />not at least 1x PAUSED event received ('+foundevents[2]+'x instead)';
     }
     if (foundevents[5]>1) {
-      errmsg += '<br />multiple FINISHED events received';
+      errmsg += '<br />multiple FINISHED events received ('+foundevents[5]+'x)';
     }
     if (!foundevents[5]) {
       errmsg += '<br />no FINISHED event received';
     }
     if (foundevents[6]) {
       errmsg += '<br />ERROR event received';
-    }
-    if (!poschangereceived) {
-      errmsg += '<br />no onPlayPositionChanged event received';
     }
   } else { // invalid video should cause a single error event
     if (foundevents[1]) {
