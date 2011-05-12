@@ -72,6 +72,7 @@ function runStep(name) {
     try {
       if (app.createApplication(myappurl, false)) {
         showStatus(true, 'Starting of Testsuite application, please stand by...');
+        app.destroyApplication();
       } else {
         showStatus(false, 'Starting of Testsuite application failed.');
       }
