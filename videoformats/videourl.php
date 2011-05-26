@@ -26,6 +26,10 @@ if ($id=='ardepg') {
   echo 'video/mp4#http://streamtv2.zdf.de/100908_idrtest_100_vh.mp4';
 } else if ($id=='tsstream') {
   echo 'video/mpeg#http://itv.ard.de/video/livestream.php';
+} else if ($id=='nacamar1') {
+  echo 'video/mpeg#http://onteve.newmedia.nacamar.net/streams/live1/play';
+} else if ($id=='nacamar2') {
+  echo 'video/mpeg#http://onteve.newmedia.nacamar.net/streams/live2/play';
 } else {
   echo 'Unknown ID';
 }
