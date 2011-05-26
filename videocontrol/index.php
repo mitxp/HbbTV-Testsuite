@@ -111,7 +111,7 @@ function testPos(scnds) {
   var vid = document.getElementById('video');
   testTimeout = setTimeout(function() {
     testTimeout = false;
-    if (vid.playState && (vid.playState==3 || vid.playState==4)) {
+    if (vid.playState && (vid.playState==2 || vid.playState==3 || vid.playState==4)) {
       testPos(scnds); // delay test, we are not playing yet.
       return;
     }
