@@ -62,6 +62,10 @@ function runStep(name) {
 </ul>
 
 <div id="test1" style="left: 0px; top: 0px; width: 1280px; height: 720px; visibility: hidden;">
+  <div style="left: 102px; top: 279px; width: 385px; height: 18px; background-color: #0a1826;"></div>
+  <div style="left: 102px; top: 313px; width: 385px; height: 18px; background-color: #0a1826;"></div>
+  <div style="left: 102px; top: 377px; width: 340px; height: 17px; background-color: #0a1826;"></div>
+  <div style="left: 102px; top: 411px; width: 340px; height: 17px; background-color: #0a1826;"></div>
   <div class="imgdiv" style="left: 100px; top: 250px; width: 419px; height: 193px; background-image: url(width.png);"></div>
   <div class="txtdiv" style="left: 102px; top: 310px; width: 600px; height: 30px; font-size: 24px; font-family: Tiresias;">The quick brown fox jumps äöüß#?!_</div>
   <div class="txtdiv" style="left: 102px; top: 408px; width: 600px; height: 30px; font-size: 24px; font-family: 'Letter Gothic 12 Pitch';">The quick brown fox äöüß#?!_</div>
