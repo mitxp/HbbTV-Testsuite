@@ -1,7 +1,7 @@
 <?php
 $ROOTDIR='..';
 require("$ROOTDIR/base.php");
-$url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/squeeze.aac';
+$url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/stream.php/squeeze.aac';
 
 sendContentType();
 openDocument('MIT-xperts HBBTV testsuite', 1, '<link rel="prefetch" type="audio/mp4" href="'.$url.'" />'."\n")
