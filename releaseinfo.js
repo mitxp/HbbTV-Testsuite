@@ -1,1 +1,1 @@
-var releaseinfo = '1.4.4 (20110503)';
+var releaseinfo = '1.4.5 (20110601)';
