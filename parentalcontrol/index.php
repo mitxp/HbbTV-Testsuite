@@ -94,7 +94,7 @@ function runStep(name) {
       return;
     }
     if (parseInt(rating.name)!=rating.value) {
-      showStaus(false, 'Current threshold rating name is not string representation of value attribute');
+      showStatus(false, 'Current threshold rating name is not string representation of value attribute');
       return;
     }
     showStatus(true, 'Current rating threshold is '+rating.value+', labels='+rating.labels+', region='+rating.region);
