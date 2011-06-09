@@ -41,9 +41,9 @@ function runStep(name) {
       var type = ch.channelType;
       type = type==ch.TYPE_TV?'TV':(type==ch.TYPE_RADIO?'Radio':'unknown');
       var succ = type=='TV'
-      && ((ch.onid==service1[0]&&ch.tsid==service1[1]&&ch.sid==service1[2])
-       || (ch.onid==service2[0]&&ch.tsid==service2[1]&&ch.sid==service2[2]));
-      showStatus(succ, 'channel=DVB tripe('+ch.onid+'.'+ch.tsid+'.'+ch.sid+'), type='+type+', name='+ch.name);
+      && ((ch.onid==service1[0]&&ch.tsid==service1[1]&&ch.sid==service1[2]&&ch.name==service1[4])
+       || (ch.onid==service2[0]&&ch.tsid==service2[1]&&ch.sid==service2[2]&&ch.name==service2[4]));
+      showStatus(succ, 'channel=DVB triple('+ch.onid+'.'+ch.tsid+'.'+ch.sid+'), type='+type+', name='+ch.name);
     } catch (e) {
       showStatus(false, 'cannot determine current channel');
     }
