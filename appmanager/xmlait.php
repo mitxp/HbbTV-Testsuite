@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/vnd.dvb.ait+xml');
+header('Content-Type: application/vnd.dvb.ait+xml; charset=UTF-8');
 
 $srvrurl = 'http://'.$_SERVER['SERVER_NAME'];
 $appurl = $srvrurl.dirname($_SERVER['SCRIPT_NAME']).'/';

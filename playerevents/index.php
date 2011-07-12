@@ -151,8 +151,8 @@ function showResult(name, errorno) {
       errmsg += '<br />ERROR variable set to '+errorno+', should be 0';
     } else if (name=='invalid1' && errorno!=1) {
       errmsg += '<br />ERROR variable set to '+errorno+', should be 1';
-    } else if (name=='invalid2' && errorno!=0 && errorno!=2) {
-      errmsg += '<br />ERROR variable set to '+errorno+', should be 0 or 2';
+    } else if (name=='invalid2' && errorno!=0 && errorno!=2 && errorno!=4) {
+      errmsg += '<br />ERROR variable set to '+errorno+', should be 0, 2, or 4';
     } else if (name=='invalid3' && errorno!=1 && errorno!=2) {
       errmsg += '<br />ERROR variable set to '+errorno+', should be 1 or 2';
     }
