@@ -41,6 +41,14 @@ function handleKeyCode(kc) {
     menuSelect(selected+1);
     setDescr();
     return true;
+  } else if (kc==VK_LEFT){
+    menuSelect(selected-6);
+    setDescr();
+    return true;
+  } else if (kc==VK_RIGHT){
+    menuSelect(selected+6);
+    setDescr();
+    return true;
   } else if (kc==VK_ENTER) {
     var liid = opts[selected].getAttribute('name');
     if (liid=='exit') {
