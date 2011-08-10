@@ -215,15 +215,22 @@ function runStep(name) {
     selectComponents('sub', -1);
   } else if (name=='selsub1') {
     selectComponents('sub', 0);
+  } else if (name=='setfull') {
+    try {
+      document.getElementById('video').setFullScreen(true);
+      showStatus(true, 'Setting fullsceen('+fullscreen+') mode succeeded');
+    } catch (e) {
+      showStatus(false, 'Setting fullsceen('+fullscreen+') mode failed');
+    }
   }
 }
 
 //]]>
 </script>
 
-</head><body>
+</head><body style="background: transparent;">
 
-<div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
+<div style="left: 0px; top: 0px; width: 1280px; height: 550px; background-color: #132d48;" />
 
 <?php echo videoObject(700, 300, 320, 180);
 echo appmgrObject(); ?>
@@ -241,6 +248,7 @@ echo appmgrObject(); ?>
   <li name="selaudio2">Test 8: select audio2</li>
   <li name="selsub1">Test 9: select subtitles</li>
   <li name="selsub0">Test 10: unselect subtitles</li>
+  <li name="setfull">Test 11: make video fullscreen</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
