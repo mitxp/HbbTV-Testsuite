@@ -18,9 +18,9 @@ if ($id=='ardepg') {
   echo 'video/mp4#http://itv.ard.de/video/irthd.mp4';
 } else if ($id=='zdf') {
   $data = $json->decode(file_get_contents('http://itv.mit-xperts.com/zdfmediathek/dyn/list.php?type=11'));
-  $id = (int)$data[1][0][0];
+  $id = rawurlencode($data[1][0][0]);
   $data = $json->decode(file_get_contents('http://itv.mit-xperts.com/zdfmediathek/dyn/detail.php?id='.$id));
-  $url = $data[10];
+  $url = $data[1][1][4];
   echo 'video/mp4#'.$url;
 } else if ($id=='tsstream') {
   echo 'video/mpeg#http://itv.ard.de/video/livestream.php';
