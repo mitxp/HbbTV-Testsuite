@@ -44,14 +44,14 @@ function runStep(name) {
       showStatus(false, 'retrieving xmlCapabilities failed.');
       return;
     }
+    var xmlt;
     try {
       var serializer = new XMLSerializer();
-      xmlp = serializer.serializeToString(xmlp);
-      xmlp = encodeURIComponent(xmlp);
+      xmlt = serializer.serializeToString(xmlp);
     } catch (e) {
-      showStatus(false, 'serializing capabilities XML failed.');
-      return;
+      xmlt = '<'+'?xml version="1.0" encoding="utf-8" ?'+">\n<"+xmlp.nodeName+">"+xmlp.innerHTML+"<"+"/"+xmlp.nodeName+">";
     }
+    xmlt = encodeURIComponent(xmlt);
     req = new XMLHttpRequest();
     req.onreadystatechange = function() {
       if (req.readyState!=4 || req.status!=200) return;
@@ -64,7 +64,7 @@ function runStep(name) {
       req.onreadystatechange = null;
       req = null;
     }
-    req.open('GET', 'validate.php?data='+xmlp);
+    req.open('GET', 'validate.php?data='+xmlt);
     req.send(null);
   } else if (name=='extrasd') {
     var num = 'undefined';
