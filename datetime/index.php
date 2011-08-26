@@ -20,6 +20,11 @@ window.onload = function() {
   initApp();
   var myd = new Date();
   var myt = Math.floor(myd.getTime()/1000);
+  if (myt-120<streamtime[0] && myt+120>streamtime[0]) {
+    tim = streamtime[0];
+    hrs = streamtime[1];
+    min = streamtime[2];
+  }
   if (tim-300>myt || myt>tim+300) {
     showStatus(false, 'Date.getTime() GMT timestamp is not valid. Is '+myt+', should be '+tim+'.');
     return;
