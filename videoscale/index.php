@@ -99,9 +99,9 @@ function togglefullscreen() {
   var oldsel = selected;
   try {
     document.getElementById('video').setFullScreen(fullscreen);
-    showStatus(true, 'Setting fullsceen('+fullscreen+') mode succeeded');
+    showStatus(true, 'Setting fullScreen('+fullscreen+') mode succeeded');
   } catch (e) {
-    showStatus(false, 'Setting fullsceen('+fullscreen+') mode failed');
+    showStatus(false, 'Setting fullScreen('+fullscreen+') mode failed');
   }
   menuSelect(oldsel);
   showVideoPosition(!fullscreen);

@@ -218,9 +218,9 @@ function runStep(name) {
   } else if (name=='setfull') {
     try {
       document.getElementById('video').setFullScreen(true);
-      showStatus(true, 'Setting fullsceen('+fullscreen+') mode succeeded');
+      showStatus(true, 'Setting fullScreen(true) mode succeeded');
     } catch (e) {
-      showStatus(false, 'Setting fullsceen('+fullscreen+') mode failed');
+      showStatus(false, 'Setting fullScreen(true) mode failed');
     }
   }
 }
