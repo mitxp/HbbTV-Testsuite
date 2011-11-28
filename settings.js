@@ -11,4 +11,4 @@ var vbcomponents = {
   'aud' : [ {'encrypted':false, 'language':'deu', 'audioDescription':false}, {'encrypted':false, 'language':'fra', 'audioDescription':false} ],
   'sub' : [ {'encrypted':false, 'language':'deu', 'hearingImpaired':false } ]
 };
-var streamtime = [ 1315669260, 17, 41 ];
+var streamtime = [ 1322071560, 17, 41 ];
