@@ -13,6 +13,7 @@ $ALLOWEDCN['testbox.mit-xperts.com'] = 1;
 $ALLOWEDCN['testbox2.mit-xperts.com'] = 1;
 $ALLOWEDCN['volksbox.inverto.tv'] = 1;
 $ALLOWEDCN['viera2011.panasonic.com'] = 1;
+$ALLOWEDCN['viera2012.panasonic.com'] = 1;
 
 $msg = '';
 if (!$_SERVER['SSL_CLIENT_VERIFY']=='SUCCESS') {
