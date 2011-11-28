@@ -57,7 +57,7 @@ function runStep(name) {
       showStatus(false, 'StreamEventListener was called, but no event was passed.');
       return;
     }
-    var succss = e.data && eventname==e.name && 'trigger'==e.status;
+    var succss = e.data && e.data.length>3 && eventname==e.name && 'trigger'==e.status;
     showStatus(succss, 'Received StreamEvent. data='+e.data+', text='+e.text+', status='+e.status);
   };
   try {
