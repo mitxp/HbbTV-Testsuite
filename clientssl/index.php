@@ -71,6 +71,7 @@ function performauth() {
     debug('Get URL: '+cookiecheckurl);
   };
   r.open('GET', certcheckurl);
+  r.withCredentials = "true";
   r.send(null);
   debug('Get URL: '+certcheckurl);
 }
