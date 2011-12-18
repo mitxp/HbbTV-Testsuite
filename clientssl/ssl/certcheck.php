@@ -1,10 +1,10 @@
 <?php
+$DOMAINNAME = $_SERVER['SERVER_NAME'];
+
 header('Pragma: no-cache');
 header('Cache-Control: no-cache');
-header('Access-Control-Allow-Origin: http://itv.mit-xperts.com');
+header('Access-Control-Allow-Origin: http://'.$DOMAINNAME);
 header('Access-Control-Allow-Credentials: true');
-
-$DOMAINNAME = $_SERVER['SERVER_NAME'];
 
 $ALLOWEDCN = array();
 $ALLOWEDCN['icordhdplus.humaxdigital.com'] = 1;
