@@ -44,7 +44,7 @@ function runStep(name) {
     }
     try {
       document.getElementById('aud').play(1);
-      showStatus(true, 'Playback started, check audio (squeeze sound should be played 2 times).');
+      showStatus(true, 'Playback started, check audio (audio clip should be played 2 times).');
     } catch (e) {
       showStatus(false, 'Playback failed.');
     }
@@ -66,7 +66,7 @@ function runStep(name) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="play">Play squeeze sound</li>
+  <li name="play">Play door bell sound</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
