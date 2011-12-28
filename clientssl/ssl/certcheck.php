@@ -9,11 +9,14 @@ header('Access-Control-Allow-Credentials: true');
 $ALLOWEDCN = array();
 $ALLOWEDCN['icordhdplus.humaxdigital.com'] = 1;
 $ALLOWEDCN['icordhd-plus.humaxdigital.com'] = 1;
+$ALLOWEDCN['hdfoxplus.humaxdigital.com'] = 1;
 $ALLOWEDCN['600s.videoweb.de'] = 1;
-$ALLOWEDCN['videoweb'] = 1;
+$ALLOWEDCN['linux.vantage-digital.com'] = 1;
+$ALLOWEDCN['TTmicroS855HbbTV.TechnoTrendGoerler.com'] = 1;
+$ALLOWEDCN['iCordMini.HUMAXdigital.com'] = 1;
+$ALLOWEDCN['SL90HDplusInterAktiv.comag.de'] = 1;
 $ALLOWEDCN['textbox.mit-xperts.com'] = 1;
 $ALLOWEDCN['testbox2.mit-xperts.com'] = 1;
-$ALLOWEDCN['volksbox.inverto.tv'] = 1;
 $ALLOWEDCN['viera2011.panasonic.com'] = 1;
 $ALLOWEDCN['viera2012.panasonic.com'] = 1;
 
