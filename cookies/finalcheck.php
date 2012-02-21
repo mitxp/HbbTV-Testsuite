@@ -14,6 +14,7 @@ window.onload = function() {
   initApp();
   setInstr('Verifying cookie...');
   var found = false;
+  var needfind = <?php echo $_REQUEST['isset']?'true':'false'; ?>;
   var allCookies = document.cookie.split(';');
   for (var i=0; i<allCookies.length; i++) {
     var c = allCookies[i];
@@ -25,7 +26,7 @@ window.onload = function() {
       break;
     }
   }
-  showStatus(found, 'Cookie mxphbbtv was '+(found?'':'not ')+'found.');
+  showStatus(found===needfind, 'Cookie mxphbbtv was '+(found?'':'not ')+'found.');
 };
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
@@ -35,7 +36,7 @@ function handleKeyCode(kc) {
     menuSelect(selected+1);
     return true;
   } else if (kc==VK_ENTER) {
-    document.location.href = '../index.php';
+    document.location.href = 'index.php?select=<?php echo (int)$_REQUEST['back']; ?>';
     return true;
   }
   return false;
@@ -53,7 +54,7 @@ function handleKeyCode(kc) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="exit">Return to test menu</li>
+  <li name="exit">Return to cookie test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
 
