@@ -27,7 +27,6 @@ function handleKeyCode(kc) {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
-      menuSelect(selected+1);
     }
     return true;
   }
@@ -42,6 +41,18 @@ function runStep(name) {
     cvalue = 'mxphbbtv=testsuite';
   } else if (name=="setexpire") {
     cvalue = 'mxphbbtv=testsuite;expires='+((new Date(new Date().getTime()+600000)).toGMTString());
+  } else if (name=="setxhr") {
+    setInstr('Making request...');
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if (req.readyState!=4 || req.status!=200) return;
+      req.onreadystatechange = null;
+      req = null;
+      performFinalCheck(isset);
+    };
+    req.open('GET', 'setcookie.php');
+    req.send(null);
+    return;
   } else if (name=="check") {
     cvalue = false;
   } else {
@@ -78,6 +89,7 @@ function performFinalCheck(isset) {
   <li name="clear">Clear cookie</li>
   <li name="setsession">Set session cookie</li>
   <li name="setexpire">Set cookie with expire date</li>
+  <li name="setxhr">Set cookie using XMLHttpRequest</li>
   <li name="check">Check whether cookie is set</li>
   <li name="exit">Return to test menu</li>
 </ul>
