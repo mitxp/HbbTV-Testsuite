@@ -40,10 +40,20 @@ function runStep(name) {
       var ch = document.getElementById('video').currentChannel;
       var type = ch.channelType;
       type = type==ch.TYPE_TV?'TV':(type==ch.TYPE_RADIO?'Radio':'unknown');
-      var succ = type=='TV'
-      && ((ch.onid==service1[0]&&ch.tsid==service1[1]&&ch.sid==service1[2]&&ch.name==service1[4])
-       || (ch.onid==service2[0]&&ch.tsid==service2[1]&&ch.sid==service2[2]&&ch.name==service2[4]));
-      showStatus(succ, 'channel=DVB triple('+ch.onid+'.'+ch.tsid+'.'+ch.sid+'), type='+type+', name='+ch.name);
+      var chinf = ch.sid==service1[2] ? service1 : service2;
+      var succarr = [
+        type==='TV',
+        ch.onid===chinf[0],
+        ch.tsid===chinf[1],
+        ch.sid===chinf[2],
+        ch.name===chinf[4]
+      ];
+      var i, succ = true, succtxt = "";
+      for (i=0; i<succarr.length; i++) {
+        succ &= succarr[i];
+        succtxt += (succtxt?",":"")+(succarr[i]?"OK":"NOK");
+      }
+      showStatus(succ, 'channel=DVB triple('+ch.onid+'.'+ch.tsid+'.'+ch.sid+'), type='+type+', name='+ch.name+' ('+succtxt+')');
     } catch (e) {
       showStatus(false, 'cannot determine current channel');
     }
@@ -53,7 +63,7 @@ function runStep(name) {
     var vid = document.getElementById('video');
     try {
       var ch = vid.currentChannel;
-      if (ch.onid==service1[0]&&ch.tsid==service1[1]&&ch.sid==service1[2]) {
+      if (ch.sid==service1[2]) {
         onid = service2[0];
         tsid = service2[1];
         sid = service2[2];
