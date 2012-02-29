@@ -24,10 +24,10 @@ if ($id=='ardepg') {
   echo 'video/mp4#'.$url;
 } else if ($id=='tsstream') {
   echo 'video/mpeg#http://itv.ard.de/video/livestream.php';
-} else if ($id=='nacamar1') {
-  echo 'video/mpeg#http://onteve.newmedia.nacamar.net/streams/live1/play';
-} else if ($id=='nacamar2') {
-  echo 'video/mpeg#http://onteve.newmedia.nacamar.net/streams/live2/play';
+} else if ($id=='nacamar') {
+  echo 'video/mpeg#http://hbbtv.nacamar.c.nmdn.net/nacamar/test';
+} else if ($id=='gundl') {
+  echo 'video/mpeg#http://78.35.11.122/test.ts';
 } else {
   echo 'Unknown ID';
 }
