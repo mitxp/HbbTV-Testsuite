@@ -35,7 +35,7 @@ function handleKeyCode(kc) {
 function runStep(name) {
   var cvalue, isset = true;
   if (name=="clear") {
-    cvalue = 'mxphbbtv=testsuite;expires='+(new Date(0).toGMTString());
+    cvalue = 'mxphbbtv=testsuite;expires='+(new Date(0).toGMTString())+";path=/";
     isset = false;
   } else if (name=="setsession") {
     cvalue = 'mxphbbtv=testsuite';
