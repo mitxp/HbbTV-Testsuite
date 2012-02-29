@@ -4,7 +4,7 @@ require("$ROOTDIR/base.php");
 $url = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/stream.php/test.aac';
 
 sendContentType();
-openDocument('MIT-xperts HBBTV testsuite', 1, '<link rel="prefetch" type="audio/mp4" href="'.$url.'" />'."\n")
+openDocument('MIT-xperts HBBTV testsuite', 1, '');
 
 ?>
 <script type="text/javascript">
@@ -58,7 +58,7 @@ function runStep(name) {
 
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
-<object type="audio/mp4" id="aud" data="<?php echo $url; ?>">
+<object type="audio/mp4" id="aud" cache="true" data="<?php echo $url; ?>">
 <param name="loop" value="2" />
 </object>
 <?php echo appmgrObject(); ?>
