@@ -26,7 +26,7 @@ window.onload = function() {
     min = streamtime[2];
   }
   if (tim-300>myt || myt>tim+300) {
-    showStatus(false, 'Date.getTime() GMT timestamp is not valid. Is '+myt+', should be '+tim+'.');
+    showStatus(false, 'Date.getTime() GMT timestamp is not valid. Is '+printTime(myt)+', should be '+printTime(tim)+'.');
     return;
   }
   var localremote = hrs*60+min;
@@ -41,6 +41,13 @@ window.onload = function() {
   }
   showStatus(true, 'GMT timestamp and local time within 5 minutes of correct time.');
 };
+function printTime(tim) {
+  var h, m, s, d = new Date(tim*1000);
+  h = d.getHours();
+  m = d.getMinutes();
+  s = d.getSeconds();
+  return tim+"["+(h<10?"0":"")+h+":"+(m<10?"0":"")+m+":"+(s<10?"0":"")+s+"]";
+}
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
     menuSelect(selected-1);
