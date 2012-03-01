@@ -64,7 +64,7 @@ function runStep(name) {
   vid.onPlayStateChange = function() {
     var state = vid.playState;
     var ename = 'unknown event state '+state;
-    if (state>=0 || state<eventnames.length) {
+    if (state>=0 && state<eventnames.length) {
       foundevents[state]++;
       ename = eventnames[state]+'('+state+')';
     }
