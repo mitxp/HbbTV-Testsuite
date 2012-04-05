@@ -83,22 +83,26 @@ function runStep(name) {
     document.getElementById('vidstate').innerHTML = 'Play position = '+vid.playPosition+'<br />Play time = '+vid.playTime;
   };
   starttime = new Date().getTime();
-  if (name=='valid') {
-    vid.data = 'http://itv.ard.de/video/trailer.php';
-    vid.play(1);
-    checkpausetimer(); // pause video and restart it in order to check if events are sent correctly
-  } else if (name=='invalid0') {
-    vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>invalidformat.php';
-    vid.play(1);
-  } else if (name=='invalid1') {
-    vid.data = 'http://1.1.1.1/cannotconnect.mp4';
-    vid.play(1);
-  } else if (name=='invalid2') {
-    vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>novideo.php/video.mp4';
-    vid.play(1);
-  } else if (name=='invalid3') {
-    vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>notfound.mp4';
-    vid.play(1);
+  try {
+    if (name=='valid') {
+      vid.data = 'http://itv.ard.de/video/trailer.php';
+      vid.play(1);
+      checkpausetimer(); // pause video and restart it in order to check if events are sent correctly
+    } else if (name=='invalid0') {
+      vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>invalidformat.php';
+      vid.play(1);
+    } else if (name=='invalid1') {
+      vid.data = 'http://1.1.1.1/cannotconnect.mp4';
+      vid.play(1);
+    } else if (name=='invalid2') {
+      vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>novideo.php/video.mp4';
+      vid.play(1);
+    } else if (name=='invalid3') {
+      vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>notfound.mp4';
+      vid.play(1);
+    }
+  } catch (e) {
+    showStatus(false, 'Cannot start video playback');
   }
 }
 function checkpausetimer() {
@@ -147,14 +151,14 @@ function showResult(name, errorno) {
     if (!foundevents[6]) {
       errmsg += '<br />no ERROR event received';
     }
-    if (name=='invalid0' && errorno!=0) {
-      errmsg += '<br />ERROR variable set to '+errorno+', should be 0';
+    if (name=='invalid0' && errorno!=0 && errorno!=4) {
+      errmsg += '<br />ERROR variable set to '+errorno+', should be 0 or 4';
     } else if (name=='invalid1' && errorno!=1) {
       errmsg += '<br />ERROR variable set to '+errorno+', should be 1';
     } else if (name=='invalid2' && errorno!=0 && errorno!=2 && errorno!=4) {
       errmsg += '<br />ERROR variable set to '+errorno+', should be 0, 2, or 4';
-    } else if (name=='invalid3' && errorno!=1 && errorno!=2) {
-      errmsg += '<br />ERROR variable set to '+errorno+', should be 1 or 2';
+    } else if (name=='invalid3' && errorno!=1 && errorno!=2 && errorno!=5 && errorno!=6) {
+      errmsg += '<br />ERROR variable set to '+errorno+', should be 1, 2, 5 or 6';
     }
   }
   if (errmsg) {
