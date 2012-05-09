@@ -24,10 +24,14 @@ if ($id=='ardepg') {
   echo 'video/mp4#'.$url;
 } else if ($id=='tsstream') {
   echo 'video/mpeg#http://itv.ard.de/video/livestream.php';
-} else if ($id=='nacamar') {
+} else if ($id=='gundl1') {
+  echo 'video/mpeg#http://hbbtv.live.gl-systemhaus.de/test.ts';
+} else if ($id=='gundl2') {
+  echo 'video/mpeg#http://hbbtv.live.dist.gl-systemhaus.de/test.ts';
+} else if ($id=='nacamar1') {
   echo 'video/mpeg#http://hbbtv.nacamar.c.nmdn.net/nacamar/test';
-} else if ($id=='gundl') {
-  echo 'video/mpeg#http://78.35.11.122/test.ts';
+} else if ($id=='nacamar2') {
+  echo 'video/mpeg#http://hbbtv.nacamar.c.nmdn.net/nacamar/test2';
 } else {
   echo 'Unknown ID';
 }

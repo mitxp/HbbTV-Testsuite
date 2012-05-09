@@ -105,7 +105,11 @@ function getComponents(type) {
 	for (var key in expectStream) {
 	  var vcvalue = 'undefined';
 	  eval('vcvalue = checkvc.'+key+';');
-	  if (key=='language') vcvalue = vcvalue.toLowerCase();
+	  if (key=='language') {
+            vcvalue = vcvalue.toLowerCase();
+          } else if (key=='aspectRatio') {
+            vcvalue = Math.round(vcvalue*100.0)/100.0;
+          }
 	  if (vcvalue!=expectStream[key]) {
 	    found = false;
 	    break;
