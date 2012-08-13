@@ -130,10 +130,7 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="irthd">IRT test (HD, MP4)</li>
   <li name="tsstream">Live stream test (TS, no seeking!)</li>
   <li name="queue">Video queuing test</li>
-  <li name="gundl1">G+L live stream1 (TS, no seeking!)</li>
-  <li name="gundl2">G+L live stream2 (TS, no seeking!)</li>
   <li name="nacamar1">Nacamar live stream1 (TS, no seeking!)</li>
-  <li name="nacamar2">Nacamar live stream2 (TS, no seeking!)</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
