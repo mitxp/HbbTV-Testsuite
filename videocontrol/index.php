@@ -78,20 +78,27 @@ function runStep(name) {
   }
 }
 function setSpeed(fact) {
-  var addmsg = (fact==0||fact==1) ? '' : '. Note: test is OK even though this test failed, as feature is not mandatory.';
   try {
     var vid = document.getElementById('video');
     vid.play(fact);
     setInstr('Waiting to check reported playback speed...');
-    setTimeout(function() {
-      if (parseInt(fact)==parseInt(vid.speed)) {
-        showStatus(true, 'Video playback speed should now be '+fact);
-      } else {
-        showStatus(addmsg, 'Setting speed succeeded, but reported speed is '+vid.speed+addmsg);
-      }
-    }, 1000);
+    setTimeout(function() {checkPlaySpeed(fact);}, 1000);
   } catch (e) {
-    showStatus(addmsg, 'Cannot change playback speed'+addmsg);
+    showStatus(false, 'Cannot set playback speed to '+fact);
+  }
+}
+function checkPlaySpeed(fact) {
+  var vid = document.getElementById('video');
+  if (vid.playState===3 || vid.playState===4) {
+    setInstr('Still buffering: waiting to check reported playback speed...');
+    setTimeout(function() {checkPlaySpeed(fact);}, 1000);
+    return;
+  }
+  if (parseInt(fact)==parseInt(vid.speed)) {
+    showStatus(true, 'Video playback speed should now be '+fact);
+  } else {
+    var addmsg = (fact==0||fact==1) ? '' : '. Note: test is OK even though this test failed, as feature is not mandatory.';
+    showStatus(addmsg, 'Setting speed succeeded, but reported speed is '+vid.speed+addmsg);
   }
 }
 function gotoPos(scnds) {
