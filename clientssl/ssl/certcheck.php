@@ -15,13 +15,14 @@ $ALLOWEDCN['linux.vantage-digital.com'] = 1;
 $ALLOWEDCN['TTmicroS855HbbTV.TechnoTrendGoerler.com'] = 1;
 $ALLOWEDCN['iCordMini.HUMAXdigital.com'] = 1;
 $ALLOWEDCN['SL90HDplusInterAktiv.comag.de'] = 1;
-$ALLOWEDCN['textbox.mit-xperts.com'] = 1;
-$ALLOWEDCN['testbox2.mit-xperts.com'] = 1;
+$ALLOWEDCN['testbox.mit-xperts.com'] = 1;
 $ALLOWEDCN['viera2011.panasonic.com'] = 1;
 $ALLOWEDCN['viera2012.panasonic.com'] = 1;
 $ALLOWEDCN['volksbox.inverto.tv'] = 1;
 $ALLOWEDCN['GLOBAL_PLAT3.lge.com'] = 1;
 $ALLOWEDCN['UFS925.KATHREIN.com'] = 1;
+$ALLOWEDCN['videoengine.bang-olufsen.com'] = 1;
+$ALLOWEDCN['s7100.vestel.com'] = 1;
 
 $msg = '';
 if (!$_SERVER['SSL_CLIENT_VERIFY']=='SUCCESS') {
@@ -29,7 +30,7 @@ if (!$_SERVER['SSL_CLIENT_VERIFY']=='SUCCESS') {
 } else {
   $sslcn = $_SERVER['SSL_CLIENT_S_DN_CN'];
   if (!$ALLOWEDCN[$sslcn]) {
-    $msg = "Unknown CN=$sslcn";
+    $msg = "Unknown CN=$sslcn (please send us an email with your CN!)";
   }
 }
 if ($msg) {
