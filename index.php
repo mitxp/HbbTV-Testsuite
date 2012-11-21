@@ -112,7 +112,7 @@ In case you have questions and/or comments, you can reach us at info&#160;&#x004
   <li name="memoryaudio" descr="Playback audio from memory (for instant playback, see OIPF DAE 7.14.10).">Memory audio</li>
   <li name="videobackground" descr="Broadcast video in background without own video object.">Broadcast in background</li>
   <li name="appmanager" descr="Start applications, destroy application.">Application manager</li>
-  <li name="eitevent" descr="Retrieve EIT present and following events.">EIT present/following</li>
+  <li name="eitevent" descr="Retrieve EIT events.">EIT events</li>
   <li name="keycodes" descr="Check for correctly defined key codes and key events.">Key codes / key events</li>
   <li name="keyset" descr="Set keyset mask for user-input keys.">Keyset mask</li>
   <li name="keypress" descr="Check whether keypress event is sent for non-unicode characters.">Keypress events</li>
