@@ -104,7 +104,7 @@ function getSchedule() {
   try {
     var currentch = document.getElementById('video').currentChannel;
     var ccfg = smgr.getChannelConfig();
-    var clist = smgr.channelList;
+    var clist = ccfg.channelList;
     for (i=0; i<clist.length; i++) {
       chk = clist.item(i);
       if (chk.onid===currentch.onid && chk.tsid===currentch.tsid && chk.sid===currentch.sid) {
@@ -126,36 +126,33 @@ function getSchedule() {
     showStatus(false, 'Cannot create search');
     return;
   }
-  smgr.onMetadataSearch = function(ev) {
-    if (ev.state===0) {
-      setInstr('state 0, result complete, search terminated, update results');
-      smgr.onMetadataSearch = null;
-      getScheduleResults(mdsrch.result);
-    } else if (ev.state===1) {
-      setInstr('state 1, result updated, waiting for termination...');
-      try {
-        mdsrch.result.update();
-      } catch (e4) {
-        showStatus(false, 'Error while updating search result.');
-        smgr.onMetadataSearch = null;
-      }
-    } else {
-      showStatus(false, 'Invalid state '+ev.state+' received');
-      smgr.onMetadataSearch = null;
-    }
-  };
   setInstr('requesting findProgrammesFromStream...');
   try {
-    ret = mdsrch.findProgrammesFromStream(srchchannel, 1350000000, 20);
+    mdsrch.findProgrammesFromStream(srchchannel, 1350000000);
   } catch (e3) {
     showStatus(false, 'Cannot call findProgrammesFromStream');
     smgr.onMetadataSearch = null;
     return;
   }
-  if (ret) {
-    // result available immediately.
+  setInstr('retrieving results...');
+  smgr.onMetadataSearch = function(msearch, sstate) {
+    if (sstate===0) {
+      setInstr('state 0, result complete, search terminated, update results');
+      smgr.onMetadataSearch = null;
+      getScheduleResults(mdsrch.result);
+    } else if (sstate===3) {
+      setInstr('state 3, search aborted, waiting for new result data...');
+    } else {
+      showStatus(false, 'Invalid state '+sstate+' received');
+      smgr.onMetadataSearch = null;
+    }
+  };
+  try {
+    mdsrch.result.getResults(0, 10);
+  } catch (e4) {
+    showStatus(false, 'Cannot call getResults on MetadataSearch.result');
     smgr.onMetadataSearch = null;
-    getScheduleResults(mdsrch.result);
+    return;
   }
 }
 function getScheduleResults(result) {
