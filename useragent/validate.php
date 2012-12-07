@@ -10,8 +10,9 @@ function validateUserAgent($uagent, &$msg) {
     return false;
   }
   $uagent = substr($uagent, 6);
-  if (substr($uagent, 0, 5)!='1.1.1') {
-    $msg = 'HbbTV version not equal to 1.1.1';
+  $ver = substr($uagent, 0, 5);
+  if ($ver!='1.1.1' && $ver!='1.2.1') {
+    $msg = 'HbbTV version not equal to 1.1.1 / 1.2.1';
     return false;
   }
   $uagent = substr($uagent, 5);
