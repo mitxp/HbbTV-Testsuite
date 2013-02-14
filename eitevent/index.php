@@ -164,7 +164,11 @@ function getScheduleResults(result) {
   for (i=0; i<result.length; i++) {
     try {
       evt = result.item(i);
-      txt += getEitEventText(evt)+"<br />";
+      txt += i+": "+getEitEventText(evt)+"<br />";
+      if (i==1 && result.length>3) {
+        txt += "...<br />";
+        i = result.length-2;
+      }
     } catch (e) {
       showStatus(false, 'Error while receiving event '+i+' of search result.');
     }
