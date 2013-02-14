@@ -11,7 +11,12 @@ if ($id=='ardepg') {
 } else if ($id=='rtl') {
   echo 'video/mp4#http://bilder.rtl.de/tt_hd/trailer_hotelinspektor.mp4';
 } else if ($id=='audiomp3') {
-  echo 'audio/mpeg#http://swr.ic.llnwd.net/stream/swr_mp3_m_swr3a';
+  $m3u = @file_get_contents('http://streams.br-online.de/br-klassik_2.m3u');
+  $m3u = strtok(str_replace("\r", "\n", $m3u), "\n");
+  while ($m3u && substr($m3u, 0, 4)!='http') {
+    $m3u = strtok("\n");
+  }
+  echo 'audio/mpeg#'.$m3u;
 } else if ($id=='audiomp4') {
   echo 'audio/mp4#http://itv.ard.de/video/audio.php';
 } else if ($id=='irthd') {
