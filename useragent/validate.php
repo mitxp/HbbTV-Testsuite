@@ -35,6 +35,7 @@ function validateUserAgent($uagent, &$msg) {
   $capabilities = str_replace('+DL', '', $capabilities);
   $capabilities = str_replace('+PVR', '', $capabilities);
   $capabilities = str_replace('+RTSP', '', $capabilities);
+  $capabilities = str_replace('+DRM', '', $capabilities);
   if ($capabilities) {
     $msg = 'invalid capabilities '.$capabilities;
     return false;
