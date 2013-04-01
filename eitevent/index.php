@@ -27,7 +27,8 @@ function getEitEventText(evt) {
   var frommin = dstart.getMinutes();
   var tohrs = dend.getHours();
   var tomin = dend.getMinutes();
-  return (fromhrs<10?'0':'')+fromhrs+(frommin<10?':0':':')+frommin+' - '+(tohrs<10?'0':'')+tohrs+(tomin<10?':0':':')+tomin+'<br />'+evt.name;
+  var ename = (""+evt.name).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return (fromhrs<10?'0':'')+fromhrs+(frommin<10?':0':':')+frommin+' - '+(tohrs<10?'0':'')+tohrs+(tomin<10?':0':':')+tomin+'<br />'+ename;
 }
 
 function handleKeyCode(kc) {
