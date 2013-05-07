@@ -127,6 +127,7 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="mpegts">Test video (TS)</li>
   <li name="audiomp3">Audio stream (MP3)</li>
   <li name="audiomp4">Test audio (MP4)</li>
+  <li name="https">HTTPS video (MP4)</li>
   <li name="irthd">IRT test (HD, MP4)</li>
   <li name="tsstream">Live stream test (TS, no seeking!)</li>
   <li name="queue">Video queuing test</li>

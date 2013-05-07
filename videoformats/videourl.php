@@ -6,6 +6,8 @@ header('Content-Type: text/plain;charset=UTF-8');
 $id = $_REQUEST['id'];
 if ($id=='ardepg') {
   echo 'video/mp4#http://itv.ard.de/video/trailer.php';
+} else if ($id=='https') {
+  echo 'video/mp4#https://itv.mit-xperts.com/video/dasgrossehansi.mp4';
 } else if ($id=='mpegts') {
   echo 'video/mpeg#http://itv.ard.de/video/timecode.mpeg';
 } else if ($id=='rtl') {
