@@ -109,6 +109,7 @@ In case you have questions and/or comments, you can reach us at info&#160;&#x004
   <li name="playerevents" descr="Checks if streaming video playback sends correect events.">Streaming video playback events</li>
   <li name="videoformats" descr="Check whether videos from various applications run on your device.">Streaming video/audio formats</li>
   <li name="videocomponents" descr="Retrieval of audio/video/subtitle components, as well as selecting and unselecting them.">AVComponents in video/broadcast</li>
+  <li name="dolby" descr="MPEG-DASH + AC3 + audio component selection + DRM tests.">DOLBY video format / AVComponents</li>
   <li name="memoryaudio" descr="Playback audio from memory (for instant playback, see OIPF DAE 7.14.10).">Memory audio</li>
   <li name="videobackground" descr="Broadcast video in background without own video object.">Broadcast in background</li>
   <li name="appmanager" descr="Start applications, destroy application.">Application manager</li>
