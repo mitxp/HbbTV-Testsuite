@@ -97,6 +97,10 @@ function runStep(name) {
       showStatus(false, 'Current threshold rating name is not string representation of value attribute');
       return;
     }
+    if (rating.value!==3) {
+      showStatus(false, 'Current threshold rating value should be 3 (in dvb-si representing the age of 6 years).');
+      return;
+    }
     showStatus(true, 'Current rating threshold is '+rating.value+', labels='+rating.labels+', region='+rating.region);
   }
 }
