@@ -51,9 +51,15 @@ function handleKeyCode(kc) {
 }
 function getPresentFollowing() {
   try {
-    var txt = 'Now running: '+getEitPfEvent(0)+'<br />Followed by: '+getEitPfEvent(1);
-    showStatus(true, 'Test passed (if displayed data is correct)');
+    var epresent = getEitPfEvent(0);
+    var efollowing = getEitPfEvent(1);
+    var txt = 'Now running: '+epresent+'<br />Followed by: '+efollowing;
     setInstr(txt);
+    if (epresent==="Event 1, umlaut ä" || epresent==="Event 2, umlaut ö") {
+      showStatus(true, 'Test passed (if displayed data is correct)');
+    } else {
+      showStatus(false, 'Test failed as returned data is not correct');
+    }
   } catch (e) {
     showStatus(false, 'Test failed');
   }
