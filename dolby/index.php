@@ -84,12 +84,12 @@ function runStep(name) {
 
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
-<div style="left: 700px; top: 36px; width: 320px; height: 65px; background-image: url(dolby.png);"></div>
+<div style="left: 700px; top: 36px; width: 295px; height: 60px; background-image: url(dolby.png);"></div>
 <div id="vidcontainer" style="left: 700px; top: 240px; width: 320px; height: 180px;"></div>
 <?php echo appmgrObject(); ?>
 
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
-<div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
+<div id="instr" class="txtdiv" style="left: 700px; top: 114px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="legal">Info on Usage policy / Disclaimer</li>
   <li name="mp4_basic">E-AC3 in mp4</li>
