@@ -27,7 +27,7 @@ function getEitEventText(evt) {
   var frommin = dstart.getMinutes();
   var tohrs = dend.getHours();
   var tomin = dend.getMinutes();
-  var ename = (""+evt.name).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  var ename = (""+evt.name).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/>/g, "&gt;");
   return (fromhrs<10?'0':'')+fromhrs+(frommin<10?':0':':')+frommin+' - '+(tohrs<10?'0':'')+tohrs+(tomin<10?':0':':')+tomin+'<br />'+ename;
 }
 
@@ -55,10 +55,10 @@ function getPresentFollowing() {
     var efollowing = getEitPfEvent(1);
     var txt = 'Now running: '+epresent+'<br />Followed by: '+efollowing;
     setInstr(txt);
-    if (epresent==="Event 1, umlaut ä" || epresent==="Event 2, umlaut ö") {
-      showStatus(true, 'Test passed (if displayed data is correct)');
+    if (epresent.indexOf("Event 1, umlaut ä")>0 || epresent.indexOf("Event 2, umlaut ö")>0) {
+      showStatus(true, 'Test passed');
     } else {
-      showStatus(false, 'Test failed as returned data is not correct');
+      showStatus(false, 'Test failed as returned data is not correct (present event text is &quot;'+epresent+'&quot;, should contain either &quot;Event 1, umlaut ä&quot; or &quot;Event 2, umlaut ö&quot;');
     }
   } catch (e) {
     showStatus(false, 'Test failed');

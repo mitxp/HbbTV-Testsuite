@@ -105,7 +105,7 @@ function runStep(name) {
   <li name="dash_playready">MPEG-DASH with PlayReady DRM</li>
   <li name="exit">Return to test menu</li>
 </ul>
-<div id="status" style="left: 700px; top: 430px; width: 400px; height: 400px;"></div>
+<div id="status" style="left: 700px; top: 430px; width: 400px; height: 250px;"></div>
 <div id="legal" class="txtdiv" style="display: none; left: 700px; top: 110px; width: 440px; height: 610px; background-color: #132d48;">The Materials provided are for internal user evaluation, testing, and deployment of Dolby Digital Plus in HbbTV. You may not sell, assign, license, disclose, distribute, or otherwise transfer or make available these Materials, in whole or in part, in any form to any third parties. These Materials may not be reproduced or used for any purpose other than deploying Dolby Digital Plus. To the greatest extent permitted under mandatory applicable law under no circumstances shall Dolby or MIT-xperts be liable for any injury or damage resulting from use of these Materials or any incidental, special, direct, indirect, or consequential damages or loss of use, loss of data, revenue or profit even if Dolby or its agents have been made aware of the possibility of such damages and no warranty is provided with respect to the Materials.</div>
 
 </body>
