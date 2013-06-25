@@ -23,7 +23,7 @@ window.onload = function() {
   initApp();
   showVid();
   nameselect('<?php echo $referer; ?>');
-  setInstr('Please run all sub-tests. Navigate to the test using up/down, then press OK to start the test. Sub-test details will be displayed upon selection.');
+  setInstr('Please run all sub-tests. Navigate to the test using up/down, then press OK to start the test. Sub-test details will be displayed upon selection.<br />In case of questions regarding content, please contact hbbtv@dolby.com');
 };
 function nameselect(snam) {
   if (!snam) return;
@@ -85,7 +85,7 @@ function runStep(name) {
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
 <div style="left: 700px; top: 36px; width: 295px; height: 60px; background-image: url(dolby.png);"></div>
-<div id="vidcontainer" style="left: 700px; top: 240px; width: 320px; height: 180px;"></div>
+<div id="vidcontainer" style="left: 700px; top: 300px; width: 320px; height: 180px;"></div>
 <?php echo appmgrObject(); ?>
 
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
@@ -105,7 +105,7 @@ function runStep(name) {
   <li name="dash_playready">MPEG-DASH with PlayReady DRM</li>
   <li name="exit">Return to test menu</li>
 </ul>
-<div id="status" style="left: 700px; top: 430px; width: 400px; height: 250px;"></div>
+<div id="status" style="left: 700px; top: 490px; width: 400px; height: 250px;"></div>
 <div id="legal" class="txtdiv" style="display: none; left: 700px; top: 110px; width: 440px; height: 610px; background-color: #132d48;">The Materials provided are for internal user evaluation, testing, and deployment of Dolby Digital Plus in HbbTV. You may not sell, assign, license, disclose, distribute, or otherwise transfer or make available these Materials, in whole or in part, in any form to any third parties. These Materials may not be reproduced or used for any purpose other than deploying Dolby Digital Plus. To the greatest extent permitted under mandatory applicable law under no circumstances shall Dolby or MIT-xperts be liable for any injury or damage resulting from use of these Materials or any incidental, special, direct, indirect, or consequential damages or loss of use, loss of data, revenue or profit even if Dolby or its agents have been made aware of the possibility of such damages and no warranty is provided with respect to the Materials.</div>
 
 </body>
