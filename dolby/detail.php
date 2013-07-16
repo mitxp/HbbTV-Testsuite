@@ -156,7 +156,7 @@ function getActiveComponentIdx() {
     return -2;
   }
   for (i=0; i<expected.length; i++) {
-    found = compareComponent(activevc[0], i);
+    found = compareComponent(activevc[0], i, intType);
     if (found>0) {
       return i;
     }
