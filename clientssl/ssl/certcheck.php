@@ -18,6 +18,7 @@ $ALLOWEDCN['SL90HDplusInterAktiv.comag.de'] = 1;
 $ALLOWEDCN['testbox.mit-xperts.com'] = 1;
 $ALLOWEDCN['viera2011.panasonic.com'] = 1;
 $ALLOWEDCN['viera2012.panasonic.com'] = 1;
+$ALLOWEDCN['viera2013.panasonic.com'] = 1;
 $ALLOWEDCN['volksbox.inverto.tv'] = 1;
 $ALLOWEDCN['volksboxWebEdition.inverto.tv'] = 1;
 $ALLOWEDCN['GLOBAL_PLAT3.lge.com'] = 1;
