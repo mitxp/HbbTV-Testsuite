@@ -135,7 +135,7 @@ function getSchedule() {
   }
   setInstr('requesting findProgrammesFromStream...');
   try {
-    mdsrch.findProgrammesFromStream(srchchannel, 1350000000);
+    mdsrch.findProgrammesFromStream(srchchannel, streamtime[0]-streamtime[1]*3600-streamtime[2]*60);
   } catch (e3) {
     showStatus(false, 'Cannot call findProgrammesFromStream');
     smgr.onMetadataSearch = null;
