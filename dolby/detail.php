@@ -72,6 +72,7 @@ function showVid() {
   vid = document.createElement("object");
   vid.type = mtype;
   vid.setAttribute("type", vid.type);
+  vid.setAttribute("style", "position: absolute; left: 0px; top: 0px; width: 416px; height: 234px; outline: transparent;");
   vid.style.position = "absolute";
   vid.style.left = "0px";
   vid.style.top = "0px";
@@ -156,7 +157,7 @@ function getActiveComponentIdx() {
     return -2;
   }
   for (i=0; i<expected.length; i++) {
-    found = compareComponent(activevc[0], i);
+    found = compareComponent(activevc[0], i, intType);
     if (found>0) {
       return i;
     }
