@@ -46,30 +46,33 @@ function getFakeIntType(type) {
 }
 function getFakeComponents(type) {
   var ret = [ ];
-  var expected = vbcomponents[type];
-  for (var i=expected.length-1; i>=0; i--) {
-    var vc = { };
+  var i, vc, key, expected = vbcomponents[type];
+  for (i=expected.length-1; i>=0; i--) {
+    vc = { };
     vc.type = getFakeIntType(type);
-    for (var key in expected[i]) {
+    for (key in expected[i]) {
       vc[key] = expected[i][key];
     }
     ret.push(vc);
   }
   return ret;
 }
-function getComponents(type) {
-  intType = -1;
+function getIntType(type) {
   try {
     if (type=='vid') {
-      intType = vid.COMPONENT_TYPE_VIDEO;
+      return vid.COMPONENT_TYPE_VIDEO;
     } else if (type=='aud') {
-      intType = vid.COMPONENT_TYPE_AUDIO;
+      return vid.COMPONENT_TYPE_AUDIO;
     } else if (type=='sub') {
-      intType = vid.COMPONENT_TYPE_SUBTITLE;
+      return vid.COMPONENT_TYPE_SUBTITLE;
     }
   } catch (e) {
     // handled below
   }
+  return -1;
+}
+function getComponents(type) {
+  var intType = getIntType(type);
   if (intType<0 || typeof(intType)=='undefined') {
     showStatus(false, 'COMPONENT_TYPE for '+type+' undefined');
     return false;
@@ -90,11 +93,11 @@ function getComponents(type) {
     showStatus(false, 'call getComponents('+type+') returned '+vc.length+' elements, expected are '+expected.length+' elements.');
     return false;
   }
-  var foundStreams = [];
-  for (var i=0; i<expected.length; i++) {
+  var i, j, key, foundStreams = [];
+  for (i=0; i<expected.length; i++) {
     var expectStream = expected[i];
     foundStreams[i] = null;
-    for (var j=0; j<vc.length; j++) {
+    for (j=0; j<vc.length; j++) {
       var checkvc = vc[j];
       var found = true;
       try {
@@ -102,7 +105,7 @@ function getComponents(type) {
           showStatus(false, 'call getComponents('+type+') returned invalid component of type '+checkvc.type);
           return false;
         }
-	for (var key in expectStream) {
+	for (key in expectStream) {
 	  var vcvalue = 'undefined';
 	  eval('vcvalue = checkvc.'+key+';');
 	  if (key=='language') {
@@ -126,7 +129,7 @@ function getComponents(type) {
     }
     if (foundStreams[i]==null) {
       var descrStr = 'type='+intType;
-      for (var key in expectStream) {
+      for (key in expectStream) {
         descrStr += ', '+key+'='+expectStream[key];
       }
       showStatus(false, 'cannot find the following AVComponent: '+descrStr);
@@ -136,9 +139,12 @@ function getComponents(type) {
   return foundStreams;
 }
 function selectComponents(type, index) {
-  var vc = getComponents(type);
-  if (!vc) return false;
-  for (var i=0; i<vc.length; i++) {
+  var activevc, i, vc = getComponents(type);
+  var intType = getIntType(type);
+  if (!vc) {
+    return false;
+  }
+  for (i=0; i<vc.length; i++) {
     try {
       vid.unselectComponent(vc[i]);
     } catch (e) {
@@ -146,7 +152,6 @@ function selectComponents(type, index) {
       return false;
     }
   }
-  var activevc;
   try {
     activevc = vid.getCurrentActiveComponents(intType);
   } catch (e) {
@@ -165,27 +170,32 @@ function selectComponents(type, index) {
       showStatus(false, 'cannot select component '+type+index+' = '+vc[index]);
       return false;
     }
-    try {
-      activevc = vid.getCurrentActiveComponents(intType);
-    } catch (e) {
-      showStatus(false, 'error while calling getCurrentActiveComponents('+intType+') after selecting component');
-      return false;
-    }
-    if (!activevc || activevc.length!=1) {
-      showStatus(false, 'getCurrentActiveComponents returned an invalid array after selecting a component');
-      return false;
-    }
-    var selectedIs = activevc[0];
-    for (var key in vbcomponents[type][0]) {
-      var shouldBeStr = 'undefined1';
-      var selectedIsStr = 'undefined2';
-      eval('shouldBeStr = shouldBe.'+key+';');
-      eval('selectedIsStr = selectedIs.'+key+';');
-      if (shouldBeStr != selectedIsStr) {
-        showStatus(false, 'getCurrentActiveComponents returned invalid component: '+key+' is '+selectedIsStr+', but should be '+shouldBeStr);
+    setTimeout(function() {
+      try {
+        activevc = vid.getCurrentActiveComponents(intType);
+      } catch (e) {
+        showStatus(false, 'error while calling getCurrentActiveComponents('+intType+') after selecting component');
         return false;
       }
-    }
+      if (!activevc || activevc.length!=1) {
+        showStatus(false, 'getCurrentActiveComponents returned an invalid array after selecting a component');
+        return false;
+      }
+      var key, selectedIs = activevc[0];
+      for (key in vbcomponents[type][0]) {
+        var shouldBeStr = 'undefined1';
+        var selectedIsStr = 'undefined2';
+        eval('shouldBeStr = shouldBe.'+key+';');
+        eval('selectedIsStr = selectedIs.'+key+';');
+        if (shouldBeStr != selectedIsStr) {
+          showStatus(false, 'getCurrentActiveComponents returned invalid component: '+key+' is '+selectedIsStr+', but should be '+shouldBeStr);
+          return;
+        }
+      }
+      showStatus(true, 'component should now be selected.');
+    }, 2000);
+    setInstr('Waiting for component selection to finish...');
+    return;
   }
   showStatus(true, 'component should now be selected.');
 }
