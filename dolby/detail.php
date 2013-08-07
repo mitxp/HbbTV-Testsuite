@@ -172,6 +172,8 @@ function showActiveComponent() {
     showStatus(true, "No component is currently active.");
   } else if (i===-1) {
     showStatus(false, "Unable to determine active component.");
+  } else if (i===false) {
+    // error already displayed
   } else {
     showStatus(true, "Active component: "+expected[i].displayname);
   }
@@ -258,18 +260,24 @@ function selectComponents(index) {
       showStatus(false, 'cannot select component '+index+' = '+vc[index]);
       return false;
     }
-    i = getActiveComponentIdx();
-    if (i===-2) {
-      showStatus(false, 'error while calling getCurrentActiveComponents('+intType+') after selecting component');
-      return false;
-    }
-    if (i===-1) {
-      showStatus(false, 'getCurrentActiveComponents returned invalid component after selecting desired component');
-      return false;
-    }
+    setTimeout(function() {
+      var i = getActiveComponentIdx();
+      if (i===-2) {
+        showStatus(false, 'error while calling getCurrentActiveComponents('+intType+') after selecting component');
+      } else if (i===-1) {
+        showStatus(false, 'getCurrentActiveComponents returned invalid component after selecting desired component');
+      } else if (i===false) {
+        // error already displayed
+      } else if (i===index) {
+        showStatus(true, 'component should now be selected.');
+      } else {
+        showStatus(false, "Active component: "+expected[i].displayname+", expected: "+expected[index].displayname);
+      }
+    }, 2000);
+    setInstr('Waiting for component selection to finish...');
+    return;
   }
   showStatus(true, 'component should now be selected.');
-  return true;
 }
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
