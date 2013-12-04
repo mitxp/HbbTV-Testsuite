@@ -150,7 +150,7 @@ function runStep(name) {
       var succ = type=='TV'
       && ((ch.onid==service1[0]&&ch.tsid==service1[1]&&ch.sid==service1[2])
        || (ch.onid==service2[0]&&ch.tsid==service2[1]&&ch.sid==service2[2]));
-      showStatus(succ, 'channel=DVB tripe('+ch.onid+'.'+ch.tsid+'.'+ch.sid+'), type='+type+', name='+ch.name);
+      showStatus(succ, 'channel=DVB triple('+ch.onid+'.'+ch.tsid+'.'+ch.sid+'), type='+type+', name='+ch.name);
     } catch (e) {
       showStatus(false, 'cannot determine current channel');
     }
