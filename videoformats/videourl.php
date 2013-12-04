@@ -31,10 +31,6 @@ if ($id=='ardepg') {
   echo 'video/mp4#'.$url;
 } else if ($id=='tsstream') {
   echo 'video/mpeg#http://itv.ard.de/video/livestream.php';
-} else if ($id=='gundl1') {
-  echo 'video/mpeg#http://hbbtv.olympia.gl-systemhaus.de/olympia1.ts';
-} else if ($id=='nacamar1') {
-  echo 'video/mpeg#http://hbbtv.nacamar.c.nmdn.net/nacamar/test';
 } else {
   echo 'Unknown ID';
 }

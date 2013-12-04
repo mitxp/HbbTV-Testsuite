@@ -123,7 +123,6 @@ function playVideo(mtype, murl, registerlistener) {
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="ardepg">ARD EPG video (MP4)</li>
   <li name="zdf">ZDF video (MP4+redirect)</li>
-  <li name="rtl">RTL video (MP4)</li>
   <li name="mpegts">Test video (TS)</li>
   <li name="audiomp3">Audio stream (MP3)</li>
   <li name="audiomp4">Test audio (MP4)</li>
@@ -131,7 +130,6 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="irthd">IRT test (HD, MP4)</li>
   <li name="tsstream">Live stream test (TS, no seeking!)</li>
   <li name="queue">Video queuing test</li>
-  <li name="nacamar1">Nacamar live stream1 (TS, no seeking!)</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

@@ -19,12 +19,14 @@ $ALLOWEDCN['testbox.mit-xperts.com'] = 1;
 $ALLOWEDCN['viera2011.panasonic.com'] = 1;
 $ALLOWEDCN['viera2012.panasonic.com'] = 1;
 $ALLOWEDCN['viera2013.panasonic.com'] = 1;
+$ALLOWEDCN['viera2014.panasonic.com'] = 1;
 $ALLOWEDCN['volksbox.inverto.tv'] = 1;
 $ALLOWEDCN['volksboxWebEdition.inverto.tv'] = 1;
 $ALLOWEDCN['GLOBAL_PLAT3.lge.com'] = 1;
 $ALLOWEDCN['UFS925.KATHREIN.com'] = 1;
 $ALLOWEDCN['videoengine.bang-olufsen.com'] = 1;
 $ALLOWEDCN['s7100.vestel.com'] = 1;
+$ALLOWEDCN['test.mstarsemi.com'] = 1;
 
 $msg = '';
 if (!$_SERVER['SSL_CLIENT_VERIFY']=='SUCCESS') {
