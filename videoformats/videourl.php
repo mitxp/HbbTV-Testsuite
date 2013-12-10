@@ -31,6 +31,8 @@ if ($id=='ardepg') {
   echo 'video/mp4#'.$url;
 } else if ($id=='tsstream') {
   echo 'video/mpeg#http://itv.ard.de/video/livestream.php';
+} else if ($id=='olympia1') {
+  echo 'video/mpeg#http://hbbtv.live.test.gl-systemhaus.de/br1';
 } else {
   echo 'Unknown ID';
 }
