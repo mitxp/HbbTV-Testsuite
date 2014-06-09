@@ -9,6 +9,7 @@ openDocument();
 //<![CDATA[
 var vid;
 var intType = -1;
+var hbbtv12 = false;
 window.onload = function() {
   vid = document.getElementById('video');
   menuInit();
@@ -16,6 +17,14 @@ window.onload = function() {
   registerKeyEventListener();
   initApp();
   setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. Please note: even though subtitles are signalled in PMT, most of the time no subtitles are shown.');
+  try {
+    var cfg = document.getElementById("oipfcfg").configuration;
+    var uagent = ""+navigator.userAgent;
+    if (uagent.indexOf("HbbTV/")>=0 && uagent.indexOf("HbbTV/1.1")<0 && (cfg.preferredAudioLanguage || cfg.preferredSubtitleLanguage)) {
+      hbbtv12 = true;
+    }
+  } catch (ignore) {
+  }
 };
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
@@ -152,14 +161,32 @@ function selectComponents(type, index) {
       return false;
     }
   }
+  if (hbbtv12 && index<0 && type!=='vid') {
+    // We need to use unselectComponent(componentType) in HbbTV 1.2 due to
+    // OIPF DAE Vol. 5, section 7.16.5.1.3, unselectComponent(AVComponent):
+    // "If property preferredAudioLanguage in the Configuration object
+    // (see section 7.3.1.1) is set then unselecting a specific component
+    // returns to the default preferred audio language."
+    // Only this call ensures that no component of this type is selected.
+    try {
+      vid.unselectComponent(intType);
+    } catch (e) {
+      showStatus(false, 'cannot unselect component by type '+vc[i]);
+      return false;
+    }
+  }
   try {
     activevc = vid.getCurrentActiveComponents(intType);
   } catch (e) {
     showStatus(false, 'error while calling getCurrentActiveComponents('+intType+')');
     return false;
   }
-  if (activevc && activevc.length!=0) {
-    showStatus(false, 'getCurrentActiveComponents returned a non-empty array after unselecting all components');
+  if (!activevc) {
+    showStatus(false, 'getCurrentActiveComponents did not return anything unselecting all components');
+    return false;
+  }
+  if (activevc.length!=0 && (!hbbtv12||index<0||type==='vid')) {
+    showStatus(false, 'getCurrentActiveComponents returned a non-empty collection after unselecting all components');
     return false;
   }
   if (index>=0 && index<vc.length) {
