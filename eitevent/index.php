@@ -51,6 +51,15 @@ function handleKeyCode(kc) {
 }
 function getPresentFollowing() {
   try {
+    var vid = document.getElementById('video');
+    if (!vid.programmes) {
+      showStatus(false, 'video/broadcast object does not have .programmes property');
+      return;
+    }
+    if (!vid.programmes.length || vid.programmes.length<2) {
+      showStatus(false, 'video/broadcast .programmes property has invalid length (below 2)');
+      return;
+    }
     var epresent = getEitPfEvent(0);
     var efollowing = getEitPfEvent(1);
     var txt = 'Now running: '+epresent+'<br />Followed by: '+efollowing;
