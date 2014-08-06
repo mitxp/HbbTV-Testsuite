@@ -46,6 +46,7 @@ var id = '<?php echo $id; ?>';
 var type = '<?php echo $vidtype; ?>';
 var mtype = '<?php echo $vidtype=='dash' ? 'application/dash+xml' : ($vidtype=='ts'?'video/mpeg':'video/'.$vidtype); ?>';
 var vidurl = 'http://streaming.dolby.com/ftproot/mitXperts/<?php echo $dirname.'/'.$id.'.'.($vidtype=='dash'?'mpd':$vidtype); ?>';
+var hbbtv12 = false;
 var vid = null;
 var vidtimer = null;
 var testTimeout = null;
@@ -67,6 +68,14 @@ window.onload = function() {
   initApp();
   showVid();
   setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test.');
+  try {
+    var cfg = document.getElementById("oipfcfg").configuration;
+    var uagent = ""+navigator.userAgent;
+    if (uagent.indexOf("HbbTV/")>=0 && uagent.indexOf("HbbTV/1.1")<0 && (cfg.preferredAudioLanguage || cfg.preferredSubtitleLanguage)) {
+      hbbtv12 = true;
+    }
+  } catch (ignore) {
+  }
 };
 function showVid() {
   vid = document.createElement("object");
@@ -232,6 +241,7 @@ function selectComponents(index) {
   var vc = getComponents();
   var i, shouldBe, activevc, intType = vid.COMPONENT_TYPE_AUDIO;
   if (!vc) {
+    showStatus(false, 'no components');
     return false;
   }
   for (i=0; i<vc.length; i++) {
@@ -242,6 +252,24 @@ function selectComponents(index) {
       return false;
     }
   }
+  if (hbbtv12 && index<0 && type!=='vid') {
+    // We need to use unselectComponent(componentType) in HbbTV 1.2 due to
+    // OIPF DAE Vol. 5, section 7.16.5.1.3, unselectComponent(AVComponent):
+    // "If property preferredAudioLanguage in the Configuration object
+    // (see section 7.3.1.1) is set then unselecting a specific component
+    // returns to the default preferred audio language."
+    // Only this call ensures that no component of this type is selected.
+    try {
+      vid.unselectComponent(intType);
+    } catch (e) {
+      showStatus(false, 'cannot unselect component by type '+vc[i]);
+      return false;
+    }
+  }
+  setTimeout(function() {selectComponentsStage2(index, vc);}, 1000);
+}
+function selectComponentsStage2(index, vc) {
+  var i, shouldBe, activevc, intType = vid.COMPONENT_TYPE_AUDIO;
   try {
     activevc = vid.getCurrentActiveComponents(intType);
   } catch (e) {
