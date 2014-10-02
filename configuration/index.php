@@ -11,7 +11,7 @@ window.onload = function() {
   menuInit();
   registerKeyEventListener();
   initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. Displayed data must be verified manually, as configured preferences are unknown to this test.');
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. Displayed data must be verified manually, as configured preferences are unknown to this test.<br/><br/><b>Note: LocalSystem tests marked with &quot;Optional 7.3.3&quot; are optional, as this part of the specification is not mandatory for HbbTV devices.</b>');
 };
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
@@ -36,7 +36,11 @@ function runStep(name) {
   showStatus(true, '');
   var oipfcfg = document.getElementById('oipfcfg');
   if (!oipfcfg || !oipfcfg.configuration) {
-    showStatus(false, 'Cannot find Configuration in application/oipfConfiguration');
+    showStatus(false, 'Cannot find .configuration in application/oipfConfiguration');
+    return;
+  }
+  if (name.length>8 && name.substring(0, 8)==='localSys' && !oipfcfg.localSystem) {
+    showStatus(false, 'Cannot find .localSystem in application/oipfConfiguration');
     return;
   }
   var config = oipfcfg.configuration;
@@ -56,6 +60,30 @@ function runStep(name) {
       attrib = 'countryId';
       result = config.countryId;
       valid = validateLanguageList(result) && result.length==3;
+    } else if (name=="localSysDeviceID") {
+      attrib = 'deviceID';
+      result = oipfcfg.localSystem.deviceID;
+      valid = result.length > 0;
+    } else if (name=="localSysModelName") {
+      attrib = 'modelName';
+      result = oipfcfg.localSystem.modelName;
+      valid = result.length > 0;
+    } else if (name=="localSysVendorName") {
+      attrib = 'vendorName';
+      result = oipfcfg.localSystem.vendorName;
+      valid = result.length > 0;
+    } else if (name=="localSysSoftwareVersion") {
+      attrib = 'softwareVersion';
+      result = oipfcfg.localSystem.softwareVersion;
+      valid = result.length > 0;
+    } else if (name=="localSysHardwareVersion") {
+      attrib = 'hardwareVersion';
+      result = oipfcfg.localSystem.hardwareVersion;
+      valid = result.length > 0;
+    } else if (name=="localSysSerialNumber") {
+      attrib = 'serialNumber';
+      result = oipfcfg.localSystem.serialNumber;
+      valid = result.length > 0;
     } else {
       showStatus(false, 'Unknown test name '+name);
       return;
@@ -103,6 +131,12 @@ function validateLanguageList(txt) {
   <li name="audlang">Show preferred audio language</li>
   <li name="sublang">Show preferred subtitle language</li>
   <li name="country">Show country ID</li>
+  <li name="localSysDeviceID" class="Optional 7.3.3">Optional 7.3.3: localSys deviceID</li>
+  <li name="localSysModelName" class="Optional 7.3.3">Optional 7.3.3: localSys modelName</li>
+  <li name="localSysVendorName" class="Optional 7.3.3">Optional 7.3.3: localSys vendorName</li>
+  <li name="localSysSoftwareVersion" class="Optional 7.3.3">Optional 7.3.3: localSys softwareVersion</li>
+  <li name="localSysHardwareVersion" class="Optional 7.3.3">Optional 7.3.3: localSys hardwareVersion</li>
+  <li name="localSysSerialNumber" class="Optional 7.3.3">Optional 7.3.3: localSys serialNumber</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 300px; width: 400px; height: 400px;"></div>
