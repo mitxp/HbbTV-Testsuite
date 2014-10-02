@@ -44,6 +44,10 @@ ul.menu {
   color: #ffffff;
   background-color: #3073b8;
 }
+.menu .option {
+  background-color: #3A7FC5;
+  font-size: 18px;
+}
 .menu .lisel {
   color: #002048;
   background-color: #89c3ff;

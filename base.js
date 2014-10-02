@@ -72,7 +72,12 @@ function menuSelect(i) {
   var scroll = Math.max(0, Math.min(opts.length-13, selected-6));
   for (i=0; i<opts.length; i++) {
     opts[i].style.display = (i>=scroll && i<scroll+13) ? 'block' : 'none';
-    opts[i].className = selected==i ? 'lisel' : '';
+    // If the menu is selected, then set 'lisel' css class,
+    // If not, remove 'lisel' css class.
+    opts[i].className = selected == i ?
+         opts[i].className += ' lisel' :
+         opts[i].className =
+             opts[i].className.replace(/(?:^|\s)lisel(?!\S)/g , '');
   }
 }
 
