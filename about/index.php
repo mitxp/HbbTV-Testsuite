@@ -32,7 +32,7 @@ function handleKeyCode(kc) {
 }
 function runStep(name) {
   if (name=='contrib') {
-    document.getElementById('txtdiv').innerHTML = "Contributors to this testsuite are so far:<ul><li>Dora Babu<"+"/li><li>PPAT<"+"/li><li>Songguk Lim<"+"/li><"+"/ul><br /><br />In case you have an additional test(s), we would be very happy to include your test in this testsuite. Please contact us (see cwleft sidee) to discuss further details.";
+    document.getElementById('txtdiv').innerHTML = "Contributors to this testsuite are so far:<ul><li>Dora Babu<"+"/li><li>PPAT<"+"/li><li>Sungguk Lim<"+"/li><"+"/ul><br /><br />In case you have an additional test(s), we would be very happy to include your test in this testsuite. Please contact us (see cwleft sidee) to discuss further details.";
     menuSelect(opts.length-1);
   }
 }
