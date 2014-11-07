@@ -58,7 +58,8 @@ function runStep(name) {
 
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
-<object type="audio/mp4" id="aud" cache="true" data="<?php echo $url; ?>">
+<object type="audio/mp4" id="aud" data="<?php echo $url; ?>">
+<param name="cache" value="true" />
 <param name="loop" value="2" />
 </object>
 <?php echo appmgrObject(); ?>
