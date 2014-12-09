@@ -62,7 +62,7 @@ function performauth() {
       if (authok) {
         document.location.href = 'finalcheck.php';
       } else {
-	showStatus(false, 'Client SSL certificate verification failed.');
+	showStatus(2, 'Client SSL certificate verification failed. As this certificate is not mandatory, this might be expected.');
         setInstr(logtxt);
       }
     };

@@ -40,7 +40,7 @@ function runStep(name) {
     return;
   }
   if (name.length>8 && name.substring(0, 8)==='localSys' && !oipfcfg.localSystem) {
-    showStatus(false, 'Cannot find .localSystem in application/oipfConfiguration');
+    showStatus(2, 'Cannot find .localSystem in application/oipfConfiguration. As this attribute is not mandatory in HbbTV, this might be expected.');
     return;
   }
   var config = oipfcfg.configuration;

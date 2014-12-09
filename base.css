@@ -55,4 +55,7 @@ div.statok {
 div.statfail {
   color: #ff5030;
 }
+div.statwarn {
+  color: #ffe550;
+}
 

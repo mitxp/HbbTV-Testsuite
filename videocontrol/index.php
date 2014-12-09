@@ -98,7 +98,7 @@ function checkPlaySpeed(fact) {
     showStatus(true, 'Video playback speed should now be '+fact);
   } else {
     var addmsg = (fact==0||fact==1) ? '' : '. Note: test is OK even though this test failed, as feature is not mandatory.';
-    showStatus(addmsg, 'Setting speed succeeded, but reported speed is '+vid.speed+addmsg);
+    showStatus(addmsg?2:false, 'Setting speed succeeded, but reported speed is '+vid.speed+addmsg);
   }
 }
 function gotoPos(scnds) {

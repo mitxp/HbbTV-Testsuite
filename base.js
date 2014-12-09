@@ -78,7 +78,7 @@ function menuSelect(i) {
 
 function showStatus(succss, txt) {
   var elem = document.getElementById('status');
-  elem.className = succss ? 'statok' : 'statfail';
+  elem.className = succss===2 ? 'statwarn' : (succss ? 'statok' : 'statfail');
   if (!txt) {
     elem.innerHTML = '';
     return;
