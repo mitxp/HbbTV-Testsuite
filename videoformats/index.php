@@ -52,8 +52,12 @@ function runStep(name) {
     playVideo('video/mpeg', '<?php echo getMediaURL(); ?>timecode.mpeg', true);
     return;
   }
+  if (name=='audiomp3') {
+    playVideo('audio/mpeg', '<?php echo getMediaURL(); ?>mp3radio.php', true);
+    return;
+  }
   if (name=='audiomp4') {
-    playVideo('video/mp4', '<?php echo getMediaURL(); ?>audio.php', true);
+    playVideo('audio/mp4', '<?php echo getMediaURL(); ?>audio.php', true);
     return;
   }
   if (name=='https') {
