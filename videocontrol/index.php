@@ -54,7 +54,7 @@ function runStep(name) {
     try {
       var vid = document.getElementById('video');
       vid.stop();
-      vid.data = 'http://itv.ard.de/video/timecode.php/video.mp4';
+      vid.data = '<?php echo getMediaURL(); ?>timecode.php/video.mp4';
       vid.play(1);
       showStatus(true, 'Video should be playing now');
       playing = true;

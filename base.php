@@ -41,4 +41,20 @@ function openDocument($title='MIT-xperts HbbTV testsuite', $allscripts=1, $addhe
   }
 }
 
+function getMediaURL($useHttps=0) {
+  global $ROOTDIR;
+  $path = $_SERVER['PHP_SELF'];
+  $count = substr_count($ROOTDIR, '..');
+  for ($i=0; $i<=$count; $i++) {
+    $path = dirname($path);
+    if (!$path) $path = '/';
+  }
+  if (substr($path, -1)!=='/') {
+    $path .= '/';
+  }
+  $ret = $useHttps ? 'https' : 'http';
+  $ret .= '://'.$_SERVER['SERVER_NAME'].$path.'media/';
+  return $ret;
+}
+
 ?>

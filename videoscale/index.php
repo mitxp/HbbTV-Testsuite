@@ -133,7 +133,7 @@ function govid(typ) {
     if (videlem) {
       if (typ) {
 	phase = 2;
-        videlem.data = 'http://itv.ard.de/video/timecode.php/video.mp4';
+        videlem.data = '<?php echo getMediaURL(); ?>timecode.php/video.mp4';
 	phase = 3;
         videlem.play(1);
         succss = true;

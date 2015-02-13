@@ -85,7 +85,7 @@ function runStep(name) {
   starttime = new Date().getTime();
   try {
     if (name=='valid') {
-      vid.data = 'http://itv.ard.de/video/trailer.php';
+      vid.data = '<?php echo getMediaURL(); ?>trailer.php';
       vid.play(1);
       checkpausetimer(); // pause video and restart it in order to check if events are sent correctly
     } else if (name=='invalid0') {

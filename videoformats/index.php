@@ -40,14 +40,46 @@ function runStep(name) {
     req.abort();
   }
   stopVideo();
+  if (name=='ardepg') {
+    playVideo('video/mp4', '<?php echo getMediaURL(); ?>trailer.php', true);
+    return;
+  }
+  if (name=='zdf') {
+    playVideo('video/mp4', '<?php echo getMediaURL(); ?>zdfredirect.php/test.mp4', true);
+    return;
+  }
+  if (name=='mpegts') {
+    playVideo('video/mpeg', '<?php echo getMediaURL(); ?>timecode.mpeg', true);
+    return;
+  }
+  if (name=='audiomp4') {
+    playVideo('video/mp4', '<?php echo getMediaURL(); ?>audio.php', true);
+    return;
+  }
+  if (name=='https') {
+    playVideo('video/mp4', '<?php echo getMediaURL(true); ?>trailer.mp4', true);
+    return;
+  }
+  if (name=='irthd') {
+    playVideo('video/mp4', '<?php echo getMediaURL(); ?>irthd.mp4', true);
+    return;
+  }
+  if (name=='tsstream') {
+    playVideo('video/mp4', '<?php echo getMediaURL(); ?>livestream.php', true);
+    return;
+  }
+  if (name=='relative') {
+    playVideo('video/mp4', '../media/trailer.php', true);
+    return;
+  }
   if (name=='queue') {
     try {
-      playVideo('video/mp4', 'http://itv.ard.de/video/trailer.php', false);
+      playVideo('video/mp4', '<?php echo getMediaURL(); ?>trailer.php', false);
       var videlem = document.getElementById('video');
-      videlem.queue('http://bilder.rtl.de/tt_hd/trailer_hotelinspektor.mp4');
+      videlem.queue('<?php echo getMediaURL(); ?>trailer_hotelinspektor.mp4');
       videlem.queue(null); // remove previous element from queue
-      videlem.queue('http://bilder.rtl.de/tt_hd/090902_hdtt_f1_monza_streckenanimation_.mp4');
-      showStatus(true, 'First Das Erste trailer should be played, followed by a queued formula 1 video clip. An Hotelinspektor trailer should not be played.');
+      videlem.queue('<?php echo getMediaURL(); ?>timecode.php');
+      showStatus(true, 'First Das Erste trailer should be played, followed by a time code video clip. An Hotelinspektor trailer shall never be played.');
     } catch (e) {
       showStatus(false, 'Queuing video failed.');
     }
@@ -129,6 +161,7 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="https">HTTPS video (MP4)</li>
   <li name="irthd">IRT test (HD, MP4)</li>
   <li name="tsstream">Live stream test (TS, no seeking!)</li>
+  <li name="relative">Relative video URL</li>
   <li name="queue">Video queuing test</li>
   <li name="exit">Return to test menu</li>
 </ul>
