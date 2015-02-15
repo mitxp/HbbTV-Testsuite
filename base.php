@@ -44,6 +44,10 @@ function openDocument($title='MIT-xperts HbbTV testsuite', $allscripts=1, $addhe
 function getMediaURL($useHttps=0) {
   global $ROOTDIR;
   $path = $_SERVER['PHP_SELF'];
+  $i = strpos($path, '.php');
+  if ($i) {
+    $path = substr($path, 0, $i);
+  }
   $count = substr_count($ROOTDIR, '..');
   for ($i=0; $i<=$count; $i++) {
     $path = dirname($path);
