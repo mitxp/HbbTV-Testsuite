@@ -64,7 +64,7 @@ function getPresentFollowing() {
     var efollowing = getEitPfEvent(1);
     var txt = 'Now running: '+epresent+'<br />Followed by: '+efollowing;
     setInstr(txt);
-    if (epresent.indexOf("Event 1, umlaut ä")>0 || epresent.indexOf("Event 2, umlaut ö")>0) {
+    if (epresent.indexOf("Event 1, umlaut ä")>0 || epresent.indexOf("Event 2, umlaut ö")>0 || epresent.indexOf("Event 01, umlaut ä")>0 || epresent.indexOf("Event 02, umlaut ö")>0) {
       showStatus(true, 'Test passed');
     } else {
       showStatus(false, 'Test failed as returned data is not correct (present event text is &quot;'+epresent+'&quot;, should contain either &quot;Event 1, umlaut ä&quot; or &quot;Event 2, umlaut ö&quot;');

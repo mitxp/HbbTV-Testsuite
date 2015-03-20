@@ -76,6 +76,10 @@ function runStep(name) {
     playVideo('video/mp4', '../media/trailer.php', true);
     return;
   }
+  if (name=='dash') {
+    playVideo('application/dash+xml', 'http://itv.mit-xperts.com/video/dash/index.php/test.mpd', true);
+    return;
+  }
   if (name=='queue') {
     try {
       playVideo('video/mp4', '<?php echo getMediaURL(); ?>trailer.php', false);
@@ -166,6 +170,7 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="irthd">IRT test (HD, MP4)</li>
   <li name="tsstream">Live stream test (TS, no seeking!)</li>
   <li name="relative">Relative video URL</li>
+  <li name="dash">MPEG DASH test</li>
   <li name="queue">Video queuing test</li>
   <li name="exit">Return to test menu</li>
 </ul>

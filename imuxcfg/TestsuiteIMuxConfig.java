@@ -248,6 +248,7 @@ public class TestsuiteIMuxConfig {
       ret = list[0];
     }
     AITItem[] aitItems = ret.getAITItems();
+    Application autostart = aitApps[0];
     Application[] apps = new Application[aitApps.length];
     System.arraycopy(aitApps, 0, apps, 0, apps.length);
     for (int i=0; i<aitItems.length; i++) {
@@ -284,6 +285,14 @@ public class TestsuiteIMuxConfig {
     for (int i=0; i<apps.length; i++) {
       if (apps[i]!=null) {
         ret.createAITItem(apps[i]);
+      }
+    }
+    aitItems = ret.getAITItems();
+    for (int i=0; i<aitItems.length; i++) {
+      boolean isAutostart = aitItems[i].getApplication().getId()==autostart.getId();
+      int ctrl = isAutostart? AITItem.CONTROL_CODE_AUTOSTART : AITItem.CONTROL_CODE_PRESENT;
+      if (aitItems[i].getControlCode()!=ctrl) {
+        aitItems[i].setControlCode(ctrl);
       }
     }
     return ret;
