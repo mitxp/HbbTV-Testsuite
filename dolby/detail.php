@@ -276,7 +276,7 @@ function selectComponentsStage2(index, vc) {
     showStatus(false, 'error while calling getCurrentActiveComponents('+intType+')');
     return false;
   }
-  if (activevc && activevc.length!==0) {
+  if (activevc && activevc.length!==0 && (!hbbtv12 || index<0)) {
     showStatus(false, 'getCurrentActiveComponents returned a non-empty array after unselecting all components');
     return false;
   }
