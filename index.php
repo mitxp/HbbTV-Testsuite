@@ -131,6 +131,7 @@ In case you have questions and/or comments, you can reach us at info&#160;&#x004
   <li name="streamevent" descr="Receive StreamEvents.">StreamEvent</li>
   <li name="dvburl" descr="Access DSM-CC via dvb:// URLs.">dvb URLs</li>
   <li name="css3" descr="CSS3 tests">HbbTV 1.3 CSS3</li>
+  <li name="html5vid" descr="HTML5 video tests">HbbTV 1.3 HTML5 video</li>
 </ul>
 
 </body>
