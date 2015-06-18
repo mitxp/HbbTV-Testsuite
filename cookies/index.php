@@ -7,6 +7,7 @@ openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
+var testvalue = "abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 window.onload = function() {
   menuInit();
   registerKeyEventListener();
@@ -33,7 +34,7 @@ function handleKeyCode(kc) {
   return false;
 }
 function runStep(name) {
-  var cvalue, isset = true;
+  var cvalue = false, isset = true;
   if (name=="clear") {
     cvalue = 'mxphbbtv=testsuite;expires='+(new Date(0).toGMTString());
     document.cookie = cvalue;
@@ -57,6 +58,34 @@ function runStep(name) {
     return;
   } else if (name=="check") {
     cvalue = false;
+  } else if (name=="storagewrite") {
+    try {
+      localStorage.setItem("mxphbbtv", testvalue);
+      showStatus(true, 'localStorage.setItem succeeded.');
+    } catch (e) {
+      showStatus(false, 'localStorage.setItem failed: '+e);
+    }
+    return;
+  } else if (name=="storageread") {
+    try {
+      var cvalue = localStorage.getItem("mxphbbtv");
+      if (cvalue===testvalue) {
+        showStatus(true, 'localStorage.getItem succeeded.');
+      } else {
+        showStatus(false, 'localStorage.getItem returned incorrect value: '+cvalue);
+      }
+    } catch (e) {
+      showStatus(false, 'localStorage.getItem failed: '+e);
+    }
+    return;
+  } else if (name=="storageremove") {
+    try {
+      localStorage.removeItem("mxphbbtv");
+      showStatus(true, 'localStorage.removeItem succeeded.');
+    } catch (e) {
+      showStatus(false, 'localStorage.removeItem failed: '+e);
+    }
+    return;
   } else {
     showStatus(false, 'Invalid step name '+name);
     return;
@@ -94,6 +123,9 @@ function performFinalCheck(isset) {
   <li name="setexpire">Set cookie with expire date</li>
   <li name="setxhr">Set cookie using XMLHttpRequest</li>
   <li name="check">Check whether cookie is set</li>
+  <li name="storagewrite">HbbTV 1.3: Write to localStorage</li>
+  <li name="storageread">HbbTV 1.3: Read from localStorage</li>
+  <li name="storageremove">HbbTV 1.3: Remove from localStorage</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
