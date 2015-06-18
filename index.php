@@ -123,14 +123,14 @@ In case you have questions and/or comments, you can reach us at info&#160;&#x004
   <li name="navigatordebug" descr="Check access to the Navigator class and the Debug print API.">Navigator and Debug</li>
   <li name="fontrendering" descr="Check whether the device performs correct font rendering.">Font rendering</li>
   <li name="clientssl" descr="Check support for client SSL certificates.">Client SSL certificate</li>
-  <li name="cookies" descr="Store and read cookies in JavaScript.">Cookies</li>
+  <li name="cookies" descr="Tests for HTML5 local storage (HbbTV 1.3) and for cookies (HbbTV 1.1).">Cookies / HTML localStorage</li>
   <li name="useragent" descr="Validate user agent.">User agent</li>
   <li name="datetime" descr="Check whether box has correct date and time.">Date and time</li>
   <li name="animation" descr="Check the performance of a Set-Top-Box graphics renderer.">Animation</li>
   <li name="animgif" descr="Check animated GIF.">Animated GIF</li>
   <li name="streamevent" descr="Receive StreamEvents.">StreamEvent</li>
   <li name="dvburl" descr="Access DSM-CC via dvb:// URLs.">dvb URLs</li>
-  <li name="exit" descr="End this application and return to ARD Start.">&gt;&gt;&gt;Exit application&lt;&lt;&lt;</li>
+  <li name="css3" descr="CSS3 tests">HbbTV 1.3 CSS3</li>
 </ul>
 
 </body>

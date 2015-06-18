@@ -48,7 +48,7 @@ function runStep(name) {
   if (animtimer) {
     clearTimeout(animtimer);
     animtimer = false;
-    moretxt.style.fontSize = 22;
+    moretxt.style.fontSize = '22px';
     moretxt.style.opacity = 1;
     moretxt.style.left = '100px';
     aimg.style.left = '122px';
@@ -57,6 +57,7 @@ function runStep(name) {
     aimg.style.height = '44px';
     aimg.style.opacity = 1;
   }
+  aimg.className = "";
 
   if (name=='tsize') {
     animTextSize();
@@ -68,6 +69,8 @@ function runStep(name) {
     animImageSize();
   } else if (name=='iopacity') {
     animImageOpacity();
+  } else if (name=='css3rotate') {
+    aimg.className = "cssrotate";
   }
 }
 function animTextSize() {
@@ -124,6 +127,12 @@ function animImageOpacity() {
 
 //]]>
 </script>
+<style rel="stylesheet" type="text/css">
+.cssrotate {
+  animation: spin 2s linear infinite;
+}
+@keyframes spin { 100% { transform:rotate(360deg); } }
+</style>
 
 </head><body>
 
@@ -145,6 +154,7 @@ function animImageOpacity() {
   <li name="tpos">Test 3: animate text position</li>
   <li name="isize">Test 4: animate image size</li>
   <li name="iopacity">Test 5: animate image opacity</li>
+  <li name="css3rotate">Test 6: HbbTV 1.3 CSS3 animation</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
