@@ -77,7 +77,7 @@ function runStep(name) {
     return;
   }
   if (name=='dash') {
-    playVideo('application/dash+xml', 'http://itv.mit-xperts.com/video/dash/index.php/test.mpd', true);
+    playVideo('application/dash+xml', 'http://itv.mit-xperts.com/video/dash/new.php/test.mpd', true);
     return;
   }
   if (name=='queue') {
