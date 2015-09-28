@@ -18,7 +18,7 @@ function initApp() {
   try {
     var app = document.getElementById('appmgr').getOwnerApplication(document);
     app.show();
-    app.activate();
+    app.activate(); // this is for HbbTV 0.5 backwards-compliance. It will throw an ignored exception on HbbTV 1.x devices, which is fine
   } catch (e) {
     // ignore
   }
@@ -43,7 +43,6 @@ function setKeyset(mask) {
   try {
     var app = document.getElementById('appmgr').getOwnerApplication(document);
     app.privateData.keyset.setValue(mask);
-    app.privateData.keyset.value = mask;
   } catch (e) {
     // ignore
   }
