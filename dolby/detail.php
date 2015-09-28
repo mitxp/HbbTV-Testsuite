@@ -21,10 +21,14 @@ if ($id=='dash_playready') {
 $channels = array();
 if ($id=='dash_multi_rate') {
   $hint = 'DASH rate switching. The DUT SHALL correctly decode and playback the video content, and at least one audio track. The DUT should switch to the best quality audio content (music) if the bandwidth is available.';
-} else if ($id=='mp4_multi_lang' || $id=='ts_multi_lang' || $id=='dash_multi_lang') {
+} else if ($id=='mp4_multi_lang' || $id=='ts_multi_lang') {
   $hint = 'Language selection. The DUT SHALL correctly recognise the presence of two audio tracks with languages deu and eng respectively which queried using getComponents, it SHALL correctly switch audio track using selectComponent, it MAY provide proprietary means to enable the user switching between audio tracks.';
   $channels['DEU/Channel check'] = '"encrypted":false, "language":"deu"';
   $channels['ENG/Music'] = '"encrypted":false, "language":"eng"';
+} else if ($id=='dash_multi_lang') {
+  $hint = 'Language selection. The DUT SHALL correctly recognise the presence of two audio tracks with languages fra and eng respectively which queried using getComponents, it SHALL correctly switch audio track using selectComponent, it MAY provide proprietary means to enable the user switching between audio tracks.';
+  $channels['ENG/Channel check'] = '"encrypted":false, "language":"eng"';
+  $channels['FRA/Music'] = '"encrypted":false, "language":"fra"';
 } else if ($id=='mp4_multi_codec' || $id=='ts_multi_codec' || $id=='dash_multi_codec') {
   $hint = 'Codec selection. The DUT SHALL correctly recognise the presence of two audio tracks with codecs ec-3 and aac respectively which queried using getComponents, it SHALL correctly switch audio track using selectComponent';
   $channels['EAC3, 5.1ch'] = '"audioChannels":5';
