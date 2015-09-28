@@ -50,14 +50,6 @@ function runStep(name) {
     govid(false);
   } else if (name=='vidstream') {
     govid(true);
-  } else if (name=='vidstop') {
-    try {
-      document.getElementById('video').stop();
-      showStatus(true, 'Video should now be stopped.');
-    } catch (e) {
-      showStatus(false, 'Stopping video failed.');
-    }
-    showVideoPosition(false);
   } else if (name=='vidpause' && isvidtyp) {
     vidpause(true);
   } else if (name=='vidplay' && isvidtyp) {
@@ -153,12 +145,12 @@ function govid(typ) {
   var oldvid = document.getElementById('video');
   isvidtyp = typ;
   try {
-    oldvid.stop();
+    oldvid.stop(); // This will stop the broadcast video, but will throw an (ignored) exception for the streaming video
   } catch (e) {
     // ignore
   }
   try {
-    oldvid.release();
+    oldvid.release(); // This will release the broadcast video, but will throw an (ignored) exception for the streaming video
   } catch (e) {
     // ignore
   }
