@@ -76,8 +76,8 @@ function runStep(name) {
   <div style="left: 700px; top: 500px; width: 300px; height: 80px; padding: 3px 0px 0px 10px; color: #ffffff; background-color: #3073b8;">CSS3 animation
     <img src="../animation/logo.png" style="left: 10px; top: 30px; width: 256px; height: 44px; position: absolute; animation: swoosh 2s ease-in infinite; animation-direction: alternate;" />
   </div>
-  <div style="left: 700px; top: 600px; width: 300px; height: 80px; padding: 3px 0px 0px 10px; color: #ffffff; background-color: #3073b8;">CSS3 translate3d
-    <img src="../animation/logo.png" style="left: 10px; top: 30px; width: 256px; height: 44px; background-color: #d0d0d0; position: absolute; transform-style: preserve-3d; transform: rotate3d(0.8,0.5,0.3,-30deg);" />
+  <div style="left: 700px; top: 600px; width: 300px; height: 80px; padding: 3px 0px 0px 10px; color: #ffffff; background-color: #3073b8;">CSS3 translate2d
+    <img src="../animation/logo.png" style="left: 30px; top: 30px; width: 256px; height: 44px; background-color: #d0d0d0; position: absolute; transform: rotate(-7deg);" />
   </div>
 </div>
 <div id="test2" style="left: 0px; top: 0px; width: 1280px; height: 720px; display: none;">
