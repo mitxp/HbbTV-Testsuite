@@ -158,6 +158,21 @@ function runStep(name) {
     } catch (e) {
       showStatus(false, 'ApplicationPrivateData.getFreeMem() call failed.');
     }
+  } else if (name=='tpprio') {
+    countDown(5, 'this application will be destroyed, and a DSM-CC-based testsuite application should be launched. The application should not be launced from broadband.', function() {
+      var succss = false;
+      try {
+        var mgr = document.getElementById('appmgr');
+        var app = mgr.getOwnerApplication(document);
+        if (app.createApplication(dsmccpreferappurl, false)) {
+          app.destroyApplication();
+          succss = true;
+        }
+      } catch (e) {
+        // failed
+      }
+      showStatus(succss, 'Starting application via appmgr '+(succss?'succeeded':'failed'));
+    });
   }
 }
 
@@ -180,6 +195,7 @@ function runStep(name) {
   <li name="startxml">Test 5: start app via XML AIT</li>
   <li name="hide">Test 6: app.hide() and show()</li>
   <li name="freemem">Test 7: app.getFreeMem()</li>
+  <!-- <li name="tpprio">Test 8: AIT transport protocol order</li> -->
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

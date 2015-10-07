@@ -8,6 +8,7 @@ import java.util.Vector;
 import com.mitxp.imux.api.components.AIT;
 import com.mitxp.imux.api.components.AITItem;
 import com.mitxp.imux.api.components.Application;
+import com.mitxp.imux.api.components.Carousel;
 import com.mitxp.imux.api.components.Service;
 import com.mitxp.imux.api.components.ServiceTStreamItem;
 import com.mitxp.imux.api.components.TStream;
@@ -53,7 +54,8 @@ public class TestsuiteIMuxConfig {
   public static void main(String[] args) {
     String websrvr = null;
     String imuxhost = "127.0.0.1", user = "admin", password = "imux";
-    File tsFilesDir = new File("../tsfiles"); 
+    File carouselDir = new File("dsmcc");
+    File tsFilesDir = new File("tsfiles"); 
     if (args.length==0 || "--help".equalsIgnoreCase(args[0])) {
       printUsage();
     }
@@ -65,6 +67,8 @@ public class TestsuiteIMuxConfig {
         user = args[i+1];
       } else if ("--password".equals(opt)) {
         password = args[i+1];
+      } else if ("--carouseldir".equals(opt)) {
+        carouselDir = new File(args[i+1]);
       } else if ("--tsdir".equals(opt)) {
         tsFilesDir = new File(args[i+1]);
       } else if ("--websrvr".equals(opt)) {
@@ -88,7 +92,11 @@ public class TestsuiteIMuxConfig {
       websrvr += "/";
     }
     if (!tsFilesDir.isDirectory()) {
-      System.err.println("invalid TS files directory: "+tsFilesDir);
+      System.err.println("invalid TS files directory: "+tsFilesDir.getAbsolutePath());
+      System.exit(1);
+    }
+    if (!carouselDir.isDirectory()) {
+      System.err.println("invalid carousel directory: "+carouselDir.getAbsolutePath());
       System.exit(1);
     }
     IMuxConnection conn = null;
@@ -101,7 +109,7 @@ public class TestsuiteIMuxConfig {
     boolean failed = true;
     try {
       System.out.println("Apps...");
-      Application[] aitApps = configureApps(conn, websrvr);
+      Application[] aitApps = configureApps(conn, websrvr, carouselDir);
       System.out.println("AIT...");
       AIT ait = configureAIT(conn, aitApps);
       System.out.println("Streams...");
@@ -136,18 +144,21 @@ public class TestsuiteIMuxConfig {
   public static void printUsage() {
     String[] lines = new String[] {
       "USAGE: [--host <imuxhost>] [--user <imuxuser>] [--password <imuxpwd>]",
-      "       --tsdir <tsdir> --websrvr <websrvrurl>",
+      "       [--carouseldir <carouseldir>] [--tsdir <tsdir>] --websrvr <websrvrurl>",
       "",
       "  With the following options:",
-      "       <imuxhost>   host name of iMux (default: 127.0.0.1)",
-      "       <imuxuser>   login user name for iMux (default: admin)",
-      "       <imuxpwd>    login password for iMux (default: imux)",
-      "       <tsdir>      path to directory containing transport stream files",
-      "       <websrvrurl> URL pointing to install path of testsuite on web server",
+      "       <imuxhost>    host name of iMux (default: 127.0.0.1)",
+      "       <imuxuser>    login user name for iMux (default: admin)",
+      "       <imuxpwd>     login password for iMux (default: imux)",
+      "       <carouseldir> path to directory containing carousel content",
+      "                     (default: dsmcc)",
+      "       <tsdir>       path to directory containing transport stream files",
+      "                     (default: ../streams)",
+      "       <websrvrurl>  URL pointing to install path of testsuite on web server",
       "",
       "  Example arguments:",
-      "  --host imux --user admin --password imux --tsdir ../streams \\",
-      "  --websrvr http://itv.mit-xperts.com/hbbtvtest/",
+      "  --host imux --user admin --password imux --carouseldir dsmcc \\",
+      "  --tsdir tsfiles --websrvr http://itv.mit-xperts.com/hbbtvtest/",
     };
     for (String line : lines) {
       System.err.println(line);
@@ -161,11 +172,13 @@ public class TestsuiteIMuxConfig {
    * @param conn the {@link IMuxConnection}.
    * @param websrvr the URL as String pointing to the test suite root directory
    * on the web server.
+   * @param carouselDir the directory containing the carousel content for
+   * DSM-CC-based apps.
    * @return the array of {@link Application}s to set in the AIT.
-   * @throws IOException
+   * @throws IOException if iMux connection fails.
    */
-  private static Application[] configureApps(IMuxConnection conn, String websrvr)
-  throws IOException {
+  private static Application[] configureApps(IMuxConnection conn, String websrvr,
+  File carouselDir) throws IOException {
     StringBuffer urlb = new StringBuffer();
     urlb.append(websrvr).append(';');
     urlb.append("https:").append(websrvr.substring(5)).append(';');
@@ -174,6 +187,19 @@ public class TestsuiteIMuxConfig {
     urlb.append('.').append(Integer.toHexString(DSMCC_CTAG)).append('/');
     String urlBoundTS = urlb.toString();
     String urlBoundOther = websrvr+";"+websrvr.substring(0, websrvr.length()-1)+"1/";
+
+    Application localStoreApp = configureApp(
+      conn, "HbbTV-TestsuiteLocalStore", "", "index.html", 502, true, ""
+    );
+    Application dsmccPreferApp = configureApp(
+      conn, "HbbTV-TestsuitePreferDsmcc", websrvr+"appmanager/",
+      "preferdsmcc.html", 503, true, ""
+    );
+    dsmccPreferApp.setPreferDsmcc(true);
+    Carousel carousel = configureCarousel(conn, carouselDir);
+    localStoreApp.setDsmccSource(carousel);
+    dsmccPreferApp.setDsmccSource(carousel);
+    
     Application[] ret = new Application[] {
       configureApp(conn, "HbbTV-Testsuite", websrvr, "index.php", 10, false, urlBoundTS),
       configureApp(conn, "HbbTV-TestsuiteOther", websrvr,
@@ -182,6 +208,8 @@ public class TestsuiteIMuxConfig {
       configureApp(conn, "HbbTV-TestsuiteXML", websrvr+"appmanager/",
         "xmlaitapp.php", 500, false, ""
       ),
+      localStoreApp,
+      dsmccPreferApp,
     };
     ret[2].setAITName("HbbTV Testsuite XML AIT Test");
     return ret;
@@ -192,7 +220,7 @@ public class TestsuiteIMuxConfig {
    *
    * @param conn the {@link IMuxConnection}.
    * @param name the application name.
-   * @param urlbase the application base URL as String.
+   * @param urlbase the application base URL as String or <code>null</code>.
    * @param startPage the start page relative to the base URL.
    * @param appId the application ID.
    * @param serviceBound <code>true</code> for service bound.
@@ -274,6 +302,7 @@ public class TestsuiteIMuxConfig {
         if (apps[j]!=null) {
           found = apps[j];
           apps[j] = null;
+          break;
         }
       }
       if (found==null) {
@@ -500,7 +529,7 @@ public class TestsuiteIMuxConfig {
     for (int i=0; i<in.length; i++) {
       TStreamEITEvent e = in[i];
       ret.add(new TStreamEITEvent(e.getEventId(), e.getStartTime(),
-        e.getDuration(), e.isFreeCa(), rstatus, e.getDescriptors()
+        e.getDuration(), e.isScrambled(), rstatus, e.getDescriptors()
       ));
     }
     start = in[in.length-1].getStartTime() + in[in.length-1].getDuration();
@@ -636,7 +665,46 @@ public class TestsuiteIMuxConfig {
         }
       }
     }
+  }
 
+  /**
+   * Configure the {@link Carousel} for DSM-CC-based apps.
+   *
+   * @param conn the {@link IMuxConnection}.
+   * @param carouselDir the directory containing the carousel content for
+   * DSM-CC-based apps.
+   * @return the {@link Carousel}.
+   * @throws IOException if iMux connection fails.
+   */
+  private static Carousel configureCarousel(IMuxConnection conn, File carouselDir)
+  throws IOException {
+    String name = "HbbTV-TestsuiteDsmcc";
+    Carousel[] list = Carousel.getByName(conn, name);
+    Carousel ret;
+    int carouselId = 20;
+    int dataPid = 208;
+    int dataCTag = carouselId;
+    if (list.length==0) {
+      ret = Carousel.createCarousel(conn, name, carouselId, dataPid, dataCTag);
+    } else {
+      ret = list[0];
+      ret.setCarouselId(carouselId);
+      ret.setDataPID(dataPid);
+      ret.setDataComponentTag(dataCTag);
+    }
+    ret.setDataBitrate(200000);
+    ret.objectDelete("/");
+    ret.objectUploadDirectory("/", carouselDir, true);
+    if (!new File(carouselDir, "settings.js").isFile()) {
+      File settings = new File(carouselDir.getParentFile().getParentFile(), "settings.js");
+      if (settings.isFile()) {
+        throw new IOException(
+          "Cannot find settings configuration: "+settings.getAbsolutePath()
+        );
+      }
+      ret.objectUploadFile("/settings.js", settings, true);
+    }
+    return ret;
   }
 
 }

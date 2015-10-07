@@ -91,7 +91,7 @@ function runStep(name) {
     try {
       var mgr = document.getElementById('appmgr');
       var app = mgr.getOwnerApplication(document);
-      if (app.createApplication(dsmccappurl, false)) {
+      if (app.createApplication(localstorageappurl, false)) {
         app.destroyApplication();
         succss = true;
       }

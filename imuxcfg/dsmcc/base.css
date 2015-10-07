@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+}
+div {
+  overflow: hidden;
+  position: absolute;
+  font: 20px sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #ff0000;
+}
+.txtlg {
+  font-size: 22px;
+  font-weight: bold;
+}
+img {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+div.txtdiv {
+  line-height: 26px;
+  color: #ffffff;
+}
+div.imgdiv {
+  background-repeat: no-repeat;
+}
+
+ul.menu {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  width: 400px;
+}
+.menu li {
+  display: none;
+  overflow: hidden;
+  width: 400px;
+  height: 34px;
+  text-align: left;
+  padding-left: 11px;
+  padding-top: 5px;
+  font: 20px sans-serif;
+  color: #ffffff;
+  background-color: #3073b8;
+}
+.menu .lisel {
+  color: #002048;
+  background-color: #89c3ff;
+}
+
+div.statok {
+  color: #50ff30;
+}
+div.statfail {
+  color: #ff5030;
+}
+div.statwarn {
+  color: #ffe550;
+}
+

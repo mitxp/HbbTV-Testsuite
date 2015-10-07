@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//HbbTV//1.1.1//EN" "http://www.hbbtv.org/dtd/HbbTV-1.1.1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>MIT-xperts HbbTV testsuite</title>
+<meta http-equiv="content-type" content="Content-Type: application/vnd.hbbtv.xhtml+xml; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../base.css" />
+<script type="text/javascript" src="../keycodes.js"></script>
+<script type="text/javascript" src="../base.js"></script>
+<script type="text/javascript" src="../settings.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+window.onload = function() {
+  menuInit();
+  registerKeyEventListener();
+  initApp();
+  menuSelect(0);
+  showStatus(false, 'Incorrect (broadband-based) application was started.');
+};
+function handleKeyCode(kc) {
+  if (kc==VK_UP) {
+    menuSelect(selected-1);
+    return true;
+  } else if (kc==VK_DOWN) {
+    menuSelect(selected+1);
+    return true;
+  } else if (kc==VK_ENTER) {
+    var liid = opts[selected].getAttribute('name');
+    runStep(liid);
+    return true;
+  }
+  return false;
+}
+function runStep(name) {
+  if (name=="exit") {
+    var succss = false;
+    try {
+      var mgr = document.getElementById('appmgr');
+      var app = mgr.getOwnerApplication(document);
+      if (app.createApplication(myappurl, false)) {
+        app.destroyApplication();
+        succss = true;
+      }
+    } catch (e) {
+      // failed
+    }
+    showStatus(succss, 'Starting testsuite application via appmgr '+(succss?'succeeded':'failed'));
+  } else {
+    showStatus(false, 'Invalid step name '+name);
+    return;
+  }
+}
+//]]>
+</script>
+
+</head><body>
+
+<div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
+
+<object id="appmgr" type="application/oipfApplicationManager" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object><object id="oipfcfg" type="application/oipfConfiguration" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>
+<div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
+<div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
+<ul id="menu" class="menu" style="left: 100px; top: 100px;">
+  <li name="exit">Return to test menu</li>
+</ul>
+<div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
+
+</body>
+</html>
+
