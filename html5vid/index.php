@@ -9,6 +9,8 @@ openDocument();
 //<![CDATA[
 var isvidtyp = false;
 var timr = null;
+var eventNames = ["ended", "error", "loadeddata", "loadedmetadata", "loadstart", "pause", "play", "playing", "ratechange", "seeked", "seeking"];
+var capturedEvents = {};
 window.onload = function() {
   menuInit();
   initVideo();
@@ -47,9 +49,9 @@ function runStep(name) {
     setvidsize(170, 480, 1010, 180, 'on the lower center of the screen (video aspect ratio should be correct, and it should have big black bars on the left/right).');
     markVideoPosition(515, 480, 320, 180);
   } else if (name=='vidbroadcast') {
-    govid(false);
+    govid(false, null);
   } else if (name=='vidstream') {
-    govid(true);
+    govid(true, null);
   } else if (name=='vidpause' && isvidtyp) {
     vidpause(true);
   } else if (name=='vidplay' && isvidtyp) {
@@ -58,6 +60,8 @@ function runStep(name) {
     vidseek(30000);
   } else if (name=='vidduration' && isvidtyp) {
     vidduration(254080);
+  } else if (name=='events') {
+    testEvents();
   }
 }
 function setvidsize(x, y, w, h, txt) {
@@ -140,7 +144,7 @@ function vidduration(millis) {
     showStatus(false, 'duration check failed.');
   }
 }
-function govid(typ) {
+function govid(typ, beforePlay) {
   var elem = document.getElementById('vidcontainer');
   var oldvid = document.getElementById('video');
   isvidtyp = typ;
@@ -172,6 +176,9 @@ function govid(typ) {
     if (videlem) {
       if (typ) {
 	phase = 2;
+        if (beforePlay) {
+          beforePlay(videlem);
+        }
         videlem.innerHTML = '<source src="<?php echo getMediaURL(); ?>timecode.php/video.mp4"><'+'/source>';
 	phase = 3;
         videlem.play();
@@ -185,9 +192,130 @@ function govid(typ) {
   } catch (e) {
     // failed
   }
-  showStatus(succss, 'Setting the video object '+(succss?'succeeded':'failed in phase '+phase));
+  if (!beforePlay || !succss) {
+    showStatus(succss, 'Setting the video object '+(succss?'succeeded':'failed in phase '+phase));
+  }
   markVideoPosition(600, 250, 160, 90);
   showVideoPosition(true);
+  return succss;
+}
+function clearEvents() {
+  var i;
+  for (i=0; i<eventNames.length; i++) {
+    capturedEvents[eventNames[i]] = 0;
+  }
+}
+function testEvents() {
+  var i, stages, checkStage, checkEvents, elistener, beforePlay, videoElement = null;
+  elistener = function(event) {
+    capturedEvents[event.type]++;
+  };
+  beforePlay = function(videlem) {
+    videoElement = videlem;
+    clearEvents();
+    for (i=0; i<eventNames.length; i++) {
+      videlem.addEventListener(eventNames[i], elistener, false);
+    }
+  };
+  if (!govid(true, beforePlay)) {
+    return; // setting up video failed
+  }
+  checkEvents = function(check) {
+    var ename, expct, actl, typ;
+    for (ename in check) {
+      if (!check.hasOwnProperty(ename)) {
+        continue;
+      }
+      expct = check[ename];
+      if (expct==="?") {
+        continue; // ignore this value
+      }
+      typ = expct.substring(0, 1);
+      expct = parseInt(expct.substring(1), 10);
+      actl = capturedEvents[ename]||0;
+      if ((typ==='='&&actl===expct) || (typ==='<'&&actl<expct) || (typ==='>'&&actl>expct)) {
+        continue; // value is OK
+      }
+      expct = check[ename].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      return "Expected event count for "+ename+" to be "+expct+", actual value is "+actl;
+    }
+    return "OK";
+  };
+  stages = [
+    {"descr":"Waiting for video to start...", "check":function() {
+      if (!capturedEvents.playing) {
+        return "WAIT";
+      }
+      return checkEvents({"loadeddata":">0", "loadedmetadata":">0", "loadstart":"=1", "pause":"=0", "play":"=1", "playing":"=1", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
+    } },
+    {"descr":"Pausing video...", "check":function() { clearEvents(); videoElement.pause(); return "OK"; } },
+    {"descr":"Waiting for video to pause...", "check":function() {
+      if (!videoElement.paused) {
+        return "WAIT";
+      }
+      return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=1", "play":"=0", "playing":"=0", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
+    } },
+    {"descr":"Resuming video...", "check":function() { clearEvents(); videoElement.play(); return "OK"; } },
+    {"descr":"Waiting for video to resume...", "check":function() {
+      if (!capturedEvents.playing) {
+        return "WAIT";
+      }
+      return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=0", "play":"=1", "playing":"=1", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
+    } },
+    {"descr":"Seeking video...", "check":function() { clearEvents(); videoElement.currentTime = 240; return "OK"; } },
+    {"descr":"Waiting for seek to complete...", "check":function() {
+      if (videoElement.seeking) {
+        return "WAIT";
+      }
+      return checkEvents({"loadeddata":"?", "loadedmetadata":"?", "loadstart":"?", "pause":"=0", "play":"=0", "playing":">0", "ratechange":"=0", "seeked":"=1", "seeking":"=1"});
+    } },
+    {"descr":"Check video position/duration...", "check":function() {
+      clearEvents();
+      if (videoElement.currentTime<235 || videoElement.currentTime>245) {
+        return "Expected currentTime to be 240 seconds, but got value "+videoElement.currentTime;
+      }
+      if (videoElement.duration<250 || videoElement.duration>260) {
+        return "Expected duration to be 254 seconds, but got value "+videoElement.duration;
+      }
+      return "OK";
+    } },
+    {"descr":"Waiting for end of video...", "check":function() {
+      if (!videoElement.ended) {
+        return "WAIT";
+      }
+      return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=1", "play":"=0", "playing":"?", "ratechange":"=0", "seeked":"=0", "seeking":"=0", "ended":"=1"});
+    } }
+  ];
+  checkStage = function() {
+    var stage = null, stageIdx = 0, reslt;
+    for (i=0; i<stages.length&&!stage; i++) {
+      stage = stages[i];
+      stageIdx = i;
+    }
+    if (!stage) {
+      showStatus(true, 'Events test succeeded.');
+      return;
+    }
+    setInstr(stage.descr);
+    try {
+      reslt = stage.check();
+    } catch (ex) {
+      reslt = "exception = "+ex;
+    }
+    if (capturedEvents.error) {
+      reslt = "Video playback error";
+    } else if (capturedEvents.ended && stageIdx<stages.length-1) {
+      reslt = "Premature end of video";
+    }
+    if (reslt==="OK") {
+      stages[stageIdx] = null;
+    } else if (reslt!=="WAIT") {
+      showStatus(false, 'Events test failed: '+reslt+' (step '+stage.descr+')');
+      return;
+    }
+    timr = setTimeout(function() {timr=null; checkStage();}, 1000);
+  };
+  timr = setTimeout(function() {timr=null; checkStage();}, 1000);
 }
 
 //]]>
@@ -216,6 +344,7 @@ function govid(typ) {
   <li name="vidseek">Test 7: seek to 30s</li>
   <li name="vidduration">Test 8: check video duration</li>
   <li name="vidbroadcast">Test 9: start broadcast video</li>
+  <li name="events">Test 10: test events</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
