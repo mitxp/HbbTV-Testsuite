@@ -183,7 +183,8 @@ public class TestsuiteIMuxConfig {
     urlb.append(websrvr).append(';');
     urlb.append("https:").append(websrvr.substring(5)).append(';');
     urlb.append("dvb://").append(Integer.toHexString(ONID)).append('.');
-    urlb.append(TSID).append('.').append(Integer.toHexString(SERVICE_IDS[0]));
+    urlb.append(Integer.toHexString(TSID)).append('.');
+    urlb.append(Integer.toHexString(SERVICE_IDS[0]));
     urlb.append('.').append(Integer.toHexString(DSMCC_CTAG)).append('/');
     String urlBoundTS = urlb.toString();
     String urlBoundOther = websrvr+";"+websrvr.substring(0, websrvr.length()-1)+"1/";
