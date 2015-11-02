@@ -139,7 +139,7 @@ function performFinalCheck(isset) {
   <li name="storagewrite">HbbTV 1.3: Write to localStorage</li>
   <li name="storageread">HbbTV 1.3: Read from localStorage</li>
   <li name="storageremove">HbbTV 1.3: Remove from localStorage</li>
-<!--  <li name="storagedsmcc">HbbTV 1.3: localStorage in DSMCC</li> -->
+  <li name="storagedsmcc">HbbTV 1.3: localStorage in DSMCC</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
