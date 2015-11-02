@@ -195,7 +195,7 @@ function runStep(name) {
   <li name="startxml">Test 5: start app via XML AIT</li>
   <li name="hide">Test 6: app.hide() and show()</li>
   <li name="freemem">Test 7: app.getFreeMem()</li>
-  <!-- <li name="tpprio">Test 8: AIT transport protocol order</li> -->
+  <li name="tpprio">Test 8: AIT transport protocol order</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
