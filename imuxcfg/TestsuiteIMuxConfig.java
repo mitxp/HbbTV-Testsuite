@@ -190,7 +190,8 @@ public class TestsuiteIMuxConfig {
     String urlBoundOther = websrvr+";"+websrvr.substring(0, websrvr.length()-1)+"1/";
 
     Application localStoreApp = configureApp(
-      conn, "HbbTV-TestsuiteLocalStore", "", "index.html", 502, true, ""
+      conn, "HbbTV-TestsuiteLocalStore", "", "index.html", 502, true,
+      "http://itv.mit-xperts.com/hbbtvtest/cookies/"
     );
     Application dsmccPreferApp = configureApp(
       conn, "HbbTV-TestsuitePreferDsmcc", websrvr+"appmanager/",
@@ -698,7 +699,7 @@ public class TestsuiteIMuxConfig {
     ret.objectUploadDirectory("/", carouselDir, true);
     if (!new File(carouselDir, "settings.js").isFile()) {
       File settings = new File(carouselDir.getParentFile().getParentFile(), "settings.js");
-      if (settings.isFile()) {
+      if (!settings.isFile()) {
         throw new IOException(
           "Cannot find settings configuration: "+settings.getAbsolutePath()
         );
