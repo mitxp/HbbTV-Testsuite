@@ -248,21 +248,21 @@ function testEvents() {
       }
       return checkEvents({"loadeddata":">0", "loadedmetadata":">0", "loadstart":"=1", "pause":"=0", "play":"=1", "playing":"=1", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
     } },
-    {"descr":"Pausing video...", "check":function() { clearEvents(); videoElement.pause(); return "OK"; } },
+    {"descr":"Pausing video...", "pause":3000, "check":function() { clearEvents(); videoElement.pause(); return "OK"; } },
     {"descr":"Waiting for video to pause...", "check":function() {
       if (!videoElement.paused) {
         return "WAIT";
       }
       return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=1", "play":"=0", "playing":"=0", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
     } },
-    {"descr":"Resuming video...", "check":function() { clearEvents(); videoElement.play(); return "OK"; } },
+    {"descr":"Resuming video...", "pause":3000, "check":function() { clearEvents(); videoElement.play(); return "OK"; } },
     {"descr":"Waiting for video to resume...", "check":function() {
       if (!capturedEvents.playing) {
         return "WAIT";
       }
       return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=0", "play":"=1", "playing":"=1", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
     } },
-    {"descr":"Seeking video...", "check":function() { clearEvents(); videoElement.currentTime = 240; return "OK"; } },
+    {"descr":"Seeking video...", "pause":3000, "check":function() { clearEvents(); videoElement.currentTime = 240; return "OK"; } },
     {"descr":"Waiting for seek to complete...", "check":function() {
       if (videoElement.seeking) {
         return "WAIT";
@@ -287,13 +287,20 @@ function testEvents() {
     } }
   ];
   checkStage = function() {
-    var stage = null, stageIdx = 0, reslt;
+    var stage = null, stageIdx = 0, reslt, pause;
     for (i=0; i<stages.length&&!stage; i++) {
       stage = stages[i];
       stageIdx = i;
     }
     if (!stage) {
       showStatus(true, 'Events test succeeded.');
+      return;
+    }
+    pause = stage.pause||0;
+    if (pause>0) {
+      setInstr("Waiting...");
+      stages[stageIdx].pause = 0;
+      timr = setTimeout(function() {timr=null; checkStage();}, pause);
       return;
     }
     setInstr(stage.descr);
