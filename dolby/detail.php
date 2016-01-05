@@ -248,15 +248,17 @@ function selectComponents(index) {
     showStatus(false, 'no components');
     return false;
   }
-  for (i=0; i<vc.length; i++) {
-    try {
-      vid.unselectComponent(vc[i]);
-    } catch (e) {
-      showStatus(false, 'cannot unselect component '+vc[i]);
-      return false;
+  if (!hbbtv12) {
+    for (i=0; i<vc.length; i++) {
+      try {
+        vid.unselectComponent(vc[i]);
+      } catch (e) {
+        showStatus(false, 'cannot unselect component '+vc[i]);
+        return false;
+      }
     }
   }
-  if (hbbtv12 && index<0 && type!=='vid') {
+  if (hbbtv12 && index<0) {
     // We need to use unselectComponent(componentType) in HbbTV 1.2 due to
     // OIPF DAE Vol. 5, section 7.16.5.1.3, unselectComponent(AVComponent):
     // "If property preferredAudioLanguage in the Configuration object
@@ -270,7 +272,7 @@ function selectComponents(index) {
       return false;
     }
   }
-  setTimeout(function() {selectComponentsStage2(index, vc);}, 1000);
+  setTimeout(function() {selectComponentsStage2(index, vc);}, (hbbtv12&&index>=0)?100:2000);
 }
 function selectComponentsStage2(index, vc) {
   var i, shouldBe, activevc, intType = vid.COMPONENT_TYPE_AUDIO;
