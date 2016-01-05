@@ -158,6 +158,12 @@ function govid(typ, beforePlay) {
   } catch (e) {
     // ignore
   }
+  try {
+    oldvid.innerHTML = "";
+    oldvid.load(); // This will release resources for the HTML5 video, but will throw an (ignored) exception for the broadcast video
+  } catch (e) {
+    // ignore
+  }
   var ihtml;
   if (typ) {
     ihtml = '<video id="video" style="position: absolute; left: 600px; top: 250px; width: 160px; height: 90px;"><'+'/video>';
@@ -241,6 +247,7 @@ function testEvents() {
     }
     return "OK";
   };
+  var endCount = 0;
   stages = [
     {"descr":"Waiting for video to start...", "check":function() {
       if (!capturedEvents.playing) {
@@ -281,6 +288,10 @@ function testEvents() {
     } },
     {"descr":"Waiting for end of video...", "check":function() {
       if (!videoElement.ended) {
+        return "WAIT";
+      }
+      if (endCount===0) {
+        endCount++;
         return "WAIT";
       }
       return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=1", "play":"=0", "playing":"?", "ratechange":"=0", "seeked":"=0", "seeking":"=0", "ended":"=1"});
