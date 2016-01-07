@@ -99,6 +99,7 @@ function runStep(name) {
       // failed
     }
     showStatus(succss, 'Starting DSM-CC application via appmgr '+(succss?'succeeded':'failed'));
+    return;
   } else {
     showStatus(false, 'Invalid step name '+name);
     return;
