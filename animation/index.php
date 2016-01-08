@@ -14,10 +14,12 @@ var textpos = 0;
 var imgsize = 0;
 var moretxt = false;
 var aimg = false;
+var agif = false;
 
 window.onload = function() {
   moretxt = document.getElementById('moretxt');
   aimg = document.getElementById('aimg');
+  agif = document.getElementById('agif');
   menuInit();
   registerKeyEventListener();
   initApp();
@@ -58,6 +60,8 @@ function runStep(name) {
     aimg.style.opacity = 1;
   }
   aimg.className = "";
+  aimg.style.display = "block";
+  agif.style.display = "none";
 
   if (name=='tsize') {
     animTextSize();
@@ -69,6 +73,8 @@ function runStep(name) {
     animImageSize();
   } else if (name=='iopacity') {
     animImageOpacity();
+  } else if (name=='animgif') {
+    animImageGif();
   } else if (name=='css3rotate') {
     aimg.className = "cssrotate";
   }
@@ -124,6 +130,10 @@ function animImageOpacity() {
   aimg.style.opacity = (textopacity<0?-textopacity:textopacity)/20;
   animtimer = setTimeout(function() {animImageOpacity();}, 40);
 }
+function animImageGif() {
+  aimg.style.display = "none";
+  agif.style.display = "block";
+}
 
 //]]>
 </script>
@@ -146,6 +156,9 @@ function animImageOpacity() {
 <div id="moretxt" class="txtdiv txtlg" style="left: 100px; top: 440px; width: 450px; height: 158px;">Lorem ipsum dolor sit amet,<br />consectetur adipiscing elit.<br />Praesent ac nulla sit amet felis<br />condimentum tempus.<br />Praesent dictum molestie<br />at luctus mauris adipiscing non. Vestibulum rutrum aliquam hendrerit.</div>
 <div style="left: 700px; top: 480px; width: 500px; height: 100px; background-color: #ffffff;">
   <img id="aimg" src="logo.png" style="left: 122px; top: 28px; width: 256px; height: 44px; position: absolute;" />
+  <div id="agif" style="left: 0px; top: 0px; width: 500px; height: 100px; background-color: #a0a0a0; display: none;">
+    <img src="anim.gif" style="left: 122px; top: 12px; width: 76px; height: 76px; position: absolute;" />
+  </div>
 </div>
 
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
@@ -154,7 +167,8 @@ function animImageOpacity() {
   <li name="tpos">Test 3: animate text position</li>
   <li name="isize">Test 4: animate image size</li>
   <li name="iopacity">Test 5: animate image opacity</li>
-  <li name="css3rotate">Test 6: HbbTV 1.3 CSS3 animation</li>
+  <li name="animgif">Test 6: animated GIF</li>
+  <li name="css3rotate">Test 7: HbbTV 1.3 CSS3 animation</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
