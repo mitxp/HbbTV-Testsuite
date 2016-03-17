@@ -13,27 +13,30 @@ header('Last-Modified: '.gmdate("D, d M Y H:i:s", time())." GMT");
 header('Accept-Range: none');
 header('Content-Type: video/mpeg');
 
-$first = true;
-while (true) {
-  $seekpos = 0;
-  if ($first) {
-    $first = false;
-    $seekpos = (int)((microtime(true)*100)%1000);
-    $seekpos *= 7*188;
-  }
-  fseek($fp, $seekpos, SEEK_SET);
-  $start = time();
-  $bcount = 0;
-  while (!feof($fp) && !connection_aborted()) {
-    $b = @fread($fp, 7520);
-    $check = (int)(($start+($bcount/$byterate)-microtime(true))*10)-1;
-    if ($check>0) {
-      usleep($check*100);
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+  $first = true;
+  while (true) {
+    $seekpos = 0;
+    if ($first) {
+      $first = false;
+      $seekpos = (int)((microtime(true)*100)%1000);
+      $seekpos *= 7*188;
     }
-    echo $b;
-    $bcount += strlen($b);
+    fseek($fp, $seekpos, SEEK_SET);
+    $start = time();
+    $bcount = 0;
+    while (!feof($fp) && !connection_aborted()) {
+      $b = @fread($fp, 7520);
+      $check = (int)(($start+($bcount/$byterate)-microtime(true))*10)-1;
+      if ($check>0) {
+        usleep($check*100);
+      }
+      echo $b;
+      $bcount += strlen($b);
+    }
   }
 }
+
 fclose($fp);
 
 ?>
