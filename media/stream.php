@@ -8,6 +8,8 @@ if(!$fp || !$size || !$byterate || !$contenttype) {
   echo "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>404 Not Found</title>\n</head><body>\n<h1>Not Found</h1>\n<p>The requested video was not found on this server.</p>\n</body></html>";
   exit;
 }
+
+
 $range = array();
 $range[0] = 0;
 $range[1] = $size-1;
@@ -36,18 +38,20 @@ header('Content-Length: '.$clength);
 header('Content-Range: bytes '.$range[0].'-'.$range[1].'/'.$size);
 header('Content-Type: '.$contenttype);
 
-# start streaming
-$start = time()-4;
-$bcount = 0;
-while (!feof($fp) && $bcount<$clength && !connection_aborted()) {
-  $b = @fread($fp, min(8192, $clength-$bcount));
-  $check = $start+((int)($bcount/$byterate))-time();
-  if ($check>0) {
-    flush();
-    sleep($check);
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+  # start streaming
+  $start = time()-4;
+  $bcount = 0;
+  while (!feof($fp) && $bcount<$clength && !connection_aborted()) {
+    $b = @fread($fp, min(8192, $clength-$bcount));
+    $check = $start+((int)($bcount/$byterate))-time();
+    if ($check>0) {
+      flush();
+      sleep($check);
+    }
+    echo $b;
+    $bcount += strlen($b);
   }
-  echo $b;
-  $bcount += strlen($b);
 }
 fclose($fp);
 

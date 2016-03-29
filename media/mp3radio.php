@@ -17,19 +17,20 @@ header('Content-Length: '.$size);
 header('Connection: close');
 
 # start streaming
-$fp = @fopen($vidfile,'rb');
-$start = time()-4;
-$bcount = 0;
-while (!feof($fp) && $bcount<$size && !connection_aborted()) {
-  $b = @fread($fp, min(8192, $size-$bcount));
-  $check = $start+((int)($bcount/$byterate))-time();
-  if ($check>0) {
-    flush();
-    sleep($check);
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+  $fp = @fopen($vidfile,'rb');
+  $start = time()-4;
+  $bcount = 0;
+  while (!feof($fp) && $bcount<$size && !connection_aborted()) {
+    $b = @fread($fp, min(8192, $size-$bcount));
+    $check = $start+((int)($bcount/$byterate))-time();
+    if ($check>0) {
+      flush();
+      sleep($check);
+    }
+    echo $b;
+    $bcount += strlen($b);
   }
-  echo $b;
-  $bcount += strlen($b);
+  fclose($fp);
 }
-fclose($fp);
-
 ?>
