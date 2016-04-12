@@ -274,7 +274,7 @@ function testEvents() {
       if (videoElement.seeking) {
         return "WAIT";
       }
-      return checkEvents({"loadeddata":"?", "loadedmetadata":"?", "loadstart":"?", "pause":"=0", "play":"=0", "playing":">0", "ratechange":"=0", "seeked":"=1", "seeking":"=1"});
+      return checkEvents({"loadeddata":"?", "loadedmetadata":"?", "loadstart":"?", "pause":"=0", "play":"=0", "playing":"?", "ratechange":"=0", "seeked":"=1", "seeking":"=1"});
     } },
     {"descr":"Check video position/duration...", "check":function() {
       clearEvents();
