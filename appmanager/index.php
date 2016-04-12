@@ -173,6 +173,9 @@ function runStep(name) {
       }
       showStatus(succss, 'Starting application via appmgr '+(succss?'succeeded':'failed'));
     });
+  } else if (name=='bcaccess') {
+    setInstr(true, 'Switching to broadcast-independant app...');
+    document.location.href = "http://www.mit-xperts.com/hbbtvtest/testvideoapp.php";
   }
 }
 
@@ -196,6 +199,7 @@ function runStep(name) {
   <li name="hide">Test 6: app.hide() and show()</li>
   <li name="freemem">Test 7: app.getFreeMem()</li>
   <li name="tpprio">Test 8: AIT transport protocol order</li>
+  <li name="bcaccess">Test 9: Broadcast-independent security</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
