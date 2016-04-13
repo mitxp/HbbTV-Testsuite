@@ -189,7 +189,11 @@ function getScheduleResults(result) {
       showStatus(false, 'Error while receiving event '+i+' of search result.');
     }
   }
-  showStatus(true, 'Test passed (if displayed schedule is correct)');
+  if (result.length<3) {
+    showStatus(false, 'Not enough events were received, got only '+result.length+', expected at least 3');
+  } else {
+    showStatus(true, 'Test passed (if displayed schedule is correct)');
+  }
   setInstr(txt);
 }
 
