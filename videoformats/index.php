@@ -69,7 +69,7 @@ function runStep(name) {
     return;
   }
   if (name=='tsstream') {
-    playVideo('video/mp4', '<?php echo getMediaURL(); ?>livestream.php', true);
+    playVideo('video/mpeg', '<?php echo getMediaURL(); ?>livestream.php', true);
     return;
   }
   if (name=='relative') {
@@ -170,7 +170,7 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="irthd">IRT test (HD, MP4)</li>
   <li name="tsstream">Live stream test (TS, no seeking!)</li>
   <li name="relative">Relative video URL</li>
-  <li name="dash">MPEG DASH test</li>
+  <li name="dash">MPEG DASH (HbbTV 1.2.1)</li>
   <li name="queue">Video queuing test</li>
   <li name="exit">Return to test menu</li>
 </ul>
