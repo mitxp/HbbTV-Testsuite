@@ -60,7 +60,7 @@ function runStep(name) {
   }
   speedchangereceived = false;
   poschangereceived = false;
-  document.getElementById('vidstate').innerHTML = 'Waiting for first onPlayPositionChanged event...';
+  document.getElementById('vidstate').innerHTML = '';
   vid.onPlayStateChange = function() {
     var state = vid.playState;
     var ename = 'unknown event state '+state;
