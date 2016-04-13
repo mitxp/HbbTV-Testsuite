@@ -74,7 +74,11 @@ function runStep(name) {
       } catch (e) {
         // failed
       }
-      showStatus(succss, 'Starting application via appmgr '+(succss?'succeeded':'failed'));
+      if (succss) {
+        setInstr('Starting application...');
+      } else {
+        showStatus(false, 'Starting application via appmgr failed');
+      }
     });
   } else if (name=='start2') {
     countDown(5, 'this application will be destroyed, and a different testsuite application should be launched. Please run all test steps in that application. The last test step will return to this application.', function() {
@@ -89,7 +93,11 @@ function runStep(name) {
       } catch (e) {
         // failed
       }
-      showStatus(succss, 'Starting application via appmgr '+(succss?'succeeded':'failed'));
+      if (succss) {
+        setInstr('Starting application...');
+      } else {
+        showStatus(false, 'Starting application via appmgr failed');
+      }
     });
   } else if (name=='startfail') {
     var app;
@@ -174,7 +182,7 @@ function runStep(name) {
       showStatus(succss, 'Starting application via appmgr '+(succss?'succeeded':'failed'));
     });
   } else if (name=='bcaccess') {
-    setInstr(true, 'Switching to broadcast-independant app...');
+    setInstr('Switching to broadcast-independant app...');
     document.location.href = "http://www.mit-xperts.com/hbbtvtest/testvideoapp.php";
   }
 }
