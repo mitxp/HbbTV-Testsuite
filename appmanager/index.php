@@ -183,7 +183,7 @@ function runStep(name) {
     });
   } else if (name=='bcaccess') {
     setInstr('Switching to broadcast-independant app...');
-    document.location.href = "http://www.mit-xperts.com/hbbtvtest/testvideoapp.php";
+    document.location.href = "bcindepapp.php";
   }
 }
 

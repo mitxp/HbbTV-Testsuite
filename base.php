@@ -31,7 +31,7 @@ function openDocument($title='MIT-xperts HbbTV testsuite', $allscripts=1, $addhe
   echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n";
   echo "<head>\n";
   echo "<title>$title</title>\n".$addheaders;
-  echo "<meta http-equiv=\"content-type\" content=\"Content-Type: application/vnd.hbbtv.xhtml+xml; charset=UTF-8\" />\n";
+  echo "<meta http-equiv=\"Content-Type\" content=\"application/vnd.hbbtv.xhtml+xml; charset=UTF-8\" />\n";
   echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"$ROOTDIR/base.css\" />\n";
   echo "<script type=\"text/javascript\" src=\"$ROOTDIR/settings.js\"></script>\n";
   echo "<script type=\"text/javascript\" src=\"$ROOTDIR/releaseinfo.js\"></script>\n";
