@@ -1,3 +1,3 @@
-var releaseinfo = '2.2.0 (20160412)';
-var streamtime = [ 1460562120, 17, 42 ];
+var releaseinfo = '2.2.1 (20160504)';
+var streamtime = [ 1462373520, 16, 52 ];
 
