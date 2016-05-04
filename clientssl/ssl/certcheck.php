@@ -34,6 +34,9 @@ $ALLOWEDCN['videoengine.bang-olufsen.com'] = 1;
 $ALLOWEDCN['s7100.vestel.com'] = 1;
 $ALLOWEDCN['S7715.Vestel.com'] = 1;
 $ALLOWEDCN['test.mstarsemi.com'] = 1;
+$ALLOWEDCN['Philips Net TV TV 2k14 Marvell'] = 1;
+$ALLOWEDCN['Philips Net TV TV 2k15'] = 1;
+$ALLOWEDCN['Philips Net TV TV 2k16'] = 1;
 
 $msg = '';
 if (!$_SERVER['SSL_CLIENT_VERIFY']=='SUCCESS') {
