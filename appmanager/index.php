@@ -12,6 +12,7 @@ window.onload = function() {
   registerKeyEventListener();
   initApp();
   setInstr('Please run both tests. Each test will destroy this application, so you need to return to this menu and execute the other test afterwards. Navigate to the test using up/down, then press OK to start the test.');
+  document.getElementById('video').bindToCurrentChannel();
 };
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
@@ -119,7 +120,7 @@ function runStep(name) {
       return;
     }
   } else if (name=='startxml') {
-    var app;
+    var app, params = '';
     try {
       var mgr = document.getElementById('appmgr');
       app = mgr.getOwnerApplication(document);
@@ -128,7 +129,13 @@ function runStep(name) {
       return;
     }
     try {
-      if (app.createApplication('xmlait.php/ait.aitx', false)) { // ETSI TS 102 809 requires extension .aitx
+      if (document.getElementById('video').currentChannel.idType===12) {
+        params = '?dvb=t';
+      }
+    } catch (e) {
+    }
+    try {
+      if (app.createApplication('xmlait.php/ait.aitx'+params, false)) { // ETSI TS 102 809 requires extension .aitx
         app.destroyApplication();
         showStatus(true, 'Starting of application via XML succeeded, please stand by...');
       } else {
@@ -195,6 +202,7 @@ function runStep(name) {
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
 <?php echo appmgrObject(); ?>
+<?php echo videoObject(700, 590, 160, 90); ?>
 
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>

@@ -3,6 +3,7 @@ header('Content-Type: application/vnd.dvb.ait+xml; charset=UTF-8');
 
 $srvrurl = 'http://'.$_SERVER['SERVER_NAME'];
 $appurl = $srvrurl.dirname($_SERVER['SCRIPT_NAME']).'/';
+$params = array_key_exists('dvb', $_REQUEST) ? htmlspecialchars('?dvb='.rawurlencode($_REQUEST['dvb'])) : '';
 
 echo '<?xml version="1.0" encoding="UTF-8"?>
 <mhp:ServiceDiscovery xmlns:mhp="urn:dvb:mhp:2009" xmlns:ipi="urn:dvb:metadata:iptv:sdns:2008-1" xmlns:tva="urn:tva:metadata:2005" xmlns:mpeg7="urn:tva:mpeg7:2005" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:dvb:mhp:2009 mis_xmlait.xsd">
@@ -32,12 +33,12 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
 				</mhp:applicationDescriptor>
 				<mhp:applicationBoundary>
 					<mhp:BoundaryExtension>'.$srvrurl.'/</mhp:BoundaryExtension>
-					<mhp:BoundaryExtension>http://rc.mit-xperts.com/</mhp:BoundaryExtension>
+					<mhp:BoundaryExtension>http://www.mit-xperts.com/</mhp:BoundaryExtension>
 				</mhp:applicationBoundary>
 				<mhp:applicationTransport xsi:type="mhp:HTTPTransportType">
 					<mhp:URLBase>'.$appurl.'</mhp:URLBase>
 				</mhp:applicationTransport>
-				<mhp:applicationLocation>xmlaitapp.php</mhp:applicationLocation>
+				<mhp:applicationLocation>xmlaitapp.php'.$params.'</mhp:applicationLocation>
 			</mhp:Application>
 		</mhp:ApplicationList>
 	</mhp:ApplicationDiscovery>

@@ -12,6 +12,10 @@ window.onload = function() {
   registerKeyEventListener();
   initApp();
   setInstr('Please run both tests. The last test will return to the main testsuite application. Navigate to the test using up/down, then press OK to start the test.');
+  <?php if (array_key_exists('dvb', $_REQUEST) && $_REQUEST['dvb']==='t') {
+    echo 'service1[3] = "5a0b02df79401f8312ffffffff";'."\n";
+  } ?>
+
 };
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
