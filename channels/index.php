@@ -188,6 +188,26 @@ function runStep(name) {
       showStatus(false, 'prevChannel() failed.');
       return;
     }
+  } else if (name=='ctype') {
+    var vid = document.getElementById('video');
+    try {
+      var txttype = null, numtype = vid.currentChannel.idType;
+      if (numtype===Channel.ID_DVB_T) {
+        txttype = "DVB-T";
+      } else if (numtype===Channel.ID_DVB_S) {
+        txttype = "DVB-S";
+      } else if (numtype===Channel.ID_DVB_C) {
+        txttype = "DVB-C";
+      }
+      if (txttype) {
+        showStatus(true, 'Channel delivery type is '+txttype+' ('+numtype+').');
+      } else {
+        showStatus(false, 'Unexpected channel delivery type: '+numtype);
+      }
+    } catch (e) {
+      showStatus(false, 'query of Channel idType failed.');
+      return;
+    }
   }
 }
 
@@ -210,6 +230,7 @@ echo appmgrObject(); ?>
   <li name="getprivdata">Test 4: currentChannel via privateData</li>
   <li name="nextc">Test 5: nextChannel()</li>
   <li name="prevc">Test 6: prevChannel()</li>
+  <li name="ctype">Test 7: Channel type</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
