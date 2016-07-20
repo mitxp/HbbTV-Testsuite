@@ -191,12 +191,13 @@ function runStep(name) {
   } else if (name=='ctype') {
     var vid = document.getElementById('video');
     try {
-      var txttype = null, numtype = vid.currentChannel.idType;
-      if (numtype===Channel.ID_DVB_T) {
+      var txttype = null, numtype, cch = vid.currentChannel;
+      numtype = cch.idType;
+      if (numtype===cch.ID_DVB_T) {
         txttype = "DVB-T";
-      } else if (numtype===Channel.ID_DVB_S) {
+      } else if (numtype===cch.ID_DVB_S) {
         txttype = "DVB-S";
-      } else if (numtype===Channel.ID_DVB_C) {
+      } else if (numtype===cch.ID_DVB_C) {
         txttype = "DVB-C";
       }
       if (txttype) {
