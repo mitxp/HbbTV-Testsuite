@@ -5,7 +5,7 @@ function sendContentType() {
   header('Cache-Control: no-cache');
   header('Content-Style-Type: text/css');
   $uagent = strtolower($_SERVER['HTTP_USER_AGENT']);
-  if (strstr($uagent, 'firefox') || strstr($uagent, 'chrome')) {
+  if (!strstr($uagent, 'hbbtv') && (strstr($uagent, 'firefox')||strstr($uagent, 'chrome'))) {
     header('Content-Type: application/xhtml+xml; charset=UTF-8');
   } else {
     header('Content-Type: application/vnd.hbbtv.xhtml+xml; charset=UTF-8');
