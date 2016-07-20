@@ -149,6 +149,7 @@ function runStep(name) {
     countDown(5, 'the application will be hidden. It should re-appear after 3 seconds.', function() {
       var succss = true;
       try {
+        document.getElementById('video').release();
         document.getElementById('appmgr').getOwnerApplication(document).hide();
       } catch (e) {
         succss = false;
@@ -156,6 +157,7 @@ function runStep(name) {
       countdownTimeout = setTimeout(function() {
         try {
           document.getElementById('appmgr').getOwnerApplication(document).show();
+          document.getElementById('video').bindToCurrentChannel();
         } catch (e) {
           succss = false;
         }
