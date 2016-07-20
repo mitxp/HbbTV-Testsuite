@@ -11,8 +11,8 @@ function validateUserAgent($uagent, &$msg) {
   }
   $uagent = substr($uagent, 6);
   $ver = substr($uagent, 0, 5);
-  if ($ver!='1.1.1' && $ver!='1.2.1' && $ver!='1.3.1') {
-    $msg = 'HbbTV version not equal to 1.1.1 / 1.2.1 / 1.3.1';
+  if ($ver!='1.1.1' && $ver!='1.2.1' && $ver!='1.3.1' && $ver!='1.4.1') {
+    $msg = 'HbbTV version not equal to 1.1.1 / 1.2.1 / 1.3.1 / 1.4.1';
     return false;
   }
   $uagent = substr($uagent, 5);
@@ -36,6 +36,9 @@ function validateUserAgent($uagent, &$msg) {
   $capabilities = str_replace('+PVR', '', $capabilities);
   $capabilities = str_replace('+RTSP', '', $capabilities);
   $capabilities = str_replace('+DRM', '', $capabilities);
+  $capabilities = str_replace('+SYNC_SLAVE', '', $capabilities);
+  $capabilities = str_replace('+IPH', '', $capabilities);
+  $capabilities = str_replace('+AFS', '', $capabilities);
   if ($capabilities) {
     $msg = 'invalid capabilities '.$capabilities;
     return false;
