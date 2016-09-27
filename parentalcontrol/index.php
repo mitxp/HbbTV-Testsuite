@@ -46,7 +46,7 @@ function runStep(name) {
 	var check = pcmgr.parentalRatingSchemes.item(i);
 	if (check.name != 'dvb-si') continue;
 	if (check.length!=0) {
-	  showStatus(false, 'dvb-si scheme has length !=0: '+scheme.length);
+	  showStatus(false, 'dvb-si scheme has length !=0: '+check.length);
 	  return;
 	}
 	scheme = check;
