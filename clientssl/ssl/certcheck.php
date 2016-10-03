@@ -28,6 +28,7 @@ $ALLOWEDCN['ZBOX.INVERTO.tv'] = 1;
 $ALLOWEDCN['volksboxWebEdition.inverto.tv'] = 1;
 $ALLOWEDCN['GLOBAL_PLAT3.lge.com'] = 1;
 $ALLOWEDCN['webosM.lge.com'] = 1;
+$ALLOWEDCN['WebOS3K2L.lge.com'] = 1;
 $ALLOWEDCN['NetCast4Hid.lge.com'] = 1;
 $ALLOWEDCN['UFS925.KATHREIN.com'] = 1;
 $ALLOWEDCN['videoengine.bang-olufsen.com'] = 1;
