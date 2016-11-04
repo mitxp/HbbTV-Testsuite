@@ -23,6 +23,7 @@ $ALLOWEDCN['viera2013.panasonic.com'] = 1;
 $ALLOWEDCN['viera2014.panasonic.com'] = 1;
 $ALLOWEDCN['viera2015.panasonic.com'] = 1;
 $ALLOWEDCN['viera2016.panasonic.com'] = 1;
+$ALLOWEDCN['viera2017.panasonic.com'] = 1;
 $ALLOWEDCN['volksbox.inverto.tv'] = 1;
 $ALLOWEDCN['ZBOX.INVERTO.tv'] = 1;
 $ALLOWEDCN['volksboxWebEdition.inverto.tv'] = 1;
