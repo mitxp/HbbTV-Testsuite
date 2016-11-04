@@ -7,31 +7,22 @@ openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
+  testPrefix += '.start'+('#foo2'==window.location.hash?'2':'1');
   menuInit();
   initVideo();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all tests. The last test will return to the main testsuite application. Navigate to the test using up/down, then press OK to start the test.');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all tests. The last test will return to the main testsuite application. Navigate to the test using up/down, then press OK to start the test.');
+  runNextAutoTest();
+};
 function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');

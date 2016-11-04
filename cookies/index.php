@@ -8,31 +8,24 @@ openDocument();
 <script type="text/javascript">
 //<![CDATA[
 var testvalue = "abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please select the desired test from the menu, then press OK.');
-  menuSelect(<?php echo (int)$_REQUEST['select']; ?>);
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please select the desired test from the menu, then press OK.');
+  <?php if (array_key_exists('isok', $_REQUEST) && array_key_exists('found', $_REQUEST)) { ?>
+    menuSelect(<?php echo (int)$_REQUEST['select']; ?>);
+    showStatus(<?php echo $_REQUEST['isok']==='1'?'true':'false'; ?>, 'Cookie mxphbbtv was <?php $_REQUEST['found']==='1'?'':'not '; ?>found.');
+  <?php } ?>
+  runNextAutoTest();
+};
 function runStep(name) {
   var cvalue = false, isset = true;
   if (name=="clear") {
@@ -140,7 +133,7 @@ function performFinalCheck(isset) {
   <li name="storagewrite">HbbTV 1.3: Write to localStorage</li>
   <li name="storageread">HbbTV 1.3: Read from localStorage</li>
   <li name="storageremove">HbbTV 1.3: Remove from localStorage</li>
-  <li name="storagedsmcc">HbbTV 1.3: localStorage in DSMCC</li>
+  <li name="storagedsmcc" automate="ignore">HbbTV 1.3: localStorage in DSMCC</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

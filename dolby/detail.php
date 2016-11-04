@@ -65,10 +65,17 @@ var expected = [ <?php
     echo '{"displayname":"'.$key.'", '.$value.'}';
   }
 ?> ];
+var testPrefix = <?php echo json_encode(getTestPrefix().'.'.rawurlencode($_REQUEST['id'])); ?>;
 
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
+  registerMenuListener(function(liid) {
+    if (liid=='exit') {
+      document.location.href = 'index.php?select=<?php echo rawurlencode($_REQUEST['id']); ?>';
+    } else {
+      runStep(liid);
+    }
+  });
   initApp();
   showVid();
   setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test.');
@@ -80,6 +87,7 @@ window.onload = function() {
     }
   } catch (ignore) {
   }
+  runNextAutoTest();
 };
 function showVid() {
   vid = document.createElement("object");
@@ -313,24 +321,6 @@ function selectComponentsStage2(index, vc) {
   }
   showStatus(true, 'component should now be selected.');
 }
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
-    if (liid=='exit') {
-      document.location.href = 'index.php';
-    } else {
-      runStep(liid);
-    }
-    return true;
-  }
-  return false;
-}
 function runStep(name) {
   if (name==="playvid") {
     try {
@@ -380,12 +370,12 @@ function runStep(name) {
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="playvid">Start video</li>
 <?php if (count($channels)) { ?>
-  <li name="goch0">Unselect all audio channels</li>
-  <li name="goch1">Select audio: <?php echo $channelkeys[0]; ?></li>
-  <li name="goch2">Select audio: <?php echo $channelkeys[1]; ?></li>
+  <li name="goch0" automate="audio">Unselect all audio channels</li>
+  <li name="goch1" automate="audio">Select audio: <?php echo $channelkeys[0]; ?></li>
+  <li name="goch2" automate="audio">Select audio: <?php echo $channelkeys[1]; ?></li>
   <li name="showch">Query active audio channel</li>
 <?php } ?>
-  <li name="gotopos30">Seek to pos. 00:00:30</li>
+  <li name="gotopos30" automate="visual">Seek to pos. 00:00:30</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 530px; width: 400px; height: 160px;"></div>

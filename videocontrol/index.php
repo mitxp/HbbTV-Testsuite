@@ -9,33 +9,23 @@ openDocument();
 //<![CDATA[
 var playing = false;
 var testTimeout = false;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   menuInit();
   initVideo();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
-  showVidState();
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
+  showVidState();
+  runNextAutoTest();
+};
 function showVidState() {
   try {
     var vid = document.getElementById('video');
@@ -151,7 +141,7 @@ function testPos(scnds) {
   <li name="play">Test 3: continue playing (1x)</li>
   <li name="ffwd">Test 4: fast forward (2x)</li>
   <li name="slowm">Test 5: slow motion (0.5x)</li>
-  <li name="play">Test 6: continue playing (1x)</li>
+  <li name="play#2">Test 6: continue playing (1x)</li>
   <li name="gopos30">Test 7: go to position 00:30</li>
   <li name="gopos150">Test 8: go to position 02:30</li>
   <li name="rewind">Test 9: rewind (-1x)</li>

@@ -19,30 +19,20 @@ $videourl = 'http://'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/ch
 <script type="text/javascript">
 //<![CDATA[
 var vidto = false;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test.');
-}
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test.');
+  runNextAutoTest();
 }
 function runStep(name) {
   setInstr('Executing step...');
@@ -87,7 +77,7 @@ function checkPlayer() {
     if (s.length>2 && s.substring(0, 2)=='OK') {
       showStatus(true, 'Video player user agent '+s);
     } else {
-      showStatus(false, 'Video player user agent invalid: '+s);
+      showStatus(false, 'Video player user agent is invalid '+s);
     }
     req.onreadystatechange = null;
     req = null;

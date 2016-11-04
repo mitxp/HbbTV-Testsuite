@@ -8,32 +8,22 @@ openDocument();
 <script type="text/javascript">
 //<![CDATA[
 var fullscreen = false;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   menuInit();
   initVideo();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
+  runNextAutoTest();
+};
 function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');
@@ -70,10 +60,12 @@ function runStep(name) {
 }
 function setvidsize(x, y, w, h, txt) {
   var vid = document.getElementById('video');
-  vid.style.left = x+'px'; 
-  vid.style.top = y+'px'; 
-  vid.style.width = w+'px'; 
-  vid.style.height = h+'px'; 
+  if (vid) {
+    vid.style.left = x+'px'; 
+    vid.style.top = y+'px'; 
+    vid.style.width = w+'px'; 
+    vid.style.height = h+'px'; 
+  }
   showStatus(true, 'Please check visual result.');
   setInstr('Video position should now be '+txt);
   markVideoPosition(x, y, w, h);
@@ -174,18 +166,18 @@ function govid(typ) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="vidbroadcast">Test 1: start broadcast video</li>
-  <li name="lright">Test 2: lower right</li>
-  <li name="lcenter">Test 3: lower center</li>
-  <li name="full">Test 4: fullscreen (background)</li>
-  <li name="vidclip">Test 5: video clipping test</li>
-  <li name="vidstop">Test 6: stop video</li>
-  <li name="vidstream">Test 7: start streaming video</li>
-  <li name="lright">Test 8: lower right</li>
-  <li name="togglefs">Test 9: toggle fullscreen mode</li>
-  <li name="lcenter">Test 10: lower center</li>
-  <li name="full">Test 11: fullscreen (background)</li>
-  <li name="vidbroadcast">Test 12: start broadcast video</li>
+  <li name="vidbroadcast#1">Test 1: start broadcast video</li>
+  <li name="lright#1" automate="visual">Test 2: lower right</li>
+  <li name="lcenter#1" automate="visual">Test 3: lower center</li>
+  <li name="full#1" automate="visual">Test 4: fullscreen (background)</li>
+  <li name="vidclip#1" automate="visual">Test 5: video clipping test</li>
+  <li name="vidstop#1">Test 6: stop video</li>
+  <li name="vidstream#2">Test 7: start streaming video</li>
+  <li name="lright#2" automate="visual">Test 8: lower right</li>
+  <li name="togglefs#2" automate="visual">Test 9: toggle fullscreen mode</li>
+  <li name="lcenter#2" automate="visual">Test 10: lower center</li>
+  <li name="full#2" automate="visual">Test 11: fullscreen (background)</li>
+  <li name="vidbroadcast#2">Test 12: start broadcast video</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

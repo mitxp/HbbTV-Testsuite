@@ -7,40 +7,31 @@ openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please select the desired test from the menu, then press OK.');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
-      menuSelect(selected+1);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please select the desired test from the menu, then press OK.');
+  runNextAutoTest();
+};
 function runStep(name) {
   if (name=='test1') {
     setInstr('Please check whether the width and the line-height of the rendered font matches the reference images.');
     document.getElementById('test1').style.visibility = 'inherit';
     document.getElementById('test2').style.visibility = 'hidden';
+    showStatus(true, 'Inspect visual result');
   } else if (name=='test2') {
     setInstr('Please check whether the different rendering styles (bold, italic, underlined) are rendered correctly.');
     document.getElementById('test1').style.visibility = 'hidden';
     document.getElementById('test2').style.visibility = 'inherit';
+    showStatus(true, 'Inspect visual result');
   }
 }
 
@@ -55,9 +46,10 @@ function runStep(name) {
 
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
+<div id="status" style="display: none;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="test1">Font rendering width/height</li>
-  <li name="test2">Font styles</li>
+  <li name="test1" automate="visual">Font rendering width/height</li>
+  <li name="test2" automate="visual">Font styles</li>
   <li name="exit">Return to test menu</li>
 </ul>
 

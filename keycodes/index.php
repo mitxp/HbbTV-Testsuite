@@ -11,6 +11,7 @@ var keynames = ['ENTER', 'LEFT', 'DOWN', 'PLAY', 'PAUSE', 'STOP', 'FAST_FWD', 'R
 var keycodes = [];
 var playpausecode = -1;
 var nextidx = 0;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   registerKeyEventListener();

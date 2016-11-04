@@ -8,30 +8,20 @@ openDocument();
 <script type="text/javascript">
 //<![CDATA[
 var scheme = null;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. Displayed data must be verified manually, as configured preferences are unknown to this test.');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. Displayed data must be verified manually, as configured preferences are unknown to this test.');
+  runNextAutoTest();
+};
 function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');

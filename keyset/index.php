@@ -13,6 +13,7 @@ var keycodes = [];
 var keypressed = [];
 var currentMask = 0;
 var ksobj = false;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   menuInit();

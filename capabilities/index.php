@@ -7,30 +7,20 @@ openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
+  runNextAutoTest();
+};
 function runStep(name) {
   var co = document.getElementById('capobj');
   if (name=='xml') {

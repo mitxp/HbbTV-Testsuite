@@ -7,31 +7,21 @@ openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   menuInit();
   initVideo();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
+  runNextAutoTest();
+};
 function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');
@@ -227,10 +217,10 @@ echo appmgrObject(); ?>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="get">Test 1: currentChannel</li>
   <li name="set">Test 2: setChannel</li>
-  <li name="wait">Test 3: onChannelChangeSucceeded</li>
+  <li name="wait" automate="ignore">Test 3: onChannelChangeSucceeded</li>
   <li name="getprivdata">Test 4: currentChannel via privateData</li>
-  <li name="nextc">Test 5: nextChannel()</li>
-  <li name="prevc">Test 6: prevChannel()</li>
+  <li name="nextc" automate="ignore">Test 5: nextChannel()</li>
+  <li name="prevc" automate="ignore">Test 6: prevChannel()</li>
   <li name="ctype">Test 7: Channel type</li>
   <li name="exit">Return to test menu</li>
 </ul>

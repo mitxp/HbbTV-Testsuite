@@ -7,34 +7,23 @@ openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
+var testPrefix = <?php echo json_encode(getTestPrefix().'.startxml'); ?>;
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run both tests. The last test will return to the main testsuite application. Navigate to the test using up/down, then press OK to start the test.');
-  <?php if (array_key_exists('dvb', $_REQUEST) && $_REQUEST['dvb']==='t') {
-    echo 'service1[3] = "5a0b02df79401f8312ffffffff";'."\n";
-  } ?>
-
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run both tests. The last test will return to the main testsuite application. Navigate to the test using up/down, then press OK to start the test.');
+  <?php if (array_key_exists('dvb', $_REQUEST) && $_REQUEST['dvb']==='t') {
+    echo 'service1[3] = "5a0b02df79401f8312ffffffff";'."\n";
+  } ?>
+  runNextAutoTest();
+};
 function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');

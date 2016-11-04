@@ -10,31 +10,21 @@ openDocument();
 var listener = null;
 var targeturl = null;
 var eventname = 'testevent';
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  initVideo();
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  initVideo();
+  runNextAutoTest();
+};
 function runStep(name) {
   var vid = document.getElementById('video');
   if (listener) {

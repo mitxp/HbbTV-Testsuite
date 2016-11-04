@@ -11,58 +11,51 @@
 <script type="text/javascript">
 //<![CDATA[
 var testvalue = "XYZabcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var testPrefix = "cookies.storagedsmcc";
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
+  registerMenuListener(function(liid) {
+    if (liid=='exit') {
+      document.location.href = '../index.php';
+      var succss = false;
+      try {
+        var mgr = document.getElementById('appmgr');
+        var app = mgr.getOwnerApplication(document);
+        if (app.createApplication(myappurl, false)) {
+          app.destroyApplication();
+          succss = true;
+        }
+      } catch (e) {
+        // failed
+      }
+      showStatus(succss, 'Starting testsuite application via appmgr '+(succss?'succeeded':'failed'));
+    } else {
+      runStep(liid);
+    }
+  });
   initApp();
   menuSelect(0);
-  try {
-    var cvalue = localStorage.getItem("mxphbbtvdsm");
-    if (cvalue===testvalue) {
-      showStatus(true, 'localStorage.getItem succeeded.');
-      return;
-    }
-    if (cvalue) {
-      showStatus(false, 'localStorage.getItem returned incorrect value: '+cvalue);
-    }
-  } catch (e) {
-    showStatus(false, 'localStorage.getItem failed: '+e);
-  }
-  try {
-    localStorage.setItem("mxphbbtvdsm", testvalue);
-    setInstr('localStorage.setItem succeeded. Return and start this test again to determine test result. If you see this message a second time, the test can be considered as FAILED.');
-  } catch (e) {
-    showStatus(false, 'localStorage.setItem failed: '+e);
-  }
 };
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
-    runStep(liid);
-    return true;
-  }
-  return false;
-}
 function runStep(name) {
-  if (name=="exit") {
-    var succss = false;
+  if (name=="test") {
     try {
-      var mgr = document.getElementById('appmgr');
-      var app = mgr.getOwnerApplication(document);
-      if (app.createApplication(myappurl, false)) {
-        app.destroyApplication();
-        succss = true;
+      var cvalue = localStorage.getItem("mxphbbtvdsm");
+      if (cvalue===testvalue) {
+        showStatus(true, 'localStorage.getItem succeeded.');
+        return;
+      }
+      if (cvalue) {
+        showStatus(false, 'localStorage.getItem returned incorrect value: '+cvalue);
       }
     } catch (e) {
-      // failed
+      showStatus(false, 'localStorage.getItem failed: '+e);
     }
-    showStatus(succss, 'Starting testsuite application via appmgr '+(succss?'succeeded':'failed'));
+    try {
+      localStorage.setItem("mxphbbtvdsm", testvalue);
+      setInstr('localStorage.setItem succeeded. Return and start this test again to determine test result. If you see this message a second time, the test can be considered as FAILED.');
+    } catch (e) {
+      showStatus(false, 'localStorage.setItem failed: '+e);
+    }
   } else {
     showStatus(false, 'Invalid step name '+name);
     return;
@@ -79,6 +72,7 @@ function runStep(name) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
+  <li name="test">Test localStorage access</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

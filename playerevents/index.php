@@ -14,31 +14,21 @@ var eventtxt = '';
 var speedchangereceived = false;
 var poschangereceived = false;
 var pausetimer = false;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.<br /><br /><b>IMPORTANT: The test result is displayed when the video stops. If no result is displayed at the end of the video, a required finished/error event is not sent. Please check if the video starts playing as soon as the playing event is received.<'+'/b>');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.<br /><br /><b>IMPORTANT: The test result is displayed when the video stops. If no result is displayed at the end of the video, a required finished/error event is not sent. Please check if the video starts playing as soon as the playing event is received.<'+'/b>');
+  runNextAutoTest();
+};
 function runStep(name) {
   var vid = document.getElementById('video');
   vid.onPlayStateChange = null;

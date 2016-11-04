@@ -61,4 +61,10 @@ function getMediaURL($useHttps=0) {
   return $ret;
 }
 
+function getTestPrefix() {
+  $name = $_SERVER['SCRIPT_NAME'];
+  $name = basename(dirname($name));
+  return $name;
+}
+
 ?>

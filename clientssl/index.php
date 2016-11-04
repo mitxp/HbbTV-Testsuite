@@ -14,37 +14,43 @@ $baseurl = '//'.$_SERVER['SERVER_NAME'].dirname($_SERVER['PHP_SELF']).'/';
 var baseurl = '<?php echo $baseurl; ?>';
 var certcheckurl = 'https:'+baseurl+'ssl/certcheck.php';
 var cookiecheckurl = 'http:'+baseurl+'cookiecheck.php';
-var logtxt = 'Performing validation...';
+var logtxt = '';
+var isok = '<?php echo array_key_exists('isok', $_REQUEST) ? (int)$_REQUEST['isok'] : ''; ?>';
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
+  registerMenuListener(function(liid) {
+    if (liid=='exit') {
+      document.location.href = '../index.php';
+    } else {
+      runStep(liid);
+    }
+  });
   initApp();
-  setInstr(logtxt);
-  var r = new XMLHttpRequest();
-  r.onreadystatechange = function() {
-    if (r.readyState!=4) return;
-    debug('Killed old cookie');
-    r.onreadystatechange = null;
-    r = null;
-    performauth();
-  };
-  r.open('GET', cookiecheckurl+'?kill=1');
-  r.send(null);
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    document.location.href = '../index.php';
-    return true;
+  if (isok!=='') {
+    menuSelect(1);
   }
-  return false;
+  runNextAutoTest();
 }
+function runStep(name) {
+  if (name==='validate') {
+    logtxt = 'Performing validation...';
+    setInstr(logtxt);
+    var r = new XMLHttpRequest();
+    r.onreadystatechange = function() {
+      if (r.readyState!=4) return;
+      debug('Killed old cookie');
+      r.onreadystatechange = null;
+      r = null;
+      performauth();
+    };
+    r.open('GET', cookiecheckurl+'?kill=1');
+    r.send(null);
+  } else if (name==='check') {
+    showStatus(isok==='1'?true:2, isok==='1' ? 'Client SSL certificate could be verified.' : 'Client SSL verification information was not found in cookie. As this certificate is not mandatory, this might be expected.');
+  }
+};
 function performauth() {
   var r = new XMLHttpRequest();
   r.onreadystatechange = function() {
@@ -60,10 +66,12 @@ function performauth() {
       r.onreadystatechange = null;
       r = null;
       if (authok) {
-        document.location.href = 'finalcheck.php';
+	showStatus(true, 'Client SSL URL could be verified, please stand by for final check...');
+        setTimeout(function() {
+          document.location.href = 'finalcheck.php';
+        }, 100);
       } else {
 	showStatus(2, 'Client SSL certificate verification failed. As this certificate is not mandatory, this might be expected.');
-        setInstr(logtxt);
       }
     };
     r.open('GET', cookiecheckurl);
@@ -91,10 +99,12 @@ function debug(txt) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
+  <li name="validate">Test ClientSSL</li>
+  <li name="check">Test test result cookie</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
-<div class="txtdiv" style="left: 110px; top: 200px; width: 400px; height: 400px; font-face: bold">Important: For this test to succeed, you need to send us the client SSL certificate stored on your device first.<br /><br />If you don't have one, you can temporarily use our test certificate. Download it from https://itv.mit-xperts.com/clientssl/issue/dload/sample.php</div>
+<div class="txtdiv" style="left: 110px; top: 300px; width: 400px; height: 400px; font-face: bold">Important: For this test to succeed, you need to send us the client SSL certificate stored on your device first.<br /><br />If you don't have one, you can temporarily use our test certificate. Download it from https://itv.mit-xperts.com/clientssl/issue/dload/sample.php</div>
 
 </body>
 </html>

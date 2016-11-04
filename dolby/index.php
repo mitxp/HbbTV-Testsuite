@@ -2,28 +2,29 @@
 $ROOTDIR='..';
 require("$ROOTDIR/base.php");
 
-$referer = $_SERVER['HTTP_REFERER'];
-$i = strrpos($referer, '?id=');
-if ($i>0) {
-  $referer = substr($referer, $i+4);
-  $referer = addcslashes($referer, "\0..\37'\\");
-} else {
-  $referer = 'legal';
-}
-
 sendContentType();
 openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
 var legalshowing = false;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
+  registerMenuListener(function(liid) {
+    if (liid=='exit') {
+      document.location.href = '../index.php';
+    } else {
+      runStep(liid);
+    }
+  });
   initApp();
   showVid();
-  nameselect('<?php echo $referer; ?>');
   setInstr('Please run all sub-tests. Navigate to the test using up/down, then press OK to start the test. Sub-test details will be displayed upon selection.<br />In case of questions regarding content, please contact hbbtv@dolby.com');
+  <?php if (array_key_exists('select', $_REQUEST)) { ?>
+    menuSelectByName(<?php echo json_encode($_REQUEST['select']); ?>);
+  <?php } ?>
+  runNextAutoTest();
 };
 function nameselect(snam) {
   if (!snam) return;
@@ -52,29 +53,13 @@ function showVid() {
     showStatus(false, 'Starting of broadcast video failed.');
   }
 }
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
-    if (liid=='exit') {
-      document.location.href = '../index.php';
-    } else if (liid=='legal') {
-      legalshowing = !legalshowing;
-      document.getElementById("legal").style.display = legalshowing ? "block" : "none";
-    } else {
-      runStep(liid);
-    }
-    return true;
-  }
-  return false;
-}
 function runStep(name) {
-  document.location.href = "detail.php?id="+name;
+  if (name=='legal') {
+    legalshowing = !legalshowing;
+    document.getElementById("legal").style.display = legalshowing ? "block" : "none";
+  } else {
+    document.location.href = "detail.php?id="+name;
+  }
 }
 
 //]]>
@@ -91,7 +76,7 @@ function runStep(name) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 114px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="legal">Info on Usage policy / Disclaimer</li>
+  <li name="legal" automate="ignore">Info on Usage policy / Disclaimer</li>
   <li name="mp4_basic">E-AC3 in mp4</li>
   <li name="ts_basic">E-AC3 in MPEG-TS</li>
   <li name="dash_basic">E-AC3 in MPEG-DASH</li>

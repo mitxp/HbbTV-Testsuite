@@ -8,10 +8,18 @@ openDocument();
 <script type="text/javascript">
 //<![CDATA[
 var logtxt = 'Please press the VK_LEFT key on your remote control.';
-var state = 0;
+var state = -1;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   menuInit();
+  registerMenuListener(function(liid) {
+    if (liid=='exit') {
+      document.location.href = '../index.php';
+    } else {
+      runStep(liid);
+    }
+  });
   registerKeyEventListener();
   document.addEventListener("keypress", function(e) {
     handleKeyPress(e.keyCode);
@@ -20,24 +28,9 @@ window.onload = function() {
     handleKeyUp(e.keyCode);
   }, false);
   initApp();
-  setInstr(logtxt);
 };
 function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
-    if (liid=='exit') {
-      document.location.href = '../index.php';
-    } else {
-      runStep(liid);
-    }
-    return true;
-  } else if (kc==VK_LEFT) {
+  if (kc==VK_LEFT && state>=0) {
     logtxt += '<br />Keydown was sent.';
     state = 1;
     setInstr(logtxt);
@@ -45,7 +38,7 @@ function handleKeyCode(kc) {
   return false;
 }
 function handleKeyPress(kc) {
-  if (kc==VK_LEFT) {
+  if (kc==VK_LEFT && state>=0) {
     logtxt += '<br />Keypress was sent.';
     if (state==1) {
       state = 2;
@@ -54,7 +47,7 @@ function handleKeyPress(kc) {
   }
 }
 function handleKeyUp(kc) {
-  if (kc==VK_LEFT) {
+  if (kc==VK_LEFT && state>=0) {
     logtxt += '<br />Keyup was sent.';
     if (state==2) {
       state = 3;
@@ -66,10 +59,16 @@ function handleKeyUp(kc) {
     } else {
       showStatus(false, 'Key events were not sent correctly: we need 1. keydown, 2. keypress, and 3. keyup.');
     }
+    state = -1;
     setInstr(logtxt);
   }
 }
 function runStep(name) {
+  if (name==='test') {
+    state = 0;
+    logtxt = 'Please press the VK_LEFT key on your remote control.';
+    setInstr(logtxt);
+  }
 }
 
 //]]>
@@ -84,6 +83,7 @@ function runStep(name) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
+  <li name="test">Perform key event order test</li>
   <li name="exit">Return to test menu</li>
 </ul>
 

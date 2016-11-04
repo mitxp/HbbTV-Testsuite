@@ -10,11 +10,18 @@ openDocument();
 var vid;
 var intType = -1;
 var hbbtv12 = false;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   vid = document.getElementById('video');
   menuInit();
   initVideo();
-  registerKeyEventListener();
+  registerMenuListener(function(liid) {
+    if (liid=='exit') {
+      document.location.href = '../index.php';
+    } else {
+      runStep(liid);
+    }
+  });
   initApp();
   setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. Please note: even though subtitles are signalled in PMT, most of the time no subtitles are shown.');
   try {
@@ -25,25 +32,8 @@ window.onload = function() {
     }
   } catch (ignore) {
   }
+  runNextAutoTest();
 };
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
-    if (liid=='exit') {
-      document.location.href = '../index.php';
-    } else {
-      runStep(liid);
-    }
-    return true;
-  }
-  return false;
-}
 function getFakeIntType(type) {
   if (type=='vid') {
     return 0;
@@ -158,7 +148,7 @@ function selectComponents(type, index) {
       vid.unselectComponent(vc[i]);
     } catch (e) {
       showStatus(false, 'cannot unselect component '+vc[i]);
-      return false;
+      return;
     }
   }
   if (hbbtv12 && index<0 && type!=='vid') {
@@ -172,59 +162,61 @@ function selectComponents(type, index) {
       vid.unselectComponent(intType);
     } catch (e) {
       showStatus(false, 'cannot unselect component by type '+vc[i]);
-      return false;
+      return;
     }
   }
-  try {
-    activevc = vid.getCurrentActiveComponents(intType);
-  } catch (e) {
-    showStatus(false, 'error while calling getCurrentActiveComponents('+intType+')');
-    return false;
-  }
-  if (!activevc) {
-    showStatus(false, 'getCurrentActiveComponents did not return anything unselecting all components');
-    return false;
-  }
-  if (activevc.length!=0 && (!hbbtv12||index<0||type==='vid')) {
-    showStatus(false, 'getCurrentActiveComponents returned a non-empty collection after unselecting all components');
-    return false;
-  }
-  if (index>=0 && index<vc.length) {
-    var shouldBe = vc[index];
+  setTimeout(function() {
     try {
-      vid.selectComponent(shouldBe);
+      activevc = vid.getCurrentActiveComponents(intType);
     } catch (e) {
-      showStatus(false, 'cannot select component '+type+index+' = '+vc[index]);
-      return false;
+      showStatus(false, 'error while calling getCurrentActiveComponents('+intType+')');
+      return;
     }
-    setTimeout(function() {
+    if (!activevc) {
+      showStatus(false, 'getCurrentActiveComponents did not return anything unselecting all components');
+      return;
+    }
+    if (activevc.length!=0 && (!hbbtv12||index<0||type==='vid')) {
+      showStatus(false, 'getCurrentActiveComponents returned a non-empty collection after unselecting all components');
+      return;
+    }
+    if (index>=0 && index<vc.length) {
+      var shouldBe = vc[index];
       try {
-        activevc = vid.getCurrentActiveComponents(intType);
+        vid.selectComponent(shouldBe);
       } catch (e) {
-        showStatus(false, 'error while calling getCurrentActiveComponents('+intType+') after selecting component');
+        showStatus(false, 'cannot select component '+type+index+' = '+vc[index]);
         return false;
       }
-      if (!activevc || activevc.length!=1) {
-        showStatus(false, 'getCurrentActiveComponents returned an invalid array after selecting a component');
-        return false;
-      }
-      var key, selectedIs = activevc[0];
-      for (key in vbcomponents[type][0]) {
-        var shouldBeStr = 'undefined1';
-        var selectedIsStr = 'undefined2';
-        eval('shouldBeStr = shouldBe.'+key+';');
-        eval('selectedIsStr = selectedIs.'+key+';');
-        if (shouldBeStr != selectedIsStr) {
-          showStatus(false, 'getCurrentActiveComponents returned invalid component: '+key+' is '+selectedIsStr+', but should be '+shouldBeStr);
-          return;
+      setTimeout(function() {
+        try {
+          activevc = vid.getCurrentActiveComponents(intType);
+        } catch (e) {
+          showStatus(false, 'error while calling getCurrentActiveComponents('+intType+') after selecting component');
+          return false;
         }
-      }
-      showStatus(true, 'component should now be selected.');
-    }, 2000);
-    setInstr('Waiting for component selection to finish...');
-    return;
-  }
-  showStatus(true, 'component should now be selected.');
+        if (!activevc || activevc.length!=1) {
+          showStatus(false, 'getCurrentActiveComponents returned an invalid array after selecting a component');
+          return false;
+        }
+        var key, selectedIs = activevc[0];
+        for (key in vbcomponents[type][0]) {
+          var shouldBeStr = 'undefined1';
+          var selectedIsStr = 'undefined2';
+          eval('shouldBeStr = shouldBe.'+key+';');
+          eval('selectedIsStr = selectedIs.'+key+';');
+          if (shouldBeStr != selectedIsStr) {
+            showStatus(false, 'getCurrentActiveComponents returned invalid component: '+key+' is '+selectedIsStr+', but should be '+shouldBeStr);
+            return;
+          }
+        }
+        showStatus(true, 'component should now be selected.');
+      }, 2000);
+      setInstr('Waiting for component selection to finish...');
+      return;
+    }
+    showStatus(true, 'component should now be selected.');
+  }, 2000);
 }
 
 function runStep(name) {
@@ -282,14 +274,14 @@ echo appmgrObject(); ?>
   <li name="getvid">Test 1: get video AVComponents</li>
   <li name="getaud">Test 2: get audio AVComponents</li>
   <li name="getsub">Test 3: get subtitle AVComponents</li>
-  <li name="selvideo0">Test 4: unselect video</li>
-  <li name="selvideo1">Test 5: select video</li>
-  <li name="selaudio0">Test 6: unselect audio</li>
-  <li name="selaudio1">Test 7: select audio1</li>
-  <li name="selaudio2">Test 8: select audio2</li>
-  <li name="selsub1">Test 9: select subtitles</li>
-  <li name="selsub0">Test 10: unselect subtitles</li>
-  <li name="setfull">Test 11: make video fullscreen</li>
+  <li name="selvideo0" automate="visual">Test 4: unselect video</li>
+  <li name="selvideo1" automate="visual">Test 5: select video</li>
+  <li name="selaudio0" automate="audio">Test 6: unselect audio</li>
+  <li name="selaudio1" automate="audio">Test 7: select audio1</li>
+  <li name="selaudio2" automate="audio">Test 8: select audio2</li>
+  <li name="setfull">Test 9: make video fullscreen</li>
+  <li name="selsub1" automate="visual">Test 10: select subtitles</li>
+  <li name="selsub0" automate="visual">Test 11: unselect subtitles</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

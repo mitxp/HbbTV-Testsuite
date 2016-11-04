@@ -15,37 +15,26 @@ var imgsize = 0;
 var moretxt = false;
 var aimg = false;
 var agif = false;
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 
 window.onload = function() {
   moretxt = document.getElementById('moretxt');
   aimg = document.getElementById('aimg');
   agif = document.getElementById('agif');
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions. Please note that this tests the performance of your implementation. The specification does not say anything about how fast this animation should be. Most implementations still perform quite well.');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions. Please note that this tests the performance of your implementation. The specification does not say anything about how fast this animation should be. Most implementations still perform quite well.');
+  runNextAutoTest();
+};
 function runStep(name) {
   setInstr('Executing step...');
-  showStatus(true, '');
   // stop old animation
   if (animtimer) {
     clearTimeout(animtimer);
@@ -78,6 +67,7 @@ function runStep(name) {
   } else if (name=='css3rotate') {
     aimg.className = "cssrotate";
   }
+  showStatus(true, 'Inspect visual result');
 }
 function animTextSize() {
   if (textsize>9) {
@@ -162,16 +152,16 @@ function animImageGif() {
 </div>
 
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="tsize">Test 1: animate text size</li>
-  <li name="topacity">Test 2: animate text opacity</li>
-  <li name="tpos">Test 3: animate text position</li>
-  <li name="isize">Test 4: animate image size</li>
-  <li name="iopacity">Test 5: animate image opacity</li>
-  <li name="animgif">Test 6: animated GIF</li>
-  <li name="css3rotate">Test 7: HbbTV 1.3 CSS3 animation</li>
+  <li name="tsize" automate="visual">Test 1: animate text size</li>
+  <li name="topacity" automate="visual">Test 2: animate text opacity</li>
+  <li name="tpos" automate="visual">Test 3: animate text position</li>
+  <li name="isize" automate="visual">Test 4: animate image size</li>
+  <li name="iopacity" automate="visual">Test 5: animate image opacity</li>
+  <li name="animgif" automate="visual">Test 6: animated GIF</li>
+  <li name="css3rotate" automate="visual">Test 7: HbbTV 1.3 CSS3 animation</li>
   <li name="exit">Return to test menu</li>
 </ul>
-<div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
+<div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px; display: none;"></div>
 
 </body>
 </html>

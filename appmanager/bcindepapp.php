@@ -8,32 +8,28 @@ openDocument();
 <script type="text/javascript">
 //<![CDATA[
 var origSvc = null;
+var testPrefix = <?php echo json_encode(getTestPrefix().'.bcaccess'); ?>;
 window.onload = function() {
   menuInit();
   initVideo();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all tests. The last test will return to the main testsuite application. Navigate to the test using up/down, then press OK to start the test.');
-  origSvc = document.getElementById('video').currentChannel;
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
-      document.location.href = '../index.php';
+      if (origSvc) {
+        try {
+          vid.setChannel(origSvc, false);
+        } catch (e) {
+        }
+      }
+      document.location.href='index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all tests. The last test will return to the main testsuite application. Navigate to the test using up/down, then press OK to start the test.');
+  origSvc = document.getElementById('video').currentChannel;
+  runNextAutoTest();
+};
 function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');
@@ -84,14 +80,6 @@ function runStep(name) {
     } catch (e) {
     }
     showStatus(true, 'Access to video/broadcast denied via Exception (broadcast-independant app).');
-  } else if (name=='return') {
-    if (origSvc) {
-      try {
-        vid.setChannel(origSvc, false);
-      } catch (e) {
-      }
-    }
-    document.location.href='index.php';
   }
 }
 
@@ -112,7 +100,7 @@ function runStep(name) {
   <li name="bcvideo">Test 2: Test access to broadcast video</li>
   <li name="eitpf">Test 3: Test access to EIT p/f data</li>
   <li name="selsvc">Test 4: Go broadcast-related</li>
-  <li name="return">Test 5: Return to HbbTV testsuite</li>
+  <li name="exit">Test 5: Return to HbbTV testsuite</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
 

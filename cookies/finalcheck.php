@@ -9,8 +9,6 @@ openDocument();
 <script type="text/javascript">
 //<![CDATA[
 window.onload = function() {
-  menuInit();
-  registerKeyEventListener();
   initApp();
   setInstr('Verifying cookie...');
   var found = false;
@@ -26,21 +24,8 @@ window.onload = function() {
       break;
     }
   }
-  showStatus(found===needfind, 'Cookie mxphbbtv was '+(found?'':'not ')+'found.');
+  document.location.href = 'index.php?select=<?php echo (int)$_REQUEST['back']; ?>&found='+(found?1:0)+'&isok='+(found===needfind?1:0);
 };
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    document.location.href = 'index.php?select=<?php echo (int)$_REQUEST['back']; ?>';
-    return true;
-  }
-  return false;
-}
 
 //]]>
 </script>

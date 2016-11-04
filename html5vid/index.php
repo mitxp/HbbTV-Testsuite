@@ -11,31 +11,21 @@ var isvidtyp = false;
 var timr = null;
 var eventNames = ["ended", "error", "loadeddata", "loadedmetadata", "loadstart", "pause", "play", "playing", "ratechange", "seeked", "seeking"];
 var capturedEvents = {};
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   menuInit();
   initVideo();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
-  }
-  return false;
-}
+  });
+  initApp();
+  setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
+  runNextAutoTest();
+};
 function runStep(name) {
   setInstr('Executing step...');
   if (timr) {
@@ -361,7 +351,7 @@ function testEvents() {
   <li name="vidplay">Test 6: resume video</li>
   <li name="vidseek">Test 7: seek to 30s</li>
   <li name="vidduration">Test 8: check video duration</li>
-  <li name="vidbroadcast">Test 9: start broadcast video</li>
+  <li name="vidbroadcast#2">Test 9: start broadcast video</li>
   <li name="events">Test 10: test events</li>
   <li name="exit">Return to test menu</li>
 </ul>

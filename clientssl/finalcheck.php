@@ -17,23 +17,9 @@ $isok = $_SESSION['csslok'] && $_SESSION['REMOTE_ADDR']==$_SERVER['REMOTE_ADDR']
 //<![CDATA[
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
   initApp();
-  showStatus(<?php echo $isok ? 'true' : 'false'; ?>, '<?php echo $isok ? 'Client SSL certificate could be verified.' : 'Client SSL verification information was not found in cookie.'; ?>');
+  document.location.href = 'index.php?isok=<?php echo $isok?1:0; ?>';
 };
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    document.location.href = '../index.php';
-    return true;
-  }
-  return false;
-}
 
 //]]>
 </script>

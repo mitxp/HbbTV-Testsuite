@@ -7,31 +7,24 @@ openDocument();
 ?>
 <script type="text/javascript">
 //<![CDATA[
+var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
   menuInit();
-  registerKeyEventListener();
-  initApp();
-  setInstr('Please run both tests. Each test will destroy this application, so you need to return to this menu and execute the other test afterwards. Navigate to the test using up/down, then press OK to start the test.');
-  document.getElementById('video').bindToCurrentChannel();
-};
-function handleKeyCode(kc) {
-  if (kc==VK_UP) {
-    menuSelect(selected-1);
-    return true;
-  } else if (kc==VK_DOWN) {
-    menuSelect(selected+1);
-    return true;
-  } else if (kc==VK_ENTER) {
-    var liid = opts[selected].getAttribute('name');
+  registerMenuListener(function(liid) {
     if (liid=='exit') {
       document.location.href = '../index.php';
     } else {
       runStep(liid);
     }
-    return true;
+  });
+  initApp();
+  setInstr('Please run both tests. Each test will destroy this application, so you need to return to this menu and execute the other test afterwards. Navigate to the test using up/down, then press OK to start the test.');
+  try {
+    document.getElementById('video').bindToCurrentChannel();
+  } catch (ignore) {
   }
-  return false;
-}
+  runNextAutoTest();
+};
 var countdownTimeout = null;
 function countDown(secs, msg, runfunc) {
   countdownTimeout = null;
@@ -216,7 +209,7 @@ function runStep(name) {
   <li name="startxml">Test 5: start app via XML AIT</li>
   <li name="hide">Test 6: app.hide() and show()</li>
   <li name="freemem">Test 7: app.getFreeMem()</li>
-  <li name="tpprio">Test 8: AIT transport protocol order</li>
+  <li name="tpprio" automate="ignore">Test 8: AIT transport protocol order</li>
   <li name="bcaccess">Test 9: Broadcast-independent security</li>
   <li name="exit">Return to test menu</li>
 </ul>
