@@ -78,7 +78,7 @@ function runStep(name) {
       showStatus(false, 'lst.getChannel(ccid) failed.');
       return;
     }
-    if (!chobj) {
+    if (chobj) {
       showStatus(true, 'channel for ccid='+ccid+' found.');
     } else {
       showStatus(false, 'channel for ccid='+ccid+' not found.');
