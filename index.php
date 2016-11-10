@@ -32,6 +32,7 @@ window.onload = function() {
 function handleKeyCode(kc) {
   if (kc===VK_BLUE && !automate.timer) {
     pinEntry = !pinEntry;
+    setKeyset(0x1+0x2+0x4+0x8+0x10+(pinEntry?0x100:0));
     document.getElementById("automatepin").style.display = pinEntry ? "block" : "none";
     pinCode = '';
     updatePinCode();
