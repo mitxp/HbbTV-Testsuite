@@ -58,7 +58,7 @@ function registerKeyEventListener() {
     }
   }, false);
 }
-function registerMenuListener(execTest) {
+function registerMenuListener(execTest, noPreventDefault) {
   automate.execSelectedTest = function(execBefore) {
     var i, liid = opts[selected].getAttribute('name');
     automate.stepid = testPrefix+(testPrefix?'.':'')+liid;
@@ -76,18 +76,28 @@ function registerMenuListener(execTest) {
     var kc = e.keyCode;
     if (kc===VK_UP) {
       menuSelect(selected-1);
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
     } else if (kc===VK_DOWN) {
       menuSelect(selected+1);
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
     } else if (kc===VK_LEFT) {
       menuSelect(selected-6);
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
     } else if (kc===VK_RIGHT) {
       menuSelect(selected+6);
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
     } else if (kc===VK_ENTER) {
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
       automate.execSelectedTest(null);
     } else if (kc===VK_BLUE) {
       setTimeout(function() {

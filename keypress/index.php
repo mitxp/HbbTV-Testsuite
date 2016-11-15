@@ -19,7 +19,7 @@ window.onload = function() {
     } else {
       runStep(liid);
     }
-  });
+  }, true);
   registerKeyEventListener();
   document.addEventListener("keypress", function(e) {
     handleKeyPress(e.keyCode);
@@ -44,6 +44,9 @@ function handleKeyPress(kc) {
       state = 2;
     }
     setInstr(logtxt);
+  } else if (kc!==VK_ENTER && state>=0) {
+    logtxt += '<br />Keypress was sent (but wrong keycode '+kc+').';
+    setInstr(logtxt);
   }
 }
 function handleKeyUp(kc) {
@@ -59,8 +62,12 @@ function handleKeyUp(kc) {
     } else {
       showStatus(false, 'Key events were not sent correctly: we need 1. keydown, 2. keypress, and 3. keyup.');
     }
-    state = -1;
     setInstr(logtxt);
+    state = -1;
+  } else if (kc!==VK_ENTER && state>=0) {
+    showStatus(false, 'Key up was received for incorrect keycode: '+kc);
+    setInstr(logtxt);
+    state = -1;
   }
 }
 function runStep(name) {
