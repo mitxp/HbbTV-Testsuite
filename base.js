@@ -183,7 +183,7 @@ function setInstr(txt) {
 }
 
 function runNextAutoTest(forceStart) {
-  var txt, i, j, blanks, eq, selidx = 0, cookieval = [];
+  var txt, i, j, blanks, eq, goingDeep = null, nextName = null, selidx = 0, cookieval = [];
   try {
     txt = document.cookie.split(";");
     for (i=0; i<txt.length; i++) {
@@ -220,17 +220,22 @@ function runNextAutoTest(forceStart) {
     eq = txt[i]===cookieval[i+2];
   }
   if (!forceStart && eq && cookieval[txt.length+2]) {
-    menuSelectByName(cookieval[txt.length+2]);
+    nextName = cookieval[txt.length+2];
+    menuSelectByName(nextName);
     selidx = selected;
-    if (!cookieval[txt.length+3] || cookieval[txt.length+3]==='exit') {
+    goingDeep = cookieval.length>txt.length+3 ? cookieval[txt.length+3] : null;
+    if (!goingDeep || 'exit'===goingDeep) {
       selidx++;
+      goingDeep = null;
     }
   }
   while (selidx<opts.length && 'ignore'===opts[selidx].getAttribute('automate')) {
     selidx++;
   }
   if (selidx>=opts.length) {
-    stopAutomation();
+    if (!nextName || nextName!=='exit') {
+      stopAutomation();
+    }
     return;
   }
   if (automate.timer) {
@@ -240,7 +245,9 @@ function runNextAutoTest(forceStart) {
     automate.timer = null;
     menuSelect(selidx);
     automate.execSelectedTest(function() {
-      document.cookie = automate.cookie+'='+automate.pin+'.'+automate.testrun+'.'+automate.stepid+';expires='+((new Date(new Date().getTime()+600000)).toGMTString())+';path=/';
+      if (!goingDeep) {
+        document.cookie = automate.cookie+'='+automate.pin+'.'+automate.testrun+'.'+automate.stepid+';expires='+((new Date(new Date().getTime()+600000)).toGMTString())+';path=/';
+      }
     });
   }, 2000);
   try {

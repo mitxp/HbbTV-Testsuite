@@ -196,7 +196,7 @@ function runStep(name) {
 
 </head><body>
 
-<div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
+<div id="bgdiv" style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
 <?php echo appmgrObject(); ?>
 <?php echo videoObject(700, 590, 160, 90); ?>
