@@ -78,11 +78,15 @@ function runStep(name) {
       showStatus(false, 'lst.getChannel(ccid) failed.');
       return;
     }
-    if (chobj) {
-      showStatus(true, 'channel for ccid='+ccid+' found.');
-    } else {
+    if (!chobj) {
       showStatus(false, 'channel for ccid='+ccid+' not found.');
+      return;
     }
+    var name = chobj.name;
+    if (!name || name.length<16 || name.substring(0, 15)!=='HbbTV-Testsuite') {
+      showStatus(false, 'channel for ccid='+ccid+' found, but has invalid name: '+name);
+    }
+    showStatus(true, 'channel for ccid='+ccid+' found, name is valid.');
   }
 }
 
