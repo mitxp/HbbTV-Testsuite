@@ -13,11 +13,7 @@ window.onload = function() {
   menuInit();
   initVideo();
   registerMenuListener(function(liid) {
-    if (liid=='exit') {
-      document.location.href = '../index.php';
-    } else {
-      runStep(liid);
-    }
+    runStep(liid);
   });
   initApp();
   setInstr('Please run all tests. The last test will return to the main testsuite application. Navigate to the test using up/down, then press OK to start the test.');
@@ -59,7 +55,7 @@ function runStep(name) {
       showStatus(false, 'Could not change video position');
       return;
     }
-  } else if (name=='runapp') {
+  } else if (name=='exit') {
     var app;
     try {
       var mgr = document.getElementById('appmgr');
@@ -106,7 +102,7 @@ function runStep(name) {
   <li name="params">Test 1: check parameters</li>
   <li name="checkhash">Test 2: check location.hash</li>
   <li name="video">Test 3: check access to video</li>
-  <li name="runapp">Test 4: start testsuite app again</li>
+  <li name="exit">Test 4: start testsuite app again</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
 

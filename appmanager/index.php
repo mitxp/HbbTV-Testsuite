@@ -62,14 +62,14 @@ function runStep(name) {
         var mgr = document.getElementById('appmgr');
         var app = mgr.getOwnerApplication(document);
         if (app.createApplication(otherappurl+'?param2=value2#foo', false)) {
-          app.destroyApplication();
           succss = true;
         }
       } catch (e) {
         // failed
       }
       if (succss) {
-        setInstr('Starting application...');
+        showStatus(true, 'Starting application...');
+        app.destroyApplication();
       } else {
         showStatus(false, 'Starting application via appmgr failed');
       }
@@ -81,14 +81,14 @@ function runStep(name) {
         var mgr = document.getElementById('appmgr');
         var app = mgr.getOwnerApplication(document);
         if (app.createApplication(otherappurl+'#foo2', false)) {
-          app.destroyApplication();
           succss = true;
         }
       } catch (e) {
         // failed
       }
       if (succss) {
-        setInstr('Starting application...');
+        showStatus(true, 'Starting application...');
+        app.destroyApplication();
       } else {
         showStatus(false, 'Starting application via appmgr failed');
       }
@@ -129,8 +129,8 @@ function runStep(name) {
     }
     try {
       if (app.createApplication('xmlait.php/ait.aitx'+params, false)) { // ETSI TS 102 809 requires extension .aitx
-        app.destroyApplication();
         showStatus(true, 'Starting of application via XML succeeded, please stand by...');
+        app.destroyApplication();
       } else {
         showStatus(false, 'Starting of application via XML failed.');
       }
@@ -175,13 +175,15 @@ function runStep(name) {
         var mgr = document.getElementById('appmgr');
         var app = mgr.getOwnerApplication(document);
         if (app.createApplication(dsmccpreferappurl, false)) {
-          app.destroyApplication();
           succss = true;
         }
       } catch (e) {
         // failed
       }
       showStatus(succss, 'Starting application via appmgr '+(succss?'succeeded':'failed'));
+      if (succss) {
+        app.destroyApplication();
+      }
     });
   } else if (name=='bcaccess') {
     setInstr('Switching to broadcast-independant app...');
@@ -202,11 +204,11 @@ function runStep(name) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="destroy">Test 1: destroy application</li>
+  <li name="destroy" automate="ignore">Test 1: destroy application</li>
   <li name="start1">Test 2: start other app (params+hash)</li>
   <li name="start2">Test 3: start other app (hash only)</li>
   <li name="startfail">Test 4: start non-existing app</li>
-  <li name="startxml">Test 5: start app via XML AIT</li>
+  <li name="startxml" automate="ignore">Test 5: start app via XML AIT</li>
   <li name="hide">Test 6: app.hide() and show()</li>
   <li name="freemem">Test 7: app.getFreeMem()</li>
   <li name="tpprio" automate="ignore">Test 8: AIT transport protocol order</li>
