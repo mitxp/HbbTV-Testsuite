@@ -147,7 +147,11 @@ function showStatus(succss, txt) {
     elem.innerHTML = '';
     return;
   }
-  elem.innerHTML = '<b>Status:<'+'/b><br />'+txt;
+  try {
+    elem.innerHTML = '<b>Status:<'+'/b><br />'+txt;
+  } catch (ignore) {
+    elem.innerHTML = '<b>Status:<'+'/b><br />Cannot display message.';
+  }
   if (succss) {
     setInstr('Test succeeded, please execute the next test<br />(press OK).');
     if (opts) menuSelect(selected+1);

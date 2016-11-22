@@ -101,7 +101,7 @@ function runStep(name) {
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="params">Test 1: check parameters</li>
   <li name="checkhash">Test 2: check location.hash</li>
-  <li name="video">Test 3: check access to video</li>
+  <li name="video" automate="visual">Test 3: check access to video</li>
   <li name="exit">Test 4: start testsuite app again</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>

@@ -209,7 +209,7 @@ function runStep(name) {
   <li name="start2">Test 3: start other app (hash only)</li>
   <li name="startfail">Test 4: start non-existing app</li>
   <li name="startxml" automate="ignore">Test 5: start app via XML AIT</li>
-  <li name="hide">Test 6: app.hide() and show()</li>
+  <li name="hide" automate="visual">Test 6: app.hide() and show()</li>
   <li name="freemem">Test 7: app.getFreeMem()</li>
   <li name="tpprio" automate="ignore">Test 8: AIT transport protocol order</li>
   <li name="bcaccess">Test 9: Broadcast-independent security</li>
