@@ -144,10 +144,32 @@ function govid(typ) {
   } catch (e) {
     // ignore
   }
-  showStatus(succss, 'Setting the video object '+mtype+' '+(succss?'succeeded':'failed in phase '+phase));
   markVideoPosition(600, 250, 160, 90);
   showVideoPosition(true);
+  if (!succss) {
+    showStatus(false, 'Setting the video object '+mtype+' failed in phase '+phase);
+    return;
+  }
+  if (!typ) {
+    showStatus(true, 'Broadcast video should be playing now');
+    return;
+  }
+  setInstr('Video object created, waiting for playback to start...');
+  checkVideoPlaying(30, videlem, mtype);
 }
+function checkVideoPlaying(remainSecs, vid, mtype) {
+  if (!vid.playState  || vid.playState==2 || vid.playState==3 || vid.playState==4) {
+    // not playing yet
+    if (remainSecs>0) {
+      setTimeout(function() { checkVideoPlaying(remainSecs-1, vid, mtype); }, 1000);
+      return;
+    }
+    showStatus(false, 'Video playback '+mtype+' failed.');
+  } else {
+    showStatus(true, 'Video '+mtype+' should be playing now');
+  }
+}
+
 
 //]]>
 </script>

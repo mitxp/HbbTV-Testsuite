@@ -267,5 +267,12 @@ function stopAutomation() {
   if (automate.timer) {
     clearTimeout(automate.timer);
   }
+  try {
+    i = document.getElementById('bgdiv');
+    if (i) {
+      i.style.backgroundColor = '#132d48';
+    }
+  } catch (ignore) {
+  }
 }
 

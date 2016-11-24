@@ -8,6 +8,7 @@ openDocument();
 <script type="text/javascript">
 //<![CDATA[
 var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
+var occsTimer = null;
 window.onload = function() {
   menuInit();
   initVideo();
@@ -23,6 +24,10 @@ window.onload = function() {
   runNextAutoTest();
 };
 function runStep(name) {
+  if (occsTimer) {
+    clearTimeout(occsTimer);
+    occsTimer = null;
+  }
   setInstr('Executing step...');
   showStatus(true, '');
   if (name=='get') {
@@ -89,6 +94,10 @@ function runStep(name) {
     }
     try {
       vid.onChannelChangeSucceeded = function() {
+        if (occsTimer) {
+          clearTimeout(occsTimer);
+          occsTimer = null;
+        }
         vid.onChannelChangeSucceeded = null;
         var ch = vid.currentChannel;
         if (ch.onid==onid&&ch.tsid==tsid&&ch.sid==sid) {
@@ -99,6 +108,11 @@ function runStep(name) {
       };
       setInstr('Setting channel, waiting for onChannelChangeSucceeded...');
       vid.setChannel(ch, false);
+      occsTimer = setTimeout(function() {
+        occsTimer = null;
+        vid.onChannelChangeSucceeded = null;
+        showStatus(false, 'did not retrieve onChannelChangeSucceeded event');
+      }, 15000);
     } catch (e) {
       showStatus(false, 'setChannel('+ch+') failed.');
       return;

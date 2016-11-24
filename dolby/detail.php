@@ -321,6 +321,18 @@ function selectComponentsStage2(index, vc) {
   }
   showStatus(true, 'component should now be selected.');
 }
+function checkVideoPlaying(remainSecs) {
+  if (!vid.playState  || vid.playState==2 || vid.playState==3 || vid.playState==4) {
+    // not playing yet
+    if (remainSecs>0) {
+      setTimeout(function() { checkVideoPlaying(remainSecs-1); }, 1000);
+      return;
+    }
+    showStatus(false, 'Video playback failed.');
+  } else {
+    showStatus(true, 'Video should be playing now');
+  }
+}
 function runStep(name) {
   if (name==="playvid") {
     try {
@@ -336,7 +348,7 @@ function runStep(name) {
     try {
       vid.play(1);
       showVidData();
-      showStatus(true, 'Video should be playing now');
+      checkVideoPlaying(30);
     } catch (e) {
       showStatus(false, 'Video playback failed: '+e);
     }

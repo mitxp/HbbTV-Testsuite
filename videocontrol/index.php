@@ -41,16 +41,7 @@ function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');
   if (name=='start') {
-    try {
-      var vid = document.getElementById('video');
-      vid.stop();
-      vid.data = '<?php echo getMediaURL(); ?>timecode.php/video.mp4';
-      vid.play(1);
-      showStatus(true, 'Video should be playing now');
-      playing = true;
-    } catch (e) {
-      showStatus(false, 'Cannot start video');
-    }
+    startVid();
   } else if (name=='pause') {
     setSpeed(0);
   } else if (name=='play') {
@@ -65,6 +56,30 @@ function runStep(name) {
     gotoPos(150);
   } else if (name=='rewind') {
     setSpeed(-1);
+  }
+}
+function checkVideoPlaying(remainSecs, vid, mtype) {
+  if (!vid.playState  || vid.playState==2 || vid.playState==3 || vid.playState==4) {
+    // not playing yet
+    if (remainSecs>0) {
+      setTimeout(function() { checkVideoPlaying(remainSecs-1, vid, mtype); }, 1000);
+      return;
+    }
+    showStatus(false, 'Video playback '+mtype+' failed.');
+  } else {
+    showStatus(true, 'Video '+mtype+' should be playing now');
+  }
+}
+function startVid() {
+  try {
+    var vid = document.getElementById('video');
+    vid.stop();
+    vid.data = '<?php echo getMediaURL(); ?>timecode.php/video.mp4';
+    vid.play(1);
+    playing = true;
+    checkVideoPlaying(30, vid, 'video/mp4');
+  } catch (e) {
+    showStatus(false, 'Cannot start video: '+e);
   }
 }
 function setSpeed(fact) {

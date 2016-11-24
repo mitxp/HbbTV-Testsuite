@@ -53,19 +53,32 @@ function runStep(name) {
       showStatus(false, 'Returning back to original channel failed.');
     }
   } else if (name=='bcvideo') {
+    var timout = null;
     vid.onChannelChangeSucceeded = function() {
       vid.onChannelChangeSucceeded = null;
       vid.onChannelChangeError = null;
       showStatus(false, 'No SecurityException received. Application had access to video/broadcast, but no access should have been granted (broadcast-independant app).');
+      if (timout) {
+        clearTimeout(timout);
+      }
     };
     vid.onChannelChangeError = function() {
       vid.onChannelChangeSucceeded = null;
       vid.onChannelChangeError = null;
       showStatus(false, 'No SecurityException received, but at least access to video/broadcast was denied via onChannelChangeError (broadcast-independant app).');
+      if (timout) {
+        clearTimeout(timout);
+      }
     };
     try {
       vid.bindToCurrentChannel();
       setInstr('Did not get the expected SecurityException (see A.2.4.2 in HbbTV spec), waiting for channel change event...');
+      timout = setTimeout(function() {
+        timout = null;
+        vid.onChannelChangeSucceeded = null;
+        vid.onChannelChangeError = null;
+        showStatus(false, 'No SecurityException received and did not receive any channel change event, too.');
+      }, 10000);
     } catch (e) {
       vid.onChannelChangeSucceeded = null;
       vid.onChannelChangeError = null;
