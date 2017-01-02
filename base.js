@@ -140,8 +140,28 @@ function menuSelectByName(snam) {
   }
 }
 
+function reportStatus(stepid, succss, note, txt) {
+  var url, req = null;
+  if (!stepid) {
+    return null;
+  }
+  try {
+    url = '../report.php?step='+encodeURIComponent(''+stepid);
+    url += '&succss='+(succss===2?2:(succss?0:1));
+    url += '&pin='+encodeURIComponent(''+automate.pin);
+    url += '&run='+encodeURIComponent(''+automate.testrun);
+    url += '&note='+encodeURIComponent(''+note);
+    url += '&txt='+encodeURIComponent(''+txt);
+    req = new XMLHttpRequest();
+    req.open('GET', url, true);
+    req.send(null);
+  } catch (ignore) {
+  }
+  return req;
+}
+
 function showStatus(succss, txt) {
-  var url, elem = document.getElementById('status');
+  var req, elem = document.getElementById('status');
   elem.className = succss===2 ? 'statwarn' : (succss ? 'statok' : 'statfail');
   if (!txt) {
     elem.innerHTML = '';
@@ -165,19 +185,9 @@ function showStatus(succss, txt) {
     } catch (ignore) {
     }
   }
-  if (automate.stepid) {
-    try {
-      url = '../report.php?step='+encodeURIComponent(''+automate.stepid);
-      url += '&succss='+(succss===2?2:(succss?0:1));
-      url += '&pin='+encodeURIComponent(''+automate.pin);
-      url += '&run='+encodeURIComponent(''+automate.testrun);
-      url += '&note='+encodeURIComponent(''+automate.note);
-      url += '&txt='+encodeURIComponent(''+txt);
-      automate.req = new XMLHttpRequest();
-      automate.req.open('GET', url, true);
-      automate.req.send(null);
-    } catch (ignore) {
-    }
+  req = reportStatus(automate.stepid, succss, automate.note, txt);
+  if (req) {
+    automate.req = req;
     runNextAutoTest();
   }
 }
@@ -234,6 +244,7 @@ function runNextAutoTest(forceStart) {
     }
   }
   while (selidx<opts.length && 'ignore'===opts[selidx].getAttribute('automate')) {
+    reportStatus(testPrefix+(testPrefix?'.':'')+opts[selidx].getAttribute('name'), 2, 'ignore', 'This test is not part of the automated testsuite. Please run it manually.');
     selidx++;
   }
   if (selidx>=opts.length) {
@@ -268,7 +279,7 @@ function stopAutomation() {
     clearTimeout(automate.timer);
   }
   try {
-    i = document.getElementById('bgdiv');
+    var i = document.getElementById('bgdiv');
     if (i) {
       i.style.backgroundColor = '#132d48';
     }
