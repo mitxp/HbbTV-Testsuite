@@ -22,7 +22,7 @@ window.onload = function() {
   setInstr('Please select the desired test from the menu, then press OK.');
   <?php if (array_key_exists('isok', $_REQUEST) && array_key_exists('found', $_REQUEST)) { ?>
     menuSelect(<?php echo (int)$_REQUEST['select']; ?>);
-    showStatus(<?php echo $_REQUEST['isok']==='1'?'true':'false'; ?>, 'Cookie mxphbbtv was <?php $_REQUEST['found']==='1'?'':'not '; ?>found.');
+    showStatus(<?php echo $_REQUEST['isok']==='1'?'true':'false'; ?>, 'Cookie mxphbbtv was <?php echo $_REQUEST['found']==='1'?'':'not '; ?>found.');
   <?php } ?>
   runNextAutoTest();
 };
