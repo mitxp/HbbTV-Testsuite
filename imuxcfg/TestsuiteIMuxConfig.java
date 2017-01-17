@@ -380,7 +380,7 @@ public class TestsuiteIMuxConfig {
       }
     }
     file = new File(tsFilesDir, "sevent.ts");
-    ret[2] = uploadStream(conn, "Testsuite-SEvent", file, 103400);
+    ret[2] = uploadStream(conn, "Testsuite-SEvent", file, 37000);
     for (TStreamPacketsPID pid : ret[2].getTStreamPacketsPIDs()) {
       switch (pid.getSourcePID()) {
         case 5006:
