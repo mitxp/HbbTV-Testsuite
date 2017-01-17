@@ -80,7 +80,7 @@ function registerListener(url, invalid) {
       return;
     }
     var succss = e.data && e.data.length>3 && eventname==e.name && 'trigger'==e.status;
-    var i, found, sedata = e.data, setext = clearInvalidChars(e.text);
+    var i, found, correctText = false, sedata = e.data, setext = clearInvalidChars(e.text);
     var msg = 'data='+sedata+', text='+setext+', status='+e.status;
     if (succss) {
       try {
@@ -90,9 +90,10 @@ function registerListener(url, invalid) {
       }
       found = false;
       for (i=0; i<expectedEvents.length; i++) {
-        if (sedata===expectedEvents[i].data && setext===expectedEvents[i].text) {
+        if (sedata===expectedEvents[i].data) {
           found = true;
           expectedEvents[i].found++;
+          correctText = setext!==expectedEvents[i].text;
         }
       }
       if (!found) {
@@ -109,7 +110,12 @@ function registerListener(url, invalid) {
       return;
     }
     if (!succss) {
-      showStatus(succss, 'Received invalid StreamEvent. '+msg);
+      showStatus(false, 'Received invalid StreamEvent (data does not match). '+msg);
+      unregisterListener(false);
+      return;
+    }
+    if (!correctText) {
+      showStatus(false, 'Received invalid StreamEvent (text decoded incorrectly, see chapter 8.2.1.2). '+msg);
       unregisterListener(false);
       return;
     }
