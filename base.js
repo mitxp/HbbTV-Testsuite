@@ -193,7 +193,12 @@ function showStatus(succss, txt) {
 }
 
 function setInstr(txt) {
-  document.getElementById('instr').innerHTML = txt;
+  var instr = document.getElementById('instr');
+  try {
+    instr.innerHTML = txt;
+  } catch (ignore) {
+    instr.innerHTML = "Cannot display message.";
+  }
 }
 
 function runNextAutoTest(forceStart) {

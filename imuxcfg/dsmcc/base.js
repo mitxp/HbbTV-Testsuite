@@ -58,7 +58,7 @@ function registerKeyEventListener() {
     }
   }, false);
 }
-function registerMenuListener(execTest) {
+function registerMenuListener(execTest, noPreventDefault) {
   automate.execSelectedTest = function(execBefore) {
     var i, liid = opts[selected].getAttribute('name');
     automate.stepid = testPrefix+(testPrefix?'.':'')+liid;
@@ -76,18 +76,28 @@ function registerMenuListener(execTest) {
     var kc = e.keyCode;
     if (kc===VK_UP) {
       menuSelect(selected-1);
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
     } else if (kc===VK_DOWN) {
       menuSelect(selected+1);
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
     } else if (kc===VK_LEFT) {
       menuSelect(selected-6);
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
     } else if (kc===VK_RIGHT) {
       menuSelect(selected+6);
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
     } else if (kc===VK_ENTER) {
-      e.preventDefault();
+      if (!noPreventDefault) {
+        e.preventDefault();
+      }
       automate.execSelectedTest(null);
     } else if (kc===VK_BLUE) {
       setTimeout(function() {
@@ -130,14 +140,38 @@ function menuSelectByName(snam) {
   }
 }
 
+function reportStatus(stepid, succss, note, txt) {
+  var url, req = null;
+  if (!stepid) {
+    return null;
+  }
+  try {
+    url = '../report.php?step='+encodeURIComponent(''+stepid);
+    url += '&succss='+(succss===2?2:(succss?0:1));
+    url += '&pin='+encodeURIComponent(''+automate.pin);
+    url += '&run='+encodeURIComponent(''+automate.testrun);
+    url += '&note='+encodeURIComponent(''+note);
+    url += '&txt='+encodeURIComponent(''+txt);
+    req = new XMLHttpRequest();
+    req.open('GET', url, true);
+    req.send(null);
+  } catch (ignore) {
+  }
+  return req;
+}
+
 function showStatus(succss, txt) {
-  var url, elem = document.getElementById('status');
+  var req, elem = document.getElementById('status');
   elem.className = succss===2 ? 'statwarn' : (succss ? 'statok' : 'statfail');
   if (!txt) {
     elem.innerHTML = '';
     return;
   }
-  elem.innerHTML = '<b>Status:<'+'/b><br />'+txt;
+  try {
+    elem.innerHTML = '<b>Status:<'+'/b><br />'+txt;
+  } catch (ignore) {
+    elem.innerHTML = '<b>Status:<'+'/b><br />Cannot display message.';
+  }
   if (succss) {
     setInstr('Test succeeded, please execute the next test<br />(press OK).');
     if (opts) menuSelect(selected+1);
@@ -151,29 +185,24 @@ function showStatus(succss, txt) {
     } catch (ignore) {
     }
   }
-  if (automate.stepid) {
-    try {
-      url = '../report.php?step='+encodeURIComponent(''+automate.stepid);
-      url += '&succss='+(succss===2?2:(succss?0:1));
-      url += '&pin='+encodeURIComponent(''+automate.pin);
-      url += '&run='+encodeURIComponent(''+automate.testrun);
-      url += '&note='+encodeURIComponent(''+automate.note);
-      url += '&txt='+encodeURIComponent(''+txt);
-      automate.req = new XMLHttpRequest();
-      automate.req.open('GET', url, true);
-      automate.req.send(null);
-    } catch (ignore) {
-    }
+  req = reportStatus(automate.stepid, succss, automate.note, txt);
+  if (req) {
+    automate.req = req;
     runNextAutoTest();
   }
 }
 
 function setInstr(txt) {
-  document.getElementById('instr').innerHTML = txt;
+  var instr = document.getElementById('instr');
+  try {
+    instr.innerHTML = txt;
+  } catch (ignore) {
+    instr.innerHTML = "Cannot display message.";
+  }
 }
 
 function runNextAutoTest(forceStart) {
-  var txt, i, j, blanks, eq, selidx = 0, cookieval = [];
+  var txt, i, j, blanks, eq, goingDeep = null, nextName = null, selidx = 0, cookieval = [];
   try {
     txt = document.cookie.split(";");
     for (i=0; i<txt.length; i++) {
@@ -210,17 +239,23 @@ function runNextAutoTest(forceStart) {
     eq = txt[i]===cookieval[i+2];
   }
   if (!forceStart && eq && cookieval[txt.length+2]) {
-    menuSelectByName(cookieval[txt.length+2]);
+    nextName = cookieval[txt.length+2];
+    menuSelectByName(nextName);
     selidx = selected;
-    if (!cookieval[txt.length+3] || cookieval[txt.length+3]==='exit') {
+    goingDeep = cookieval.length>txt.length+3 ? cookieval[txt.length+3] : null;
+    if (!goingDeep || 'exit'===goingDeep) {
       selidx++;
+      goingDeep = null;
     }
   }
   while (selidx<opts.length && 'ignore'===opts[selidx].getAttribute('automate')) {
+    reportStatus(testPrefix+(testPrefix?'.':'')+opts[selidx].getAttribute('name'), 2, 'ignore', 'This test is not part of the automated testsuite. Please run it manually.');
     selidx++;
   }
   if (selidx>=opts.length) {
-    stopAutomation();
+    if (!nextName || nextName!=='exit') {
+      stopAutomation();
+    }
     return;
   }
   if (automate.timer) {
@@ -230,7 +265,9 @@ function runNextAutoTest(forceStart) {
     automate.timer = null;
     menuSelect(selidx);
     automate.execSelectedTest(function() {
-      document.cookie = automate.cookie+'='+automate.pin+'.'+automate.testrun+'.'+automate.stepid+';expires='+((new Date(new Date().getTime()+600000)).toGMTString())+';path=/';
+      if (!goingDeep) {
+        document.cookie = automate.cookie+'='+automate.pin+'.'+automate.testrun+'.'+automate.stepid+';expires='+((new Date(new Date().getTime()+600000)).toGMTString())+';path=/';
+      }
     });
   }, 2000);
   try {
@@ -245,6 +282,13 @@ function stopAutomation() {
   document.cookie = automate.cookie+'=0;expires='+((new Date()).toGMTString())+';path=/';
   if (automate.timer) {
     clearTimeout(automate.timer);
+  }
+  try {
+    var i = document.getElementById('bgdiv');
+    if (i) {
+      i.style.backgroundColor = '#132d48';
+    }
+  } catch (ignore) {
   }
 }
 
