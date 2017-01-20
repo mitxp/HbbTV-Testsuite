@@ -87,7 +87,7 @@ function runStep(name) {
       showStatus(false, 'Current threshold rating name is not string representation of value attribute');
       return;
     }
-    showStatus(true, 'Current rating threshold is '+rating.value+' (age '+(rating.value+3)+' years), labels='+rating.labels+', region='+rating.region);
+    showStatus(true, 'Current rating threshold is '+rating.value+' (age '+rating.value+' years), labels='+rating.labels+', region='+rating.region);
   }
 }
 //]]>
