@@ -41,14 +41,18 @@ $ALLOWEDCN['Philips Net TV TV 2k15'] = 1;
 $ALLOWEDCN['Philips Net TV TV 2k16'] = 1;
 
 $msg = '';
+$sslcn = array_key_exists('SSL_CLIENT_S_DN_CN', $_SERVER) ? $_SERVER['SSL_CLIENT_S_DN_CN'] : '';
 if (!$_SERVER['SSL_CLIENT_VERIFY']=='SUCCESS') {
-  $msg = 'Client SSL certificate signed by unknown CA: ';
+  $msg = 'Client SSL certificate signed by unknown CA.';
 } else {
-  $sslcn = $_SERVER['SSL_CLIENT_S_DN_CN'];
   if (!$ALLOWEDCN[$sslcn]) {
     $msg = "Unknown CN=$sslcn (please send us an email with your CN!)";
   }
 }
+$logfile = 'cn/'.md5($sslcn).'.txt';
+@file_put_contents($logfile, "CN=$sslcn\nRESULT=$msg\n");
+@chmod($logfile, 0666);
+
 if ($msg) {
   $msg = "ERROR: $msg";
 } else {
@@ -67,7 +71,7 @@ $fp = @fopen('/tmp/clientssltest','at');
 @fputs($fp, date('Y-m-d H:i:s').':'.$_SERVER['REMOTE_ADDR'].':'.$msg."\n");
 @fclose($fp);
 
-if ($_REQUEST['html']) {
+if (array_key_exists('html', $_REQUEST) && $_REQUEST['html']) {
   echo '<?xml version="1.0" encoding="utf-8" ?>'."\n".'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n".'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de"><head><title>SSL Check</title>'."\n";
   echo '<style type="text/css">'."\nbody { width: 1280px; height: 720px; margin: 0; background-color: #000000; } p { color: #ffffff; padding: 100px; font-size: 24px; }\n</style>\n";
   echo "</head><body><p>\n";
