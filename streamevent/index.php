@@ -93,7 +93,8 @@ function registerListener(url, invalid) {
         if (sedata===expectedEvents[i].data) {
           found = true;
           expectedEvents[i].found++;
-          correctText = setext!==expectedEvents[i].text;
+          correctText = setext===expectedEvents[i].text;
+          break;
         }
       }
       if (!found) {
