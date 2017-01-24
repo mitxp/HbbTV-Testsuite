@@ -63,7 +63,7 @@ function registerListener(url, invalid) {
   var expectedEvents = [
     {"data": "48656c6c6f204862625456", "text": "Hello HbbTV", "found": 0},
     {"data": "54657374206576656e7420c3a4c3b6c3bc21", "text": "Test event \u00e4\u00f6\u00fc!", "found": 0},
-    {"data": "cafebabe0008090a0d101fff", "text": "\r\n", "found": 0}
+    {"data": "cafebabe0008090a0d101fff", "text": "\n\r", "found": 0}
   ];
   listener = function(e) {
     if (!e) {
