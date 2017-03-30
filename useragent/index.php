@@ -102,7 +102,7 @@ function checkPlayer() {
   <li name="vidplayer">Test 2: Check video player user agent</li>
   <li name="exit">Return to test menu</li>
 </ul>
-<div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
+<div id="status" style="left: 700px; top: 300px; width: 480px; height: 400px;"></div>
 
 </body>
 </html>
