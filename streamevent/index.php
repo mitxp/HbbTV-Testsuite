@@ -81,7 +81,7 @@ function registerListener(url, invalid) {
     }
     var succss = e.data && e.data.length>3 && eventname==e.name && 'trigger'==e.status;
     var i, found, correctText = false, sedata = e.data, setext = clearInvalidChars(e.text);
-    var msg = 'data='+sedata+', text='+setext+', status='+e.status;
+    var msg = 'data='+sedata+', text='+setext+', status='+e.status+', name='+e.name;
     if (succss) {
       try {
         sedata = sedata.toLowerCase().replace(/ /g, '');
@@ -168,7 +168,7 @@ function runStep(name) {
   } else if (name==='dvburl') {
     registerListener(isdsmcc ? 'sevent' : ('dvb://'+service1[0].toString(16)+'.'+service1[1].toString(16)+'.'+service1[2].toString(16)+'.'+dsmccctag.toString(16)+'/sevent'), false);
   } else if (name==='xmlinvalid') {
-    registerListener('sevent.php?ctag='+(seventctag+1), true);
+    registerListener('sevent.php?ctag='+(seventctag+10), true);
   } else if (name==='dvbinvalid') {
     registerListener(isdsmcc ? 'xxx' : ('dvb://'+service1[0].toString(16)+'.'+service1[1].toString(16)+'.'+service1[2].toString(16)+'.'+dsmccctag.toString(16)+'/xxx'), true);
   } 
