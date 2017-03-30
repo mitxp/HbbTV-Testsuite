@@ -39,6 +39,8 @@ function validateUserAgent($uagent, &$msg) {
   $capabilities = str_replace('+SYNC_SLAVE', '', $capabilities);
   $capabilities = str_replace('+IPH', '', $capabilities);
   $capabilities = str_replace('+AFS', '', $capabilities);
+  # non-standard capabilities:
+  $capabilities = str_replace('+TVPLUS', '', $capabilities);
   if ($capabilities) {
     $msg = 'invalid capabilities '.$capabilities;
     return false;
