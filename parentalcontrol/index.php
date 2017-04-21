@@ -83,6 +83,14 @@ function runStep(name) {
       showStatus(false, 'Current threshold has invalid scheme');
       return;
     }
+    if (!rating.hasOwnProperty('name') || !rating.hasOwnProperty('value')) {
+      showStatus(false, 'The returned rating scheme threshold does not have both the name and value properties');
+      return;
+    }
+    if (typeof rating.name === 'undefined' && typeof rating.value === 'undefined') {
+      showStatus(false, 'Currently, no threshold is configured. Please configure a parental rating threshold on your device.');
+      return;
+    }
     if (parseInt(rating.name)!=rating.value) {
       showStatus(false, 'Current threshold rating name is not string representation of value attribute');
       return;
