@@ -192,6 +192,14 @@ function showStatus(succss, txt) {
   }
 }
 
+function showAppStartStatus(succss, txt) {
+  if (!succss) {
+    showStatus(succss, txt);
+    return;
+  }
+  setInstr(txt);
+}
+
 function setInstr(txt) {
   var instr = document.getElementById('instr');
   try {
