@@ -57,7 +57,7 @@ function runStep(name) {
     } else if (name=="localSysDeviceID") {
       attrib = 'deviceID';
       result = oipfcfg.localSystem.deviceID;
-      valid = result.length > 0;
+      valid = result.length > 0 || "" === result;
     } else if (name=="localSysModelName") {
       attrib = 'modelName';
       result = oipfcfg.localSystem.modelName;
