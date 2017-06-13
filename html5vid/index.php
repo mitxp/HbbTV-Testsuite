@@ -134,26 +134,47 @@ function vidduration(millis) {
     showStatus(false, 'duration check failed.');
   }
 }
+function moveVideoAway() {
+  var vid = document.getElementById('video');
+  var ce, cntnr = document.getElementById('oldvidcontainer');
+  if (!vid) {
+    return; // no video to be removed
+  }
+  if (isvidtyp) {
+    // HTML5 video is simple:
+    vid.innerHTML = ""; // remove sources
+    try {
+      vid.load(); // This will release resources for the HTML5 video
+    } catch (ignore) {
+    }
+    return;
+  }
+  while (ce = cntnr.firstChild) {
+    try {
+      ce.release();
+    } catch (ignore) {
+    }
+    cntnr.removeChild(ce);
+  }
+  if (!vid) {
+    return;
+  }
+  // vid is video/broadcast object:
+  // first, move it out of the way, to make room for the new video object
+  vid.parentElement.removeChild(vid);
+  vid.removeAttribute('id');
+  cntnr.appendChild(vid);
+  // now, stop the video to release resources for HTML5 video (do NOT release it)
+  try {
+    vid.stop();
+  } catch (e) {
+    // ignore
+  }
+}
 function govid(typ, beforePlay) {
   var elem = document.getElementById('vidcontainer');
-  var oldvid = document.getElementById('video');
+  moveVideoAway();
   isvidtyp = typ;
-  try {
-    oldvid.stop(); // This will stop the broadcast video, but will throw an (ignored) exception for the streaming video
-  } catch (e) {
-    // ignore
-  }
-  try {
-    oldvid.release(); // This will release the broadcast video, but will throw an (ignored) exception for the streaming video
-  } catch (e) {
-    // ignore
-  }
-  try {
-    oldvid.innerHTML = "";
-    oldvid.load(); // This will release resources for the HTML5 video, but will throw an (ignored) exception for the broadcast video
-  } catch (e) {
-    // ignore
-  }
   var ihtml;
   if (typ) {
     ihtml = '<video id="video" style="position: absolute; left: 600px; top: 250px; width: 160px; height: 90px;"><'+'/video>';
@@ -171,16 +192,16 @@ function govid(typ, beforePlay) {
     var videlem = document.getElementById('video');
     if (videlem) {
       if (typ) {
-	phase = 2;
+        phase = 2;
         if (beforePlay) {
           beforePlay(videlem);
         }
         videlem.innerHTML = '<source src="<?php echo getMediaURL(); ?>timecode.php/video.mp4"><'+'/source>';
-	phase = 3;
+        phase = 3;
         videlem.play();
         succss = true;
       } else {
-	phase = 4;
+        phase = 4;
         videlem.bindToCurrentChannel();
         succss = true;
       }
@@ -333,6 +354,7 @@ function testEvents() {
 
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px; background-color: #132d48;" />
 
+<div id="oldvidcontainer" style="left: 0px; top: 0px; width: 1280px; height: 720px;"></div>
 <div id="vidcontainer" style="left: 0px; top: 0px; width: 1280px; height: 720px;"></div>
 <?php echo appmgrObject(); ?>
 <div style="left: 0px; top: 0px; width: 1280px; height: 720px;">
