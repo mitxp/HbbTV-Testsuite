@@ -134,7 +134,7 @@ function vidduration(millis) {
     showStatus(false, 'duration check failed.');
   }
 }
-function moveVideoAway() {
+function moveVideoAway(alwaysCleanup) {
   var vid = document.getElementById('video');
   var ce, cntnr = document.getElementById('oldvidcontainer');
   if (!vid) {
@@ -147,7 +147,9 @@ function moveVideoAway() {
       vid.load(); // This will release resources for the HTML5 video
     } catch (ignore) {
     }
-    return;
+    if (!alwaysCleanup) {
+      return;
+    }
   }
   while (ce = cntnr.firstChild) {
     try {
@@ -156,6 +158,9 @@ function moveVideoAway() {
     }
     cntnr.removeChild(ce);
   }
+  if (isvidtyp) {
+    return;
+  }
   if (!vid) {
     return;
   }
@@ -163,17 +168,26 @@ function moveVideoAway() {
   // first, move it out of the way, to make room for the new video object
   vid.parentElement.removeChild(vid);
   vid.removeAttribute('id');
-  cntnr.appendChild(vid);
+  if (!alwaysCleanup) {
+    cntnr.appendChild(vid);
+  }
   // now, stop the video to release resources for HTML5 video (do NOT release it)
   try {
     vid.stop();
-  } catch (e) {
+  } catch (ignore) {
     // ignore
+  }
+  if (alwaysCleanup) {
+    try {
+      vid.release();
+    } catch (ignore) {
+      // ignore
+    }
   }
 }
 function govid(typ, beforePlay) {
   var elem = document.getElementById('vidcontainer');
-  moveVideoAway();
+  moveVideoAway(!typ);
   isvidtyp = typ;
   var ihtml;
   if (typ) {
