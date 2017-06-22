@@ -1,4 +1,6 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+
 function clean($txt) {
   $txt = str_replace(';', ',', $txt);
   $ret = '';
