@@ -51,8 +51,8 @@ function runStep(name) {
   speedchangereceived = false;
   poschangereceived = false;
   document.getElementById('vidstate').innerHTML = '';
-  vid.onPlayStateChange = function() {
-    var state = vid.playState;
+  vid.onPlayStateChange = function(newstate) {
+    var state = (newstate && typeof newstate === 'number') ? newstate : vid.playState;
     var ename = 'unknown event state '+state;
     if (state>=0 && state<eventnames.length) {
       foundevents[state]++;
