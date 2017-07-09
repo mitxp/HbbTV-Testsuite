@@ -228,6 +228,7 @@ function getComponents() {
       checkvc = vc[j];
       found = compareComponent(checkvc, i, intType);
       if (found<0) {
+        showStatus(false, 'call getComponents('+intType+') returned invalid component of type '+checkvc.type);
         return false; // compare failed
       }
       if (found) {
@@ -251,9 +252,8 @@ function getComponents() {
 }
 function selectComponents(index) {
   var vc = getComponents();
-  var i, shouldBe, activevc, intType = vid.COMPONENT_TYPE_AUDIO;
+  var i, intType = vid.COMPONENT_TYPE_AUDIO;
   if (!vc) {
-    showStatus(false, 'no components');
     return false;
   }
   if (!hbbtv12) {
@@ -276,14 +276,14 @@ function selectComponents(index) {
     try {
       vid.unselectComponent(intType);
     } catch (e) {
-      showStatus(false, 'cannot unselect component by type '+vc[i]);
+      showStatus(false, 'cannot unselect component by type '+intType);
       return false;
     }
   }
   setTimeout(function() {selectComponentsStage2(index, vc);}, (hbbtv12&&index>=0)?100:2000);
 }
 function selectComponentsStage2(index, vc) {
-  var i, shouldBe, activevc, intType = vid.COMPONENT_TYPE_AUDIO;
+  var shouldBe, activevc, intType = vid.COMPONENT_TYPE_AUDIO;
   try {
     activevc = vid.getCurrentActiveComponents(intType);
   } catch (e) {
