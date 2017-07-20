@@ -57,7 +57,7 @@ function runStep(name) {
     } else if (name=="localSysDeviceID") {
       attrib = 'deviceID';
       result = oipfcfg.localSystem.deviceID;
-      valid = result.length > 0 || "" === result;
+      valid = (typeof result === "undefined") || result.length > 0 || "" === result;
     } else if (name=="localSysModelName") {
       attrib = 'modelName';
       result = oipfcfg.localSystem.modelName;
@@ -77,7 +77,7 @@ function runStep(name) {
     } else if (name=="localSysSerialNumber") {
       attrib = 'serialNumber';
       result = oipfcfg.localSystem.serialNumber;
-      valid = result.length > 0;
+      valid = (typeof result === "undefined") || result.length > 0 || "" === result;
     } else {
       showStatus(false, 'Unknown test name '+name);
       return;
