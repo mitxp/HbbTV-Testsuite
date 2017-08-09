@@ -68,7 +68,7 @@ function runStep(name) {
         // failed
       }
       if (succss) {
-        setInstr(true, 'Starting application...');
+        showAppStartStatus(true, 'Starting application...');
         app.destroyApplication();
       } else {
         showStatus(false, 'Starting application via appmgr failed');
@@ -87,7 +87,7 @@ function runStep(name) {
         // failed
       }
       if (succss) {
-        setInstr(true, 'Starting application...');
+        showAppStartStatus(true, 'Starting application...');
         app.destroyApplication();
       } else {
         showStatus(false, 'Starting application via appmgr failed');
@@ -129,7 +129,7 @@ function runStep(name) {
     }
     try {
       if (app.createApplication('xmlait.php/ait.aitx'+params, false)) { // ETSI TS 102 809 requires extension .aitx
-        setInstr(true, 'Starting of application via XML succeeded, please stand by...');
+        showAppStartStatus(true, 'Starting of application via XML succeeded, please stand by...');
         app.destroyApplication();
       } else {
         showStatus(false, 'Starting of application via XML failed.');
