@@ -9,7 +9,7 @@ openDocument();
 //<![CDATA[
 var isvidtyp = false;
 var timr = null;
-var eventNames = ["ended", "error", "loadeddata", "loadedmetadata", "loadstart", "pause", "play", "playing", "ratechange", "seeked", "seeking"];
+var eventNames = ["ended", "error", "loadeddata", "loadedmetadata", "loadstart", "pause", "play", "playing", "ratechange", "seeked", "seeking", "waiting"];
 var capturedEvents = {};
 var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 window.onload = function() {
@@ -239,7 +239,11 @@ function clearEvents() {
 function testEvents() {
   var i, stages, checkStage, checkEvents, elistener, beforePlay, videoElement = null;
   elistener = function(event) {
-    capturedEvents[event.type]++;
+    var etype = event.type;
+    if (etype==="waiting" && !capturedEvents.playing) {
+      return; // ignore waiting before playback started
+    }
+    capturedEvents[etype]++;
   };
   beforePlay = function(videlem) {
     videoElement = videlem;
@@ -252,7 +256,7 @@ function testEvents() {
     return; // setting up video failed
   }
   checkEvents = function(check) {
-    var ename, expct, actl, typ;
+    var ename, expct, actl, typ, enamesplit;
     for (ename in check) {
       if (!check.hasOwnProperty(ename)) {
         continue;
@@ -263,7 +267,13 @@ function testEvents() {
       }
       typ = expct.substring(0, 1);
       expct = parseInt(expct.substring(1), 10);
-      actl = capturedEvents[ename]||0;
+      enamesplit = ename.split('-');
+      if (enamesplit.length===2) {
+        actl = capturedEvents[enamesplit[0]]||0;
+        actl -= capturedEvents[enamesplit[1]]||0;
+      } else {
+        actl = capturedEvents[ename]||0;
+      }
       if ((typ==='='&&actl===expct) || (typ==='<'&&actl<expct) || (typ==='>'&&actl>expct)) {
         continue; // value is OK
       }
@@ -278,7 +288,7 @@ function testEvents() {
       if (!capturedEvents.playing) {
         return "WAIT";
       }
-      return checkEvents({"loadeddata":">0", "loadedmetadata":">0", "loadstart":"=1", "pause":"=0", "play":"=1", "playing":"=1", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
+      return checkEvents({"loadeddata":">0", "loadedmetadata":">0", "loadstart":"=1", "pause":"=0", "play":"=1", "playing":">0", "ratechange":"=0", "seeked":"=0", "seeking":"=0", "playing-waiting":"=1"});
     } },
     {"descr":"Pausing video...", "pause":3000, "check":function() { clearEvents(); videoElement.pause(); return "OK"; } },
     {"descr":"Waiting for video to pause...", "check":function() {
