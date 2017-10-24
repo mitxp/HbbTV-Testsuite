@@ -285,7 +285,7 @@ function testEvents() {
   var endCount = 0;
   stages = [
     {"descr":"Waiting for video to start...", "check":function() {
-      if (!capturedEvents.playing) {
+      if (!capturedEvents.playing || videoElement.readyState<3) {
         return "WAIT";
       }
       return checkEvents({"loadeddata":">0", "loadedmetadata":">0", "loadstart":"=1", "pause":"=0", "play":"=1", "playing":">0", "ratechange":"=0", "seeked":"=0", "seeking":"=0", "playing-waiting":"=1"});
@@ -299,14 +299,14 @@ function testEvents() {
     } },
     {"descr":"Resuming video...", "pause":3000, "check":function() { clearEvents(); videoElement.play(); return "OK"; } },
     {"descr":"Waiting for video to resume...", "check":function() {
-      if (!capturedEvents.playing) {
+      if (!capturedEvents.playing || videoElement.readyState<3) {
         return "WAIT";
       }
       return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=0", "play":"=1", "playing":"=1", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
     } },
     {"descr":"Seeking video...", "pause":3000, "check":function() { clearEvents(); videoElement.currentTime = 240; return "OK"; } },
     {"descr":"Waiting for seek to complete...", "check":function() {
-      if (videoElement.seeking) {
+      if (videoElement.seeking || videoElement.readyState<3) {
         return "WAIT";
       }
       return checkEvents({"loadeddata":"?", "loadedmetadata":"?", "loadstart":"?", "pause":"=0", "play":"=0", "playing":"?", "ratechange":"=0", "seeked":"=1", "seeking":"=1"});
