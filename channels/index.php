@@ -107,12 +107,12 @@ function runStep(name) {
         }
       };
       setInstr('Setting channel, waiting for onChannelChangeSucceeded...');
-      vid.setChannel(ch, false);
       occsTimer = setTimeout(function() {
         occsTimer = null;
         vid.onChannelChangeSucceeded = null;
         showStatus(false, 'did not retrieve onChannelChangeSucceeded event');
       }, 15000);
+      vid.setChannel(ch, false);
     } catch (e) {
       showStatus(false, 'setChannel('+ch+') failed.');
       return;
