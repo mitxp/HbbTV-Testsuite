@@ -24,12 +24,17 @@ window.onload = function() {
   } ?>
   runNextAutoTest();
 };
+var occsTimer = null;
 function runStep(name) {
+  var ch = null;
   setInstr('Executing step...');
   showStatus(true, '');
+  if (occsTimer) {
+    clearTimeout(occsTimer);
+    occsTimer = null;
+  }
   if (name=='switchch') {
     var vid = document.getElementById('video');
-    var ch = null;
     try {
       // OIPF 7.13.1.3 says that dsd is binary encoded, so decode hex string to latin-1 dsd
       var dsd = '';
@@ -47,8 +52,29 @@ function runStep(name) {
       return;
     }
     try {
+      vid.onChannelChangeSucceeded = function() {
+        if (occsTimer) {
+          clearTimeout(occsTimer);
+          occsTimer = null;
+        }
+        vid.onChannelChangeSucceeded = null;
+        setInstr('onChannelChangeSucceeded called, waiting for 10 sec for AIT retrieval...');
+        occsTimer = setTimeout(function() {
+          occsTimer = null;
+          if (vid.currentChannel) {
+            showStatus(true, 'setChannel succeeded.');
+          } else {
+            showStatus(false, 'setChannel succeeded but currentChannel is not available.');
+          }
+        }, 10000);
+      };
+      setInstr('Setting channel, waiting for onChannelChangeSucceeded...');
+      occsTimer = setTimeout(function() {
+        occsTimer = null;
+        vid.onChannelChangeSucceeded = null;
+        showStatus(false, 'did not retrieve onChannelChangeSucceeded event');
+      }, 15000);
       vid.setChannel(ch, false);
-      showStatus(true, 'setChannel succeeded.');
     } catch (e) {
       showStatus(false, 'setChannel('+ch+') failed.');
       return;
