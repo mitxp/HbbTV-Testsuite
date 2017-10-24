@@ -122,7 +122,8 @@ function runStep(name) {
       return;
     }
     try {
-      if (document.getElementById('video').currentChannel.idType===12) {
+      var channelIdType = document.getElementById('video').currentChannel.idType;
+      if (channelIdType===12 || channelIdType===16) {
         params = '?dvb=t';
       }
     } catch (e) {

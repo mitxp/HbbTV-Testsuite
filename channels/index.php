@@ -197,11 +197,11 @@ function runStep(name) {
     try {
       var txttype = null, numtype, cch = vid.currentChannel;
       numtype = cch.idType;
-      if (numtype===cch.ID_DVB_T) {
+      if (numtype===cch.ID_DVB_T || numtype===16) {
         txttype = "DVB-T";
-      } else if (numtype===cch.ID_DVB_S) {
+      } else if (numtype===cch.ID_DVB_S || numtype===15) {
         txttype = "DVB-S";
-      } else if (numtype===cch.ID_DVB_C) {
+      } else if (numtype===cch.ID_DVB_C || numtype===14) {
         txttype = "DVB-C";
       }
       if (txttype) {
