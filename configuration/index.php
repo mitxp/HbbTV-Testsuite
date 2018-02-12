@@ -125,7 +125,7 @@ function validateLanguageList(txt) {
   <li name="audlang">Show preferred audio language</li>
   <li name="sublang">Show preferred subtitle language</li>
   <li name="country">Show country ID</li>
-  <li name="uilang">Show preferred UI lang (HbbTV 1.2)</li>
+  <li name="uilang">Show preferred UI lang (HbbTV 1.2.1)</li>
   <li name="localSysDeviceID" class="Optional 7.3.3">Optional 7.3.3: localSys deviceID</li>
   <li name="localSysModelName" class="Optional 7.3.3">Optional 7.3.3: localSys modelName</li>
   <li name="localSysVendorName" class="Optional 7.3.3">Optional 7.3.3: localSys vendorName</li>

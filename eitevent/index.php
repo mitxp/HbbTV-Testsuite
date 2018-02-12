@@ -213,9 +213,9 @@ function runStep(name) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="pfevent">Present/following event (HbbTV 1.1)</li>
-  <li name="pfdescr">Present event descriptors (HbbTV 1.2)</li>
-  <li name="schedevent">Scheduled events (HbbTV 1.2)</li>
+  <li name="pfevent">Present/following event (HbbTV 1.1.1)</li>
+  <li name="pfdescr">Present event descriptors (HbbTV 1.2.1)</li>
+  <li name="schedevent">Scheduled events (HbbTV 1.2.1)</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
