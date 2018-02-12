@@ -138,11 +138,11 @@ function registerListener(url, invalid) {
     if (!unregisterListener(true)) {
       return;
     }
-    setInstr(msg+'. Waiting 5 sec to verify no event is received after unregister.');
+    setInstr(msg+'. Waiting 7 sec to verify no event is received after unregister.');
     waitTimer = setTimeout(function() {
       waitTimer = null;
       showStatus(true, msg);
-    }, 5000);
+    }, 7000);
   };
   try {
     vid.addStreamEventListener(url, eventname, listener);
