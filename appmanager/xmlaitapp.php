@@ -26,15 +26,29 @@ window.onload = function() {
 };
 var occsTimer = null;
 function runStep(name) {
-  var ch = null;
+  var ch = null, vid;
   setInstr('Executing step...');
   showStatus(true, '');
   if (occsTimer) {
     clearTimeout(occsTimer);
     occsTimer = null;
   }
-  if (name=='switchch') {
-    var vid = document.getElementById('video');
+  if (name=='accvid') {
+    vid = document.getElementById('video');
+    try {
+      if (vid.programmes && vid.programmes.length>0 && vid.programmes[0]) {
+        showStatus(false, 'Application had access to EIT programmes of video/broadcast, but no access should have been granted (broadcast-independant app).');
+        return;
+      }
+      if (vid.programmes) {
+        showStatus(false, 'Did not get Exception while accessing video, but no access should have been granted (broadcast-independant app).');
+        return;
+      }
+    } catch (e) {
+    }
+    showStatus(true, 'Access to video/broadcast denied via Exception (broadcast-independant app).');
+  } else if (name=='switchch') {
+    vid = document.getElementById('video');
     try {
       // OIPF 7.13.1.3 says that dsd is binary encoded, so decode hex string to latin-1 dsd
       var dsd = '';
@@ -115,8 +129,9 @@ function runStep(name) {
 <div class="txtdiv txtlg" style="left: 110px; top: 60px; width: 500px; height: 30px;">MIT-xperts HBBTV tests</div>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="switchch">Test 1: switch back to broadcast</li>
-  <li name="runapp">Test 2: start testsuite app again</li>
+  <li name="accvid">Test 1: check video access</li>
+  <li name="switchch">Test 2: switch back to broadcast</li>
+  <li name="runapp">Test 3: start testsuite app again</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
 
