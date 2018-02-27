@@ -1,3 +1,3 @@
-var releaseinfo = '3.1.5 (20170719)';
-var streamtime = [ 1500480420, 18, 7 ];
+var releaseinfo = '3.1.6 (20180227)';
+var streamtime = [ 1519747560, 17, 6 ];
 
