@@ -48,6 +48,7 @@ function unregisterListener(failOnError) {
     setInstr('Unregistering StreamEventListener...');
     try {
       vid.removeStreamEventListener(targeturl, eventname, listener);
+      setInstr('StreamEventListener unregistered.');
     } catch (e) {
       if (failOnError) {
         showStatus(false, 'Could not remove StreamEventListener');
@@ -122,11 +123,7 @@ function registerListener(url, invalid) {
     }
     found = 0;
     for (i=0; i<expectedEvents.length; i++) {
-      if (expectedEvents[i].found>1) {
-        unregisterListener(false);
-        showStatus(false, 'StreamEventListener received StreamEvents in incorrect order.');
-        return;
-      } else if (expectedEvents[i].found) {
+      if (expectedEvents[i].found) {
         found++;
       }
     }
