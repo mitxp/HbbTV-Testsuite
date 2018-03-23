@@ -24,6 +24,7 @@ window.onload = function() {
   runNextAutoTest();
 };
 function runStep(name) {
+  var vid;
   if (occsTimer) {
     clearTimeout(occsTimer);
     occsTimer = null;
@@ -55,7 +56,7 @@ function runStep(name) {
   } else if (name=='set') {
     // try to determine current channel to get IDs for other channel
     var onid, tsid, sid;
-    var vid = document.getElementById('video');
+    vid = document.getElementById('video');
     try {
       var ch = vid.currentChannel;
       if (ch.sid==service1[2]) {
@@ -120,7 +121,7 @@ function runStep(name) {
   } else if (name=='wait') {
     // try to determine current channel to get IDs for other channel
     var onid, tsid, sid;
-    var vid = document.getElementById('video');
+    vid = document.getElementById('video');
     try {
       var ch = vid.currentChannel;
       if (ch.onid==service1[0]&&ch.tsid==service1[1]&&ch.sid==service1[2]) {
@@ -159,7 +160,7 @@ function runStep(name) {
       showStatus(false, 'cannot determine current channel');
     }
   } else if (name=='nextc') {
-    var vid = document.getElementById('video');
+    vid = document.getElementById('video');
     try {
       vid.onChannelChangeSucceeded = function() {
         vid.onChannelChangeSucceeded = null;
@@ -176,7 +177,7 @@ function runStep(name) {
       return;
     }
   } else if (name=='prevc') {
-    var vid = document.getElementById('video');
+    vid = document.getElementById('video');
     try {
       vid.onChannelChangeSucceeded = function() {
         vid.onChannelChangeSucceeded = null;
@@ -193,7 +194,7 @@ function runStep(name) {
       return;
     }
   } else if (name=='ctype') {
-    var vid = document.getElementById('video');
+    vid = document.getElementById('video');
     try {
       var txttype = null, numtype, cch = vid.currentChannel;
       numtype = cch.idType;
@@ -211,6 +212,19 @@ function runStep(name) {
       }
     } catch (e) {
       showStatus(false, 'query of Channel idType failed.');
+      return;
+    }
+  } else if (name=='cnid') {
+    vid = document.getElementById('video');
+    try {
+      var cch = vid.currentChannel;
+      if (serviceNetworkId===cch.nid) {
+        showStatus(true, 'Channel network_id is '+cch.nid);
+      } else {
+        showStatus(false, 'Unexpected channel network_id: '+cch.nid);
+      }
+    } catch (e) {
+      showStatus(false, 'query of Channel network_id failed.');
       return;
     }
   }
@@ -236,6 +250,7 @@ echo appmgrObject(); ?>
   <li name="nextc" automate="ignore">Test 5: nextChannel()</li>
   <li name="prevc" automate="ignore">Test 6: prevChannel()</li>
   <li name="ctype">Test 7: Channel type</li>
+  <li name="cnid">Test 8: Channel network_id</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
