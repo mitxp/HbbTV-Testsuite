@@ -13,14 +13,14 @@ function sendContentType() {
 }
 
 function videoObject($left=0, $top=0, $width=1280, $height=720) {
-  if ($_REQUEST['demo']) {
+  if (array_key_exists('demo', $_REQUEST) && $_REQUEST['demo']) {
     global $ROOTDIR;
     return '<img id="video" style="position: absolute; left: '.$left.'px; top: '.$top.'px; width: '.$width.'px; height: '.$height.'px;" src="'.$ROOTDIR.'/video.jpg" />';
   }
   return '<object id="video" type="video/broadcast" style="position: absolute; left: '.$left.'px; top: '.$top.'px; width: '.$width.'px; height: '.$height.'px;"></object>';
 }
 function appmgrObject() {
-  if ($_REQUEST['demo']) return '';
+  if (array_key_exists('demo', $_REQUEST) && $_REQUEST['demo']) return '';
   return '<object id="appmgr" type="application/oipfApplicationManager" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object><object id="oipfcfg" type="application/oipfConfiguration" style="position: absolute; left: 0px; top: 0px; width: 0px; height: 0px;"></object>';
 }
 

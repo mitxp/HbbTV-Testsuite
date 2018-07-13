@@ -16,7 +16,7 @@ $range[1] = $size-1;
 if (isset($_SERVER['HTTP_RANGE'])) {
   list($sizeunit, $rangeinfo) = explode('=', $_SERVER['HTTP_RANGE'], 2);
   if (strtolower($sizeunit)=='bytes') {
-    list($rangetxt, $addranges) = explode(',', $rangeinfo, 2);
+    list($rangetxt) = explode(',', $rangeinfo, 2);
     list($from,$to) = explode('-', $rangetxt, 2);
     $from = max(0, (int)trim($from));
     $to = min($size-1, (int)trim($to));

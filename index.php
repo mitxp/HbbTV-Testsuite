@@ -1,9 +1,9 @@
 <?php
 $ROOTDIR='.';
 require("$ROOTDIR/base.php");
-$referer = $_SERVER['HTTP_REFERER'];
+$referer = array_key_exists('HTTP_REFERER', $_SERVER) ? $_SERVER['HTTP_REFERER'] : '';
 $i = strrpos($referer, '/');
-$referer = substr($referer, 0, $i);
+$referer = $i>=0 ? substr($referer, 0, $i) : '';
 $referer = substr(strrchr($referer, '/'), 1);
 $referer = addcslashes($referer, "\0..\37'\\");
 
