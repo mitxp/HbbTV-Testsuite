@@ -54,14 +54,15 @@ function runStep(name) {
 </ul>
 
 <div id="test1" style="left: 0px; top: 0px; width: 1280px; height: 720px; visibility: hidden;">
-  <div style="left: 102px; top: 279px; width: 385px; height: 18px; background-color: #0a1826;"></div>
-  <div style="left: 102px; top: 313px; width: 385px; height: 18px; background-color: #0a1826;"></div>
-  <div style="left: 102px; top: 377px; width: 340px; height: 17px; background-color: #0a1826;"></div>
-  <div style="left: 102px; top: 411px; width: 340px; height: 17px; background-color: #0a1826;"></div>
-  <div class="imgdiv" style="left: 100px; top: 250px; width: 419px; height: 193px; background-image: url(width.png);"></div>
-  <div class="txtdiv" style="left: 102px; top: 310px; width: 600px; height: 30px; font-size: 24px; font-family: Tiresias;">The quick brown fox jumps äöüß#?!_</div>
-  <div class="txtdiv" style="left: 102px; top: 408px; width: 600px; height: 30px; font-size: 24px; font-family: 'Letter Gothic 12 Pitch';">The quick brown fox äöüß#?!_</div>
-  <div class="txtdiv" style="left: 102px; top: 460px; width: 600px; height: 120px; font-size: 20px; font-family: monospace;">font-family: monospace;<br />The quick brown fox jumps äöüß#?!_<br />12345678901234567890<br />890a23b56w890i23m567</div>
+  <div style="left: 102px; top: 359px; width: 385px; height: 18px; background-color: #0a1826;"></div>
+  <div style="left: 102px; top: 393px; width: 385px; height: 18px; background-color: #0a1826;"></div>
+  <div style="left: 102px; top: 457px; width: 340px; height: 17px; background-color: #0a1826;"></div>
+  <div style="left: 102px; top: 491px; width: 340px; height: 17px; background-color: #0a1826;"></div>
+  <div class="txtdiv" style="left: 100px; top: 240px; width: 500px; font-size: 20px; line-height: 22px; white-space: normal;">The rendering (first line is reference img, second line is rendered by DUT) should be similar to indicated width. In no case it should exceed the black vertical line:</div>
+  <div class="imgdiv" style="left: 100px; top: 330px; width: 419px; height: 193px; background-image: url(width.png);"></div>
+  <div class="txtdiv" style="left: 102px; top: 390px; width: 600px; height: 30px; font-size: 24px; font-family: Tiresias;">The quick brown fox jumps äöüß#?!_</div>
+  <div class="txtdiv" style="left: 102px; top: 488px; width: 600px; height: 30px; font-size: 24px; font-family: 'Letter Gothic 12 Pitch';">The quick brown fox äöüß#?!_</div>
+  <div class="txtdiv" style="left: 102px; top: 540px; width: 600px; height: 120px; font-size: 20px; font-family: monospace;">font-family: monospace;<br />The quick brown fox jumps äöüß#?!_<br />12345678901234567890<br />890a23b56w890i23m567</div>
   <div class="txtdiv" style="left: 700px; top: 300px; width: 400px; height: 30px; color: #000000; font-size: 24px;">line-height test:</div>
   <div style="left: 680px; top: 330px; width: 440px; height: 240px; background-image: url(height.png);"></div>
   <div class="txtdiv" style="left: 700px; top: 330px; width: 400px; height: 240px; line-height: 30px; font-weight: bold; white-space: normal;">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
