@@ -82,7 +82,7 @@ function runStep(name) {
       vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>invalidformat.php';
       vid.play(1);
     } else if (name=='invalid1') {
-      vid.data = 'http://1.1.1.1/cannotconnect.mp4';
+      vid.data = 'http://10.240.255.128/cannotconnect.mp4';
       vid.play(1);
     } else if (name=='invalid2') {
       vid.data = 'http://<?php echo $_SERVER['SERVER_NAME'].str_replace('index.php','',$_SERVER['PHP_SELF']); ?>novideo.php/video.mp4';
