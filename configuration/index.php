@@ -54,6 +54,32 @@ function runStep(name) {
       attrib = 'countryId';
       result = config.countryId;
       valid = validateLanguageList(result) && result.length==3;
+    } else if (name=='subtitlesEnabled') {
+      attrib = 'subtitlesEnabled';
+      result = config.subtitlesEnabled;
+      valid = (typeof result === 'boolean');
+    } else if (name=='timeshiftSynchronized') {
+      attrib = 'timeShiftSynchronized';
+      result = config.timeShiftSynchronized;
+      valid = (typeof result === 'boolean');
+    } else if (name=='audioDescriptionEnabled') {
+      attrib = 'audioDescriptionEnabled';
+      result = config.audioDescriptionEnabled;
+      valid = (typeof result === 'boolean');
+    } else if (name=='networkIds') {
+      attrib = 'dtt_network_ids';
+      result = config.dtt_network_ids;
+      if(result === undefined) {
+        showStatus(2, attrib+' = '+result+'<br />If any DTT channels are present in the channel list, then the test are failed');
+        return;
+      } else {
+        valid = (result.length > 0 && result.some(function(nid){return nid === serviceNetworkId;}));
+      }
+    } else if (name=='distinctiveIdentifier') {
+      attrib = 'deviceId';
+      result = config.deviceId;
+      var mr = result.match(/#[1-5]|([a-z0-9\-]+)/gi);
+      valid = (mr != undefined && mr.length == 1 && mr[0] == result);
     } else if (name=="localSysDeviceID") {
       attrib = 'deviceID';
       result = oipfcfg.localSystem.deviceID;
@@ -126,6 +152,11 @@ function validateLanguageList(txt) {
   <li name="sublang">Show preferred subtitle language</li>
   <li name="country">Show country ID</li>
   <li name="uilang">Show preferred UI lang (HbbTV 1.2.1)</li>
+  <li name="subtitlesEnabled">Show subtitle enabled (HbbTV 1.4.1)</li>
+  <li name="timeshiftSynchronized">Show timeShiftSynchronized (HbbTV 1.4.1)</li>
+  <li name="audioDescriptionEnabled">Show audioDescriptionEnabled (HbbTV 1.4.1)</li>
+  <li name="networkIds">Show networkIDs (HbbTV 1.4.1)</li>
+  <li name="distinctiveIdentifier">Show distinctive identifier (HbbTV 1.4.1)</li>
   <li name="localSysDeviceID" class="Optional 7.3.3">Optional 7.3.3: localSys deviceID</li>
   <li name="localSysModelName" class="Optional 7.3.3">Optional 7.3.3: localSys modelName</li>
   <li name="localSysVendorName" class="Optional 7.3.3">Optional 7.3.3: localSys vendorName</li>
