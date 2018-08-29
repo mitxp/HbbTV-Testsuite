@@ -54,8 +54,9 @@ function runStep(name) {
       req.onreadystatechange = null;
       req = null;
     }
-    req.open('GET', 'validate.php?data='+xmlt);
-    req.send(null);
+    req.open('POST', 'validate.php');
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    req.send('data='+xmlt);
   } else if (name=='extrasd') {
     var num = 'undefined';
     try {
