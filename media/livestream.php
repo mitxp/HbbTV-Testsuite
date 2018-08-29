@@ -10,7 +10,7 @@ if(!$fp) {
 }
 
 header('Last-Modified: '.gmdate("D, d M Y H:i:s", time())." GMT");
-header('Accept-Range: none');
+header('Accept-Ranges: none');
 header('Content-Type: video/mpeg');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
