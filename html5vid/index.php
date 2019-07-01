@@ -170,6 +170,11 @@ function moveVideoAway(alwaysCleanup) {
   vid.removeAttribute('id');
   if (!alwaysCleanup) {
     cntnr.appendChild(vid);
+    try {
+      vid.bindToCurrentChannel();
+    } catch (ignore) {
+      // ignore
+    }
   }
   // now, stop the video to release resources for HTML5 video (do NOT release it)
   try {
