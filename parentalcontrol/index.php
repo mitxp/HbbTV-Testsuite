@@ -91,11 +91,15 @@ function runStep(name) {
       showStatus(false, 'Currently, no threshold is configured. Please configure a parental rating threshold on your device.');
       return;
     }
-    if (parseInt(rating.name)!=rating.value) {
+    if (parseInt(rating.name)!==rating.value) {
       showStatus(false, 'Current threshold rating name is not string representation of value attribute');
       return;
     }
-    showStatus(true, 'Current rating threshold is '+rating.value+' (age '+(rating.value?(rating.value+3):rating.value)+' years), labels='+rating.labels+', region='+rating.region);
+    if (rating.value<0 || rating.value>18) {
+      showStatus(false, 'Current threshold rating value is not valid: '+rating.value);
+      return;
+    }
+    showStatus(true, 'Current rating threshold is '+(rating.value?'age '+rating.value+' years':rating.value)+', labels='+rating.labels+', region='+rating.region);
   }
 }
 //]]>
