@@ -70,6 +70,14 @@ function runStep(name) {
     playVideo('application/dash+xml', 'http://itv.mit-xperts.com/video/dash/new.php/test.mpd', true);
     return;
   }
+  if (name=='dashlive') {
+    playVideo('application/dash+xml', 'http://rbbdashlive-i.akamaihd.net/dash/live/481522/berlin/manifest.mpd', true);
+    return;
+  }
+  if (name=='4kh265') {
+    playVideo('video/mp4', 'http://tvdl.zdf.de/none/zdf/diverse/wk_4k_h265_4m.mp4', true);
+    return;
+  }
   if (name=='queue') {
     try {
       playVideo('video/mp4', '<?php echo getMediaURL(); ?>trailer.php', false);
@@ -161,7 +169,9 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="tsstream">Live stream test (TS, no seeking!)</li>
   <li name="relative">Relative video URL</li>
   <li name="dash">MPEG DASH (HbbTV 1.2.1)</li>
-  <li name="queue">Video queuing test</li>
+  <li name="dashlive">MPEG DASH live (Geoblock!)</li>
+  <li name="4kh265">4K H.265 MP4 video</li>
+  <li name="queue" automate="ignore">Video queuing test</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
