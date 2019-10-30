@@ -39,9 +39,9 @@ function runStep(name) {
     setvidsize(170, 480, 1010, 180, 'on the lower center of the screen (video aspect ratio should be correct, and it should have big black bars on the left/right).');
     markVideoPosition(515, 480, 320, 180);
   } else if (name=='vidbroadcast') {
-    govid(false, null);
+    govid(false, null, null);
   } else if (name=='vidstream') {
-    govid(true, null);
+    govid(true, null, null);
   } else if (name=='vidpause' && isvidtyp) {
     vidpause(true);
   } else if (name=='vidplay' && isvidtyp) {
@@ -134,12 +134,19 @@ function vidduration(millis) {
     showStatus(false, 'duration check failed.');
   }
 }
-function moveVideoAway(alwaysCleanup) {
+function moveVideoAway(alwaysCleanup, ondone) {
   var vid = document.getElementById('video');
   var ce, cntnr = document.getElementById('oldvidcontainer');
+  var calldone = function() {
+    if (ondone) {
+      ondone();
+      ondone = null;
+    }
+  };
   if (!vid) {
-    return; // no video to be removed
+    return calldone(); // no video to be removed
   }
+  vid.onPlayStateChange = null;
   if (isvidtyp) {
     // HTML5 video is simple:
     vid.innerHTML = ""; // remove sources
@@ -148,7 +155,7 @@ function moveVideoAway(alwaysCleanup) {
     } catch (ignore) {
     }
     if (!alwaysCleanup) {
-      return;
+      return calldone();
     }
   }
   while (ce = cntnr.firstChild) {
@@ -159,10 +166,10 @@ function moveVideoAway(alwaysCleanup) {
     cntnr.removeChild(ce);
   }
   if (isvidtyp) {
-    return;
+    return calldone();
   }
   if (!vid) {
-    return;
+    return calldone();
   }
   // vid is video/broadcast object:
   // first, move it out of the way, to make room for the new video object
@@ -171,69 +178,94 @@ function moveVideoAway(alwaysCleanup) {
   if (!alwaysCleanup) {
     cntnr.appendChild(vid);
     try {
+      vid.onPlayStateChange = function() {
+        if (!vid.playState) {
+          return; // still in unrealized state
+        }
+        vid.onPlayStateChange = null;
+        setInstr('Broadcast video changed to state '+vid.playState+', calling stop()');
+        // now, stop the video to release resources for HTML5 video (do NOT release it)
+        try {
+          vid.stop();
+          return calldone();
+        } catch (ignore) {
+          showStatus(false, 'Error while calling stop() failed on broadcast video');
+        }
+      };
       vid.bindToCurrentChannel();
+      setInstr('Waiting for connecting or presenting state of bc vid...');
+      setTimeout(function() {
+        if (!vid.onPlayStateChange) {
+          return; // already done, everything is fine
+        }
+        vid.onPlayStateChange = null;
+        showStatus(false, 'No state change of broadcast video after calling bindToCurrentChannel()');
+      }, 5000);
+      return;
     } catch (ignore) {
-      // ignore
+      showStatus(false, 'Error while binding to current channel on bc vid');
+      return;
     }
   }
-  // now, stop the video to release resources for HTML5 video (do NOT release it)
   try {
     vid.stop();
   } catch (ignore) {
     // ignore
   }
-  if (alwaysCleanup) {
-    try {
-      vid.release();
-    } catch (ignore) {
-      // ignore
-    }
-  }
-}
-function govid(typ, beforePlay) {
-  var elem = document.getElementById('vidcontainer');
-  moveVideoAway(!typ);
-  isvidtyp = typ;
-  var ihtml;
-  if (typ) {
-    ihtml = '<video id="video" style="position: absolute; left: 600px; top: 250px; width: 160px; height: 90px;"><'+'/video>';
-  } else {
-    ihtml = '<object id="video" type="video/broadcast" style="position: absolute; left: 600px; top: 250px; width: 160px; height: 90px;"><'+'/object>';
-  }
-  elem.style.left = '0px';
-  elem.style.top = '0px';
-  elem.style.width = '1280px';
-  elem.style.height = '720px';
-  elem.innerHTML = ihtml;
-  var succss = false;
-  var phase = 1;
   try {
-    var videlem = document.getElementById('video');
-    if (videlem) {
-      if (typ) {
-        phase = 2;
-        if (beforePlay) {
-          beforePlay(videlem);
-        }
-        videlem.innerHTML = '<source src="<?php echo getMediaURL(); ?>timecode.php/video.mp4"><'+'/source>';
-        phase = 3;
-        videlem.play();
-        succss = true;
-      } else {
-        phase = 4;
-        videlem.bindToCurrentChannel();
-        succss = true;
-      }
+    vid.release();
+  } catch (ignore) {
+    // ignore
+  }
+  calldone();
+}
+function govid(typ, beforePlay, ondone) {
+  var elem = document.getElementById('vidcontainer');
+  moveVideoAway(!typ, function() {
+    isvidtyp = typ;
+    var ihtml;
+    if (typ) {
+      ihtml = '<video id="video" style="position: absolute; left: 600px; top: 250px; width: 160px; height: 90px;"><'+'/video>';
+    } else {
+      ihtml = '<object id="video" type="video/broadcast" style="position: absolute; left: 600px; top: 250px; width: 160px; height: 90px;"><'+'/object>';
     }
-  } catch (e) {
-    // failed
-  }
-  if (!beforePlay || !succss) {
-    showStatus(succss, 'Setting the video object '+(succss?'succeeded':'failed in phase '+phase));
-  }
-  markVideoPosition(600, 250, 160, 90);
-  showVideoPosition(true);
-  return succss;
+    elem.style.left = '0px';
+    elem.style.top = '0px';
+    elem.style.width = '1280px';
+    elem.style.height = '720px';
+    elem.innerHTML = ihtml;
+    var succss = false;
+    var phase = 1;
+    try {
+      var videlem = document.getElementById('video');
+      if (videlem) {
+        if (typ) {
+          phase = 2;
+          if (beforePlay) {
+            beforePlay(videlem);
+          }
+          videlem.innerHTML = '<source src="<?php echo getMediaURL(); ?>timecode.php/video.mp4"><'+'/source>';
+          phase = 3;
+          videlem.play();
+          succss = true;
+        } else {
+          phase = 4;
+          videlem.bindToCurrentChannel();
+          succss = true;
+        }
+      }
+    } catch (e) {
+      // failed
+    }
+    if (!beforePlay || !succss) {
+      showStatus(succss, 'Setting the video object '+(succss?'succeeded':'failed in phase '+phase));
+    }
+    markVideoPosition(600, 250, 160, 90);
+    showVideoPosition(true);
+    if (ondone) {
+      ondone(succss);
+    }
+  });
 }
 function clearEvents() {
   var i;
@@ -257,123 +289,125 @@ function testEvents() {
       videlem.addEventListener(eventNames[i], elistener, false);
     }
   };
-  if (!govid(true, beforePlay)) {
-    return; // setting up video failed
-  }
-  checkEvents = function(check) {
-    var ename, expct, actl, typ, enamesplit;
-    for (ename in check) {
-      if (!check.hasOwnProperty(ename)) {
-        continue;
-      }
-      expct = check[ename];
-      if (expct==="?") {
-        continue; // ignore this value
-      }
-      typ = expct.substring(0, 1);
-      expct = parseInt(expct.substring(1), 10);
-      enamesplit = ename.split('-');
-      if (enamesplit.length===2) {
-        actl = capturedEvents[enamesplit[0]]||0;
-        actl -= capturedEvents[enamesplit[1]]||0;
-      } else {
-        actl = capturedEvents[ename]||0;
-      }
-      if ((typ==='='&&actl===expct) || (typ==='<'&&actl<expct) || (typ==='>'&&actl>expct)) {
-        continue; // value is OK
-      }
-      expct = check[ename].replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      return "Expected event count for "+ename+" to be "+expct+", actual value is "+actl;
+  govid(true, beforePlay, function(govidsuccess) {
+    if (!govidsuccess) {
+      return; // setting up video failed
     }
-    return "OK";
-  };
-  var endCount = 0;
-  stages = [
-    {"descr":"Waiting for video to start...", "check":function() {
-      if (!capturedEvents.playing || videoElement.readyState<3) {
-        return "WAIT";
-      }
-      return checkEvents({"loadeddata":">0", "loadedmetadata":">0", "loadstart":"=1", "pause":"=0", "play":"=1", "playing":">0", "ratechange":"=0", "seeked":"=0", "seeking":"=0", "playing-waiting":"=1"});
-    } },
-    {"descr":"Pausing video...", "pause":3000, "check":function() { clearEvents(); videoElement.pause(); return "OK"; } },
-    {"descr":"Waiting for video to pause...", "check":function() {
-      if (!videoElement.paused) {
-        return "WAIT";
-      }
-      return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=1", "play":"=0", "playing":"=0", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
-    } },
-    {"descr":"Resuming video...", "pause":3000, "check":function() { clearEvents(); videoElement.play(); return "OK"; } },
-    {"descr":"Waiting for video to resume...", "check":function() {
-      if (!capturedEvents.playing || videoElement.readyState<3) {
-        return "WAIT";
-      }
-      return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=0", "play":"=1", "playing":"=1", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
-    } },
-    {"descr":"Seeking video...", "pause":3000, "check":function() { clearEvents(); videoElement.currentTime = 240; return "OK"; } },
-    {"descr":"Waiting for seek to complete...", "check":function() {
-      if (videoElement.seeking || videoElement.readyState<3) {
-        return "WAIT";
-      }
-      return checkEvents({"loadeddata":"?", "loadedmetadata":"?", "loadstart":"?", "pause":"=0", "play":"=0", "playing":"?", "ratechange":"=0", "seeked":"=1", "seeking":"=1"});
-    } },
-    {"descr":"Check video position/duration...", "check":function() {
-      clearEvents();
-      if (videoElement.currentTime<235 || videoElement.currentTime>245) {
-        return "Expected currentTime to be 240 seconds, but got value "+videoElement.currentTime;
-      }
-      if (videoElement.duration<250 || videoElement.duration>260) {
-        return "Expected duration to be 254 seconds, but got value "+videoElement.duration;
+    checkEvents = function(check) {
+      var ename, expct, actl, typ, enamesplit;
+      for (ename in check) {
+        if (!check.hasOwnProperty(ename)) {
+          continue;
+        }
+        expct = check[ename];
+        if (expct==="?") {
+          continue; // ignore this value
+        }
+        typ = expct.substring(0, 1);
+        expct = parseInt(expct.substring(1), 10);
+        enamesplit = ename.split('-');
+        if (enamesplit.length===2) {
+          actl = capturedEvents[enamesplit[0]]||0;
+          actl -= capturedEvents[enamesplit[1]]||0;
+        } else {
+          actl = capturedEvents[ename]||0;
+        }
+        if ((typ==='='&&actl===expct) || (typ==='<'&&actl<expct) || (typ==='>'&&actl>expct)) {
+          continue; // value is OK
+        }
+        expct = check[ename].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        return "Expected event count for "+ename+" to be "+expct+", actual value is "+actl;
       }
       return "OK";
-    } },
-    {"descr":"Waiting for end of video...", "check":function() {
-      if (!videoElement.ended) {
-        return "WAIT";
+    };
+    var endCount = 0;
+    stages = [
+      {"descr":"Waiting for video to start...", "check":function() {
+        if (!capturedEvents.playing || videoElement.readyState<3) {
+          return "WAIT";
+        }
+        return checkEvents({"loadeddata":">0", "loadedmetadata":">0", "loadstart":"=1", "pause":"=0", "play":"=1", "playing":">0", "ratechange":"=0", "seeked":"=0", "seeking":"=0", "playing-waiting":"=1"});
+      } },
+      {"descr":"Pausing video...", "pause":3000, "check":function() { clearEvents(); videoElement.pause(); return "OK"; } },
+      {"descr":"Waiting for video to pause...", "check":function() {
+        if (!videoElement.paused) {
+          return "WAIT";
+        }
+        return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=1", "play":"=0", "playing":"=0", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
+      } },
+      {"descr":"Resuming video...", "pause":3000, "check":function() { clearEvents(); videoElement.play(); return "OK"; } },
+      {"descr":"Waiting for video to resume...", "check":function() {
+        if (!capturedEvents.playing || videoElement.readyState<3) {
+          return "WAIT";
+        }
+        return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=0", "play":"=1", "playing":"=1", "ratechange":"=0", "seeked":"=0", "seeking":"=0"});
+      } },
+      {"descr":"Seeking video...", "pause":3000, "check":function() { clearEvents(); videoElement.currentTime = 240; return "OK"; } },
+      {"descr":"Waiting for seek to complete...", "check":function() {
+        if (videoElement.seeking || videoElement.readyState<3) {
+          return "WAIT";
+        }
+        return checkEvents({"loadeddata":"?", "loadedmetadata":"?", "loadstart":"?", "pause":"=0", "play":"=0", "playing":"?", "ratechange":"=0", "seeked":"=1", "seeking":"=1"});
+      } },
+      {"descr":"Check video position/duration...", "check":function() {
+        clearEvents();
+        if (videoElement.currentTime<235 || videoElement.currentTime>245) {
+          return "Expected currentTime to be 240 seconds, but got value "+videoElement.currentTime;
+        }
+        if (videoElement.duration<250 || videoElement.duration>260) {
+          return "Expected duration to be 254 seconds, but got value "+videoElement.duration;
+        }
+        return "OK";
+      } },
+      {"descr":"Waiting for end of video...", "check":function() {
+        if (!videoElement.ended) {
+          return "WAIT";
+        }
+        if (endCount===0) {
+          endCount++;
+          return "WAIT";
+        }
+        return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=1", "play":"=0", "playing":"?", "ratechange":"=0", "seeked":"=0", "seeking":"=0", "ended":"=1"});
+      } }
+    ];
+    checkStage = function() {
+      var stage = null, stageIdx = 0, reslt, pause;
+      for (i=0; i<stages.length&&!stage; i++) {
+        stage = stages[i];
+        stageIdx = i;
       }
-      if (endCount===0) {
-        endCount++;
-        return "WAIT";
+      if (!stage) {
+        showStatus(true, 'Events test succeeded.');
+        return;
       }
-      return checkEvents({"loadeddata":"=0", "loadedmetadata":"=0", "loadstart":"=0", "pause":"=1", "play":"=0", "playing":"?", "ratechange":"=0", "seeked":"=0", "seeking":"=0", "ended":"=1"});
-    } }
-  ];
-  checkStage = function() {
-    var stage = null, stageIdx = 0, reslt, pause;
-    for (i=0; i<stages.length&&!stage; i++) {
-      stage = stages[i];
-      stageIdx = i;
-    }
-    if (!stage) {
-      showStatus(true, 'Events test succeeded.');
-      return;
-    }
-    pause = stage.pause||0;
-    if (pause>0) {
-      setInstr("Waiting...");
-      stages[stageIdx].pause = 0;
-      timr = setTimeout(function() {timr=null; checkStage();}, pause);
-      return;
-    }
-    setInstr(stage.descr);
-    try {
-      reslt = stage.check();
-    } catch (ex) {
-      reslt = "exception = "+ex;
-    }
-    if (capturedEvents.error) {
-      reslt = "Video playback error";
-    } else if (capturedEvents.ended && stageIdx<stages.length-1) {
-      reslt = "Premature end of video";
-    }
-    if (reslt==="OK") {
-      stages[stageIdx] = null;
-    } else if (reslt!=="WAIT") {
-      showStatus(false, 'Events test failed: '+reslt+' (step '+stage.descr+')');
-      return;
-    }
+      pause = stage.pause||0;
+      if (pause>0) {
+        setInstr("Waiting...");
+        stages[stageIdx].pause = 0;
+        timr = setTimeout(function() {timr=null; checkStage();}, pause);
+        return;
+      }
+      setInstr(stage.descr);
+      try {
+        reslt = stage.check();
+      } catch (ex) {
+        reslt = "exception = "+ex;
+      }
+      if (capturedEvents.error) {
+        reslt = "Video playback error";
+      } else if (capturedEvents.ended && stageIdx<stages.length-1) {
+        reslt = "Premature end of video";
+      }
+      if (reslt==="OK") {
+        stages[stageIdx] = null;
+      } else if (reslt!=="WAIT") {
+        showStatus(false, 'Events test failed: '+reslt+' (step '+stage.descr+')');
+        return;
+      }
+      timr = setTimeout(function() {timr=null; checkStage();}, 1000);
+    };
     timr = setTimeout(function() {timr=null; checkStage();}, 1000);
-  };
-  timr = setTimeout(function() {timr=null; checkStage();}, 1000);
+  });
 }
 
 //]]>
