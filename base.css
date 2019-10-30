@@ -58,4 +58,7 @@ div.statfail {
 div.statwarn {
   color: #ffe550;
 }
+div.statok, div.statfail, div.statwarn {
+  word-wrap: break-word;
+}
 

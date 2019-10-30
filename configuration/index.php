@@ -167,7 +167,7 @@ function validateLanguageList(txt) {
     }
     for (var i=0; i<3; i++) {
       var c = txt.charCodeAt(i);
-      if (c<0x41 || c>0x5a) return false;
+      if (c!==0x2a && (c<0x41 || c>0x5a)) return false;
     }
     txt = txt.substring(3);
     if (txt.length>0) {
