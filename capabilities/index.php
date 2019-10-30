@@ -23,6 +23,10 @@ window.onload = function() {
 };
 function runStep(name) {
   var co = document.getElementById('capobj');
+  var capadiv = document.getElementById('capadiv');
+  if (capadiv) {
+    capadiv.style.display = "none";
+  }
   if (name=='xml') {
     var xmlp = false;
     try {
@@ -47,7 +51,9 @@ function runStep(name) {
       if (req.readyState!=4 || req.status!=200) return;
       var succ = req.responseText.substring(0, 1);
       if (succ=='1') {
-        showStatus(true, 'XML capabilities are valid: '+req.responseText.substring(1));
+        showStatus(true, 'XML capabilities are valid.');
+        capadiv.style.display = "block";
+        capadiv.innerHTML = req.responseText.substring(1);
       } else {
         showStatus(false, 'XML capabilities are invalid: '+req.responseText.substring(1));
       }
@@ -112,6 +118,7 @@ function runStep(name) {
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 300px; width: 400px; height: 400px;"></div>
+<div id="capadiv" style="left: 64px; top: 380px; width: 1152px; height: 340px; color: #ffffff;"></div>
 
 </body>
 </html>
