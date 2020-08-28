@@ -194,6 +194,9 @@ function moveVideoAway(alwaysCleanup, ondone) {
       };
       vid.bindToCurrentChannel();
       setInstr('Waiting for connecting or presenting state of bc vid...');
+      if (vid.onPlayStateChange) {
+        vid.onPlayStateChange();
+      }
       setTimeout(function() {
         if (!vid.onPlayStateChange) {
           return; // already done, everything is fine
