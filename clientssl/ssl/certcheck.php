@@ -26,6 +26,7 @@ $ALLOWEDCN['viera2016.panasonic.com'] = 1;
 $ALLOWEDCN['viera2017.panasonic.com'] = 1;
 $ALLOWEDCN['viera2018.panasonic.com'] = 1;
 $ALLOWEDCN['viera2019low.panasonic.com'] = 1;
+$ALLOWEDCN['com.panasonic.SmartTV2020mid'] = 1;
 $ALLOWEDCN['SmartTV2019mid'] = 1;
 $ALLOWEDCN['volksbox.inverto.tv'] = 1;
 $ALLOWEDCN['ZBOX.INVERTO.tv'] = 1;
