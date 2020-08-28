@@ -49,6 +49,27 @@ function runStep(name) {
     r.send(null);
   } else if (name==='check') {
     showStatus(isok==='1'?true:2, isok==='1' ? 'Client SSL certificate could be verified.' : 'Client SSL verification information was not found in cookie. As this certificate is not mandatory, this might be expected.');
+  } else if (name==='loadimg') {
+    var ee, timr, e = document.getElementById("instr");
+    e.innerHTML = "";
+    ee = document.createElement("img");
+    timr = setTimeout(function() {
+      timr = null;
+      ee.onload = null;
+      showStatus(false, 'Image could not be loaded.');
+    }, 5000);
+    ee.onload = function() {
+      if (timr) {
+        clearTimeout(timr);
+      }
+      if (ee.width) {
+        showStatus(true, 'Image could be loaded.');
+      } else {
+        showStatus(false, 'Image onload was called, but image has no width.');
+      }
+    };
+    ee.src = "https://itv.mit-xperts.com/hbbtvtest/logo.png";
+    e.appendChild(ee);
   }
 };
 function performauth() {
@@ -101,6 +122,7 @@ function debug(txt) {
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="validate">Test ClientSSL</li>
   <li name="check">Test test result cookie</li>
+  <li name="loadimg">Load image via HTTPS</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
