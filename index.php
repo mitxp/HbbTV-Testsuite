@@ -127,6 +127,7 @@ In case you have questions and/or comments, you can reach us at info&#160;&#x004
   <li name="animation" descr="Check the performance of a Set-Top-Box graphics renderer.">Animation</li>
   <li name="streamevent" descr="Receive StreamEvents.">StreamEvent</li>
   <li name="dvburl" descr="Access DSM-CC via dvb:// URLs.">dvb URLs</li>
+  <li name="cors" descr="Cross-Origin XHR tests">Cross-Origin XHR (HbbTV 1.3.1)</li>
   <li name="css3" descr="CSS3 tests">CSS3 (HbbTV 1.3.1)</li>
   <li name="html5vid" descr="HTML5 video tests">HTML5 video (HbbTV 1.3.1)</li>
 </ul>
