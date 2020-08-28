@@ -87,7 +87,6 @@ function runStep(name) {
   <li name="mp4_multi_codec">Multi-Codec in mp4</li>
   <li name="ts_multi_codec">Multi-Codec in MPEG-TS</li>
   <li name="dash_multi_codec">Multi-Codec in MPEG-DASH</li>
-  <li name="dash_playready">MPEG-DASH with PlayReady DRM</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 490px; width: 400px; height: 250px;"></div>
