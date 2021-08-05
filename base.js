@@ -152,9 +152,6 @@ function reportStatus(stepid, succss, note, txt) {
     url += '&run='+encodeURIComponent(''+automate.testrun);
     url += '&note='+encodeURIComponent(''+note);
     url += '&txt='+encodeURIComponent(''+txt);
-    req = new XMLHttpRequest();
-    req.open('GET', url, true);
-    req.send(null);
   } catch (ignore) {
   }
   return req;

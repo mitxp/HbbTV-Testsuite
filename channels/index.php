@@ -244,13 +244,7 @@ echo appmgrObject(); ?>
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="get">Test 1: currentChannel</li>
-  <li name="set">Test 2: setChannel</li>
-  <li name="wait" automate="ignore">Test 3: onChannelChangeSucceeded</li>
-  <li name="getprivdata">Test 4: currentChannel via privateData</li>
-  <li name="nextc" automate="ignore">Test 5: nextChannel()</li>
-  <li name="prevc" automate="ignore">Test 6: prevChannel()</li>
-  <li name="ctype">Test 7: Channel type</li>
-  <li name="cnid">Test 8: Channel network_id</li>
+  <li name="cnid">Test 2: Channel network_id</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
