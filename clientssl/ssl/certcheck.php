@@ -5,6 +5,8 @@ header('Pragma: no-cache');
 header('Cache-Control: no-cache');
 header('Access-Control-Allow-Origin: http://'.$DOMAINNAME);
 header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: *');
 
 $ALLOWEDCN = array();
 $ALLOWEDCN['icordhdplus.humaxdigital.com'] = 1;

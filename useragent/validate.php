@@ -11,8 +11,8 @@ function validateUserAgent($uagent, &$msg) {
   }
   $uagent = substr($uagent, 6);
   $ver = substr($uagent, 0, 5);
-  if ($ver!='1.1.1' && $ver!='1.2.1' && $ver!='1.3.1' && $ver!='1.4.1' && $ver!='1.5.1') {
-    $msg = 'HbbTV version not equal to 1.1.1 / 1.2.1 / 1.3.1 / 1.4.1 / 1.5.1';
+  if ($ver!='1.1.1' && $ver!='1.2.1' && $ver!='1.3.1' && $ver!='1.4.1' && $ver!='1.5.1' && $ver!='1.6.1') {
+    $msg = 'HbbTV version not equal to 1.1.1 / 1.2.1 / 1.3.1 / 1.4.1 / 1.5.1 / 1.6.1';
     return false;
   }
   $uagent = substr($uagent, 5);
