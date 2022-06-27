@@ -50,6 +50,7 @@ var id = '<?php echo $id; ?>';
 var type = '<?php echo $vidtype; ?>';
 var mtype = '<?php echo $vidtype=='dash' ? 'application/dash+xml' : ($vidtype=='ts'?'video/mpeg':'video/'.$vidtype); ?>';
 var vidurl = 'http://streaming.dolby.com/ftproot/mitXperts/<?php echo $dirname.'/'.$id.'.'.($vidtype=='dash'?'mpd':$vidtype); ?>';
+vidurl = 'http://d35ru53tpwgj08.cloudfront.net/content/mitXperts/<?php echo $dirname.'/'.$id.'.'.($vidtype=='dash'?'mpd':$vidtype); ?>';
 var hbbtv12 = false;
 var vid = null;
 var vidtimer = null;

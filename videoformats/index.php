@@ -71,7 +71,7 @@ function runStep(name) {
     return;
   }
   if (name=='dashlive') {
-    playVideo('application/dash+xml', 'http://rbbdashlive-i.akamaihd.net/dash/live/481522/berlin/manifest.mpd', true);
+    playVideo('application/dash+xml', 'http://rbb-dash-berlin.akamaized.net/dash/live/2017826/rbb_berlin/manifest.mpd', true);
     return;
   }
   if (name=='4kh265') {

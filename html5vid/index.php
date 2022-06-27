@@ -187,6 +187,7 @@ function moveVideoAway(alwaysCleanup, ondone) {
         // now, stop the video to release resources for HTML5 video (do NOT release it)
         try {
           vid.stop();
+          vid.style.visibility = 'hidden';
           return calldone();
         } catch (ignore) {
           showStatus(false, 'Error while calling stop() failed on broadcast video');
@@ -220,6 +221,7 @@ function moveVideoAway(alwaysCleanup, ondone) {
   } catch (ignore) {
     // ignore
   }
+  vid.style.visibility = 'hidden';
   calldone();
 }
 function govid(typ, beforePlay, ondone) {
