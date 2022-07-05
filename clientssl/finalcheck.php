@@ -11,7 +11,7 @@ session_start();
 sendContentType();
 openDocument();
 
-$isok = $_SESSION['csslok'] && $_SESSION['REMOTE_ADDR']==$_SERVER['REMOTE_ADDR'];
+$isok = ($_SESSION['csslok']??null) && ($_SESSION['REMOTE_ADDR']??'x')==($_SERVER['REMOTE_ADDR']??'y');
 ?>
 <script type="text/javascript">
 //<![CDATA[

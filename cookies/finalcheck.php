@@ -12,7 +12,7 @@ window.onload = function() {
   initApp();
   setInstr('Verifying cookie...');
   var found = false;
-  var needfind = <?php echo $_REQUEST['isset']?'true':'false'; ?>;
+  var needfind = <?php echo ($_REQUEST['isset']??0)?'true':'false'; ?>;
   var allCookies = document.cookie.split(';');
   for (var i=0; i<allCookies.length; i++) {
     var c = allCookies[i];
@@ -24,7 +24,7 @@ window.onload = function() {
       break;
     }
   }
-  document.location.href = 'index.php?select=<?php echo (int)$_REQUEST['back']; ?>&found='+(found?1:0)+'&isok='+(found===needfind?1:0);
+  document.location.href = 'index.php?select=<?php echo (int)($_REQUEST['back']??0); ?>&found='+(found?1:0)+'&isok='+(found===needfind?1:0);
 };
 
 //]]>

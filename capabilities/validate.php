@@ -2,7 +2,7 @@
 header('Content-Type: text/plain');
 
 $dom = new DOMDocument();
-if (@$dom->loadXML($_REQUEST['data'])) {
+if (@$dom->loadXML($_REQUEST['data']??'')) {
   echo '1';
   // if (@$dom->schemaValidate('capabilities.xsd')) {
   //   echo '1';

@@ -23,8 +23,8 @@ function runStep(name) {
   setInstr('Executing step...');
   showStatus(true, '');
   if (name=='params') {
-    var param1 = "<?php echo htmlspecialchars($_REQUEST['param1']); ?>"; // set from URL query string
-    var param2 = "<?php echo htmlspecialchars($_REQUEST['param2']); ?>"; // also set from URL query string
+    var param1 = "<?php echo htmlspecialchars($_REQUEST['param1']??''); ?>"; // set from URL query string
+    var param2 = "<?php echo htmlspecialchars($_REQUEST['param2']??''); ?>"; // also set from URL query string
     var shouldbe2 = '#foo2'==window.location.hash ? '' : 'value2';
     if (param1=='value1' && param2==shouldbe2) {
       showStatus(true, 'All parmeters were passed correctly.');
