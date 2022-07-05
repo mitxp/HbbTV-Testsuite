@@ -2,7 +2,7 @@
 $ROOTDIR='..';
 require("$ROOTDIR/base.php");
 
-$id = strtolower($_REQUEST['id']);
+$id = strtolower($_REQUEST['id']??'');
 $id = addcslashes($id, "\0..\37'\\");
 $i = strpos($id, '_');
 if ($i>0) {
@@ -66,13 +66,13 @@ var expected = [ <?php
     echo '{"displayname":"'.$key.'", '.$value.'}';
   }
 ?> ];
-var testPrefix = <?php echo json_encode(getTestPrefix().'.'.rawurlencode($_REQUEST['id'])); ?>;
+var testPrefix = <?php echo json_encode(getTestPrefix().'.'.rawurlencode($_REQUEST['id']??'')); ?>;
 
 window.onload = function() {
   menuInit();
   registerMenuListener(function(liid) {
     if (liid=='exit') {
-      document.location.href = 'index.php?select=<?php echo rawurlencode($_REQUEST['id']); ?>';
+      document.location.href = 'index.php?select=<?php echo rawurlencode($_REQUEST['id']??''); ?>';
     } else {
       runStep(liid);
     }

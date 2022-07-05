@@ -1,6 +1,4 @@
 <?php
-require('JSON.php');
-$json = new Services_JSON();
 
 header('Content-Type: text/plain;charset=UTF-8');
 $id = $_REQUEST['id'];
@@ -23,12 +21,6 @@ if ($id=='ardepg') {
   echo 'audio/mp4#http://itv.mit-xperts.com/hbbtvtest/media/audio.php';
 } else if ($id=='irthd') {
   echo 'video/mp4#http://itv.mit-xperts.com/hbbtvtest/media/irthd.mp4';
-} else if ($id=='zdf') {
-  $data = $json->decode(file_get_contents('http://itv.mit-xperts.com/zdfmediathek/dyn/list.php?type=11'));
-  $id = rawurlencode($data[1][0][0]);
-  $data = $json->decode(file_get_contents('http://itv.mit-xperts.com/zdfmediathek/dyn/detail.php?id='.$id));
-  $url = $data[1][1][4];
-  echo 'video/mp4#'.$url;
 } else if ($id=='tsstream') {
   echo 'video/mpeg#http://itv.mit-xperts.com/hbbtvtest/media/livestream.php';
 } else if ($id=='olympia1') {

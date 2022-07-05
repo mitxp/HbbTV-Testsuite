@@ -52,7 +52,9 @@ if (is_file($file)) {
   $fp = @fopen($file, 'a');
 } else {
   $fp = @fopen($file, 'w');
-  fputs($fp, ';'.$_SERVER['REMOTE_ADDR'].';'.$now.';'.$uagent."\n");
+  if ($fp) {
+    fputs($fp, ';'.$_SERVER['REMOTE_ADDR'].';'.$now.';'.$uagent."\n");
+  }
 }
 if (!$fp) {
   exit;

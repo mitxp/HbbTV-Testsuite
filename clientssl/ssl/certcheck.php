@@ -64,7 +64,7 @@ $logfile = 'cn/'.md5($sslcn).'.txt';
 if ($msg) {
   $msg = "ERROR: $msg";
 } else {
-  if (!$_REQUEST['html']) {
+  if (!($_REQUEST['html']??'')) {
     session_set_cookie_params(172800, '/', $DOMAINNAME, false);
     session_start();
     $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];

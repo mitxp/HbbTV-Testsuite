@@ -34,8 +34,8 @@ function runStep(name) {
     playVideo('video/mp4', '<?php echo getMediaURL(); ?>trailer.php', true);
     return;
   }
-  if (name=='zdf') {
-    playVideo('video/mp4', '<?php echo getMediaURL(); ?>zdfredirect.php/test.mp4', true);
+  if (name=='redirect') {
+    playVideo('video/mp4', '<?php echo getMediaURL(); ?>redirect.php/test.mp4', true);
     return;
   }
   if (name=='mpegts') {
@@ -160,7 +160,7 @@ function playVideo(mtype, murl, registerlistener) {
 <div id="instr" class="txtdiv" style="left: 700px; top: 110px; width: 400px; height: 360px;"></div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
   <li name="ardepg">ARD EPG video (MP4)</li>
-  <li name="zdf">ZDF video (MP4+redirect)</li>
+  <li name="redirect">Redirected MP4 video</li>
   <li name="mpegts">Test video (TS)</li>
   <li name="audiomp3">Audio stream (MP3)</li>
   <li name="audiomp4">Test audio (MP4)</li>
