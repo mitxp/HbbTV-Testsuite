@@ -23,8 +23,10 @@ if ($id=='ardepg') {
   echo 'video/mp4#http://itv.mit-xperts.com/hbbtvtest/media/irthd.mp4';
 } else if ($id=='tsstream') {
   echo 'video/mpeg#http://itv.mit-xperts.com/hbbtvtest/media/livestream.php';
-} else if ($id=='olympia1') {
-  echo 'video/mpeg#http://s2014.hbbtvlive.de/br/sotschi1';
+} else if ($id=='daserste1') {
+  echo 'application/dash+xml#http://itv.ard.de/ardstart/dyn/stream.php/offset-0/http/dasersteamddash.akamaized.net/dash/live/2033393/daserste/dvbt2/manifest.mpd';
+} else if ($id=='daserste2') {
+  echo 'application/dash+xml#http://itv.ard.de/ardstart/dyn/stream.php/offset-60/http/dasersteamddash.akamaized.net/dash/live/2033393/daserste/dvbt2/manifest.mpd';
 } else {
   echo 'Unknown ID';
 }

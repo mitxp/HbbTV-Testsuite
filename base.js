@@ -160,6 +160,10 @@ function reportStatus(stepid, succss, note, txt) {
   return req;
 }
 
+function fixhtml(txt) {
+  return (""+txt).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 function showStatus(succss, txt) {
   var req, elem = document.getElementById('status');
   elem.className = succss===2 ? 'statwarn' : (succss ? 'statok' : 'statfail');

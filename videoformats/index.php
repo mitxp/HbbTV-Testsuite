@@ -71,7 +71,11 @@ function runStep(name) {
     return;
   }
   if (name=='dashlive') {
-    playVideo('application/dash+xml', 'http://rbb-dash-berlin.akamaized.net/dash/live/2017826/rbb_berlin/manifest.mpd', true);
+    playVideo('application/dash+xml', 'http://itv.ard.de/ardstart/dyn/stream.php/offset-0/http/dasersteamddash.akamaized.net/dash/live/2033393/daserste/dvbt2/manifest.mpd', true);
+    return;
+  }
+  if (name=='dashlivedelay') {
+    playVideo('application/dash+xml', 'http://itv.ard.de/ardstart/dyn/stream.php/offset-120/http/dasersteamddash.akamaized.net/dash/live/2033393/daserste/dvbt2/manifest.mpd', true);
     return;
   }
   if (name=='4kh265') {
@@ -169,7 +173,8 @@ function playVideo(mtype, murl, registerlistener) {
   <li name="tsstream">Live stream test (TS, no seeking!)</li>
   <li name="relative">Relative video URL</li>
   <li name="dash">MPEG DASH (HbbTV 1.2.1)</li>
-  <li name="dashlive">MPEG DASH live (Geoblock!)</li>
+  <li name="dashlive">DASH live (Geoblock!)</li>
+  <li name="dashlivedelay">DASH live 120sec delay (Geoblock!)</li>
   <li name="4kh265">4K H.265 MP4 video</li>
   <li name="queue" automate="ignore">Video queuing test</li>
   <li name="exit">Return to test menu</li>

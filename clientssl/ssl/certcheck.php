@@ -49,11 +49,19 @@ $ALLOWEDCN['Philips Net TV TV 2k15'] = 1;
 $ALLOWEDCN['Philips Net TV TV 2k16'] = 1;
 
 $msg = '';
-$sslcn = array_key_exists('SSL_CLIENT_S_DN_CN', $_SERVER) ? $_SERVER['SSL_CLIENT_S_DN_CN'] : '';
-if (!$_SERVER['SSL_CLIENT_VERIFY']=='SUCCESS') {
-  $msg = 'Client SSL certificate signed by unknown CA.';
+$sslcn = $_SERVER['SSL_CLIENT_S_DN_CN'] ?? '';
+$i = strpos($sslcn, 'CN=');
+if ($i>=0) {
+  $sslcn = substr($sslcn, $i+3);
+}
+$i = strpos($sslcn, ',');
+if ($i) {
+  $sslcn = substr($sslcn, 0, $i);
+}
+if (($_SERVER['SSL_CLIENT_VERIFY']??'')!=='SUCCESS') {
+  $msg = 'Client SSL certificate signed by unknown CA or no CA certificate provided.';
 } else {
-  if (!$ALLOWEDCN[$sslcn]) {
+  if (!array_key_exists($sslcn, $ALLOWEDCN)) {
     $msg = "Unknown CN=$sslcn (please send us an email with your CN!)";
   }
 }
@@ -89,4 +97,4 @@ if (array_key_exists('html', $_REQUEST) && $_REQUEST['html']) {
   header('Content-Type: text/plain;charset=UTF-8');
   echo $msg;
 }
-?>
+

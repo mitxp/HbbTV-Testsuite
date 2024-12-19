@@ -118,7 +118,7 @@ function runStep(name) {
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 300px; width: 400px; height: 400px;"></div>
-<div id="capadiv" style="left: 64px; top: 380px; width: 1152px; height: 340px; color: #ffffff;"></div>
+<div id="capadiv" style="left: 64px; top: 380px; width: 1160px; height: 340px; color: #ffffff; font-size: 10px; line-height: 11px;"></div>
 
 </body>
 </html>

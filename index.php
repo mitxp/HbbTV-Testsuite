@@ -130,6 +130,7 @@ In case you have questions and/or comments, you can reach us at info&#160;&#x004
   <li name="cors" descr="Cross-Origin XHR tests">Cross-Origin XHR (HbbTV 1.3.1)</li>
   <li name="css3" descr="CSS3 tests">CSS3 (HbbTV 1.3.1)</li>
   <li name="html5vid" descr="HTML5 video tests">HTML5 video (HbbTV 1.3.1)</li>
+  <li name="accessab" descr="Accessability">Accessability (HbbTV 1.7.1)</li>
 </ul>
 
 <div id="automatepin" class="txtdiv" style="left: 400px; top: 200px; width: 440px; background-color: #000000; color: #ffffff; padding: 20px; text-align: center; font-size: 24px; line-height: 30px; display: none;">
