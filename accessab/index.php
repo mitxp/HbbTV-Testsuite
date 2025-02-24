@@ -302,7 +302,7 @@ function suppressFeature(id) {
 function getFeatureSettings() {
   var validationErr = "", features = [
     {"id": "subtitles", "mandatory": {"enabled": "boolean"}},
-    {"id": "dialogueEnhancement", "mandatory": {"dialogueEnhancementGainPreference": "number", "dialogueEnhancementGain": "number", "dialogueEnhancementLimit": "number"}},
+    {"id": "dialogueEnhancement", "mandatory": {"dialogueEnhancementGainPreference": "number", "dialogueEnhancementGain": "number", "dialogueEnhancementLimit": "object"}},
     {"id": "uiMagnifier", "mandatory": {"enabled": "boolean"}},
     {"id": "highContrastUI", "mandatory": {"enabled": "boolean"}},
     {"id": "screenReader", "mandatory": {"enabled": "boolean"}},
