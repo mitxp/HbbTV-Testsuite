@@ -293,7 +293,7 @@ function suppressFeature(id) {
       if (result.value==="suppressing") {
         showStatus(true, "Feature "+id+" is now suppressed, response was "+result.value);
       } else {
-        showStatus(true, "Feature "+id+" is not suppored, response was "+result.value);
+        showStatus(true, "Feature "+id+" is not supported, response was "+result.value);
       }
     });
   });
