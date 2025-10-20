@@ -10,6 +10,13 @@ openDocument();
 var testPrefix = <?php echo json_encode(getTestPrefix()); ?>;
 var mediawsconn = null;
 var supportInfo = { };
+var onMenuSelect = function() {
+  var o = opts[selected];
+  try {
+    o.focus();
+  } catch (ignore) {
+  }
+};
 
 window.onload = function() {
   menuInit();
@@ -23,10 +30,27 @@ window.onload = function() {
   });
   initApp();
   setInstr('Please run all steps in the displayed order. Navigate to the test using up/down, then press OK to start the test. For some tests, you may need to follow some instructions.');
+  onMenuSelect();
   runNextAutoTest();
 };
 
+function setMenuPressed(name) {
+  var i, o;
+  try {
+    for (i=0; i<opts.length; i++) {
+      o = opts[i];
+      if (o.getAttribute('name')===name) {
+        o.setAttribute('aria-pressed', 'true');
+      } else {
+        o.removeAttribute('aria-pressed');
+      }
+    }
+  } catch (ignore) {
+  }
+}
+
 function runStep(name) {
+  setMenuPressed(name);
   setInstr('Executing step...');
   if (name=="supportinfo") {
     getSupportInfo();
@@ -651,21 +675,21 @@ function playVoiceVideo() {
   <video id="videobb" style="position: absolute; left: 0px; top: 0px; width: 160px; height: 90px;"></video>
 </div>
 <ul id="menu" class="menu" style="left: 100px; top: 100px;">
-  <li name="negotiate">Negotiate methods</li>
-  <li name="supportinfo">SupportInfo API</li>
-  <li name="supprsubtitles">Suppress Subtitles</li>
-  <li name="supprdialogueEnhancement">Suppress DialogueEnhancement</li>
-  <li name="suppruiMagnifier">Suppress UI Magnifier</li>
-  <li name="supprhighContrastUI">Suppress high contrast UI</li>
-  <li name="supprscreenReader">Suppress screen reader</li>
-  <li name="supprresponseToUserAction">Suppress UA response</li>
-  <li name="suppraudioDescription">Suppress Audio Description</li>
-  <li name="supprinVisionSigning">Suppress in-vision Signing</li>
-  <li name="featuresettings">FeatureSettings API (query)</li>
-  <li name="voiceready">Voice ready</li>
-  <li name="playvideo" automate="ignore">Play video for Voice Assistant API</li>
-  <li name="voiceunready">Stop Voice ready</li>
-  <li name="exit">Return to test menu</li>
+  <li name="negotiate" role="button" tabindex="-1">Negotiate methods</li>
+  <li name="supportinfo" role="button" tabindex="-1">SupportInfo API</li>
+  <li name="supprsubtitles" role="button" tabindex="-1">Suppress Subtitles</li>
+  <li name="supprdialogueEnhancement" role="button" tabindex="-1">Suppress DialogueEnhancement</li>
+  <li name="suppruiMagnifier" role="button" tabindex="-1">Suppress UI Magnifier</li>
+  <li name="supprhighContrastUI" role="button" tabindex="-1">Suppress high contrast UI</li>
+  <li name="supprscreenReader" role="button" tabindex="-1">Suppress screen reader</li>
+  <li name="supprresponseToUserAction" role="button" tabindex="-1" aria-label="Suppress User Action response">Suppress UA response</li>
+  <li name="suppraudioDescription" role="button" tabindex="-1">Suppress Audio Description</li>
+  <li name="supprinVisionSigning" role="button" tabindex="-1">Suppress in-vision Signing</li>
+  <li name="featuresettings" role="button" tabindex="-1">FeatureSettings API (query)</li>
+  <li name="voiceready" role="button" tabindex="-1">Voice ready</li>
+  <li name="playvideo" automate="ignore" role="button" tabindex="-1">Play video for Voice Assistant API</li>
+  <li name="voiceunready" role="button" tabindex="-1">Stop Voice ready</li>
+  <li name="exit" role="link" tabindex="-1">Return to test menu</li>
 </ul>
 <div id="status" style="left: 600px; top: 300px; width: 500px; height: 400px; word-wrap: break-word;"></div>
 

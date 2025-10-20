@@ -26,6 +26,11 @@ div.imgdiv {
   background-repeat: no-repeat;
 }
 
+:focus {
+  outline: none;
+}
+
+
 ul.menu {
   padding: 0;
   margin: 0;
