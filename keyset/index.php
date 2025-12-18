@@ -46,6 +46,12 @@ window.onload = function() {
   initApp();
   setInstr('Please run all tests. For each test, press all keys. In each test, different keys should be passed to the application.<br />Note: If a key is not passed to the application, it might interact with the device (e.g. change channel).');
 };
+function isKeyNeedset(i) {
+  if (currentMask===1 && keynames[i]==='LEFT') {
+    return true;
+  }
+  return (currentMask&keymaskbits[i])>0;
+}
 function handleKeyCode(kc) {
   if (kc==VK_UP) {
     menuSelect(selected-1);
@@ -65,7 +71,7 @@ function handleKeyCode(kc) {
     setKeyset(0x1+0x2+0x4+0x8+0x10);
     var success = true;
     for (var i=0; i<keynames.length; i++) {
-      var needset = (currentMask&keymaskbits[i])>0 ? true : false;
+      var needset = isKeyNeedset(i);
       success &= keypressed[i]==needset;
     }
     currentMask = 0;
@@ -86,12 +92,22 @@ function runStep(name) {
   for (var i=0; i<keynames.length; i++) {
     keypressed[i] = 0;
   }
-  currentMask = parseInt(name);
-  try {
-    ksobj.setValue(currentMask);
-    updateView();
-  } catch (e) {
-    showStatus(false, 'Cannot call setValue on keyset object.');
+  if (name==="x") {
+    currentMask = 1;
+    try {
+      ksobj.setValue(currentMask, [VK_LEFT]);
+      updateView();
+    } catch (e) {
+      showStatus(false, 'Cannot call setValue on keyset object.');
+    }
+  } else {
+    currentMask = parseInt(name);
+    try {
+      ksobj.setValue(currentMask);
+      updateView();
+    } catch (e) {
+      showStatus(false, 'Cannot call setValue on keyset object.');
+    }
   }
 }
 function updateView() {
@@ -99,7 +115,7 @@ function updateView() {
   var txtno = '';
   for (var i=0; i<keynames.length; i++) {
     var txtkey = 'VK_'+keynames[i];
-    var needset = (currentMask&keymaskbits[i])>0 ? true : false;
+    var needset = isKeyNeedset(i);
     if (keypressed[i]) {
       txtkey = '<span style="color: #'+(needset?'10ff40':'ff6030')+'">'+txtkey+'<'+'/span>';
     }
@@ -132,6 +148,7 @@ function updateView() {
   <li name="319">Test 1: all keys</li>
   <li name="31">Test 2: navigation/color keys</li>
   <li name="3">Test 3: only red/green color keys</li>
+  <li name="x">Test 4: only red color + left key</li>
   <li name="exit">Return to test menu</li>
 </ul>
 <div id="status" style="left: 700px; top: 480px; width: 400px; height: 200px;"></div>
