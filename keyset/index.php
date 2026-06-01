@@ -93,7 +93,7 @@ function runStep(name) {
     keypressed[i] = 0;
   }
   if (name==="x") {
-    currentMask = 1;
+    currentMask = 1+0x400;
     try {
       ksobj.setValue(currentMask, [VK_LEFT]);
       updateView();

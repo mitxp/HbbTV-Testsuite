@@ -118,7 +118,7 @@ function buildFakeWebSocket() {
         ok = true;
         break;
     }
-    if (ok) {
+    if (ok && msg.id) {
       setTimeout(function() {
         ret.onmessage({ "data": JSON.stringify({ "jsonrpc": "2.0", "result": cbo, "id": msg.id }) });
       }, 100);
@@ -149,7 +149,11 @@ function createRpcWebsocket() {
       }
     };
     wsconn.sendPrepare = function(msg) {
-      return {"jsonrpc": "2.0", "method": msg.method, "params": msg.params, "id": msg.id || ("id"+(new Date().getTime() % 10000000)+"x")};
+      var ret = {"jsonrpc": "2.0", "method": msg.method, "params": msg.params};
+      if (!msg.noid) {
+        ret.id = msg.id || ("id"+(new Date().getTime() % 10000000)+"x");
+      }
+      return ret;
     };
     wsconn.send = function(msg) {
       wsconn.waitForConnection(function() {
@@ -249,7 +253,7 @@ function doRpc(msg, cb) {
       };
     } else if (wsconn!==mediawsconn) {
       wsconn.autoCloseOnFirstMessage = true;
-      setTimeout(wsconn.close, 2000);
+      setTimeout(wsconn.close, 1000);
     }
     wsconn.send(msg);
     return true;
@@ -429,7 +433,7 @@ function negotiateMethods() {
 }
 
 function sendVoiceReady(isReady) {
-  if (doRpc({ "method": "org.hbbtv.app.voice.ready", "params": { "ready": isReady } })) {
+  if (doRpc({ "method": "org.hbbtv.app.voice.ready", "params": { "ready": isReady }, "noid": true })) {
     showStatus(true, "Voice ready = "+isReady+" sent.");
   }
 }
@@ -539,7 +543,7 @@ function playVoiceVideo() {
       if (mediawsconn.lastMessageReceived + 2000 < new Date().getTime()) {
         showUpdate("Media state", JSON.stringify(msg));
       }
-      mediawsconn.send({ "method": "org.hbbtv.app.state.media", "params": msg });
+      mediawsconn.send({ "method": "org.hbbtv.app.state.media", "params": msg, "noid": true });
       if (vid.ended) {
         if (receivedVoice) {
           showStatus(true, "Video ended, got at least one voice command");
