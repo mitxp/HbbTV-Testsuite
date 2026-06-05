@@ -353,7 +353,7 @@ function getFeatureSettings() {
       }
       return;
     }
-    if (supportInfo.queried && (supportInfo[f.id]==="notSupported" || supportInfo[f.id]==="supportedNoSettings")) {
+    if (supportInfo.queried && (supportInfo[f.id]==="notSupported" || supportInfo[f.id]==="supportedNoSetting")) {
       f.value = "(not queried)";
       getSingleFeature(idx+1);
       return;
