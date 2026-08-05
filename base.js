@@ -304,3 +304,17 @@ function stopAutomation() {
   }
 }
 
+function getCurrentService() {
+  var ch, ret = service1;
+  try {
+    var app = document.getElementById('appmgr').getOwnerApplication(document);
+    ch = app.privateData.currentChannel;
+    if (ch.sid == service2[2]) {
+      ret = service2;
+    }
+  } catch (e) {
+    // ignore
+  }
+  return ret;
+}
+

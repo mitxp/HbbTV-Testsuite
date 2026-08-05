@@ -23,9 +23,10 @@ window.onload = function() {
   runNextAutoTest();
 };
 function runStep(name) {
+  var svc = getCurrentService();
   setInstr('Executing step...');
   showStatus(true, '');
-  var urlprefix = 'dvb://'+service1[0].toString(16)+'.'+service1[1].toString(16)+'.'+service1[2].toString(16)+'.'+dsmccctag.toString(16)+'/';
+  var urlprefix = 'dvb://'+svc[0].toString(16)+'.'+svc[1].toString(16)+'.'+svc[2].toString(16)+'.'+dsmccctag.toString(16)+'/';
   if (name=='file') {
     checkUrl(urlprefix+'index.html', '<html');
   } else if (name=='directory') {

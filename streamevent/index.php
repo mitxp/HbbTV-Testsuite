@@ -156,6 +156,7 @@ function registerListener(url, invalid) {
   }
 }
 function runStep(name) {
+  var svc = getCurrentService();
   if (!unregisterListener(true)) {
     return;
   }
@@ -163,11 +164,11 @@ function runStep(name) {
   if (name==='xmlurl') {
     registerListener('sevent.php?ctag='+seventctag, false);
   } else if (name==='dvburl') {
-    registerListener(isdsmcc ? 'sevent' : ('dvb://'+service1[0].toString(16)+'.'+service1[1].toString(16)+'.'+service1[2].toString(16)+'.'+dsmccctag.toString(16)+'/sevent'), false);
+    registerListener(isdsmcc ? 'sevent' : ('dvb://'+svc[0].toString(16)+'.'+svc[1].toString(16)+'.'+svc[2].toString(16)+'.'+dsmccctag.toString(16)+'/sevent'), false);
   } else if (name==='xmlinvalid') {
     registerListener('sevent.php?ctag='+(seventctag+10), true);
   } else if (name==='dvbinvalid') {
-    registerListener(isdsmcc ? 'xxx' : ('dvb://'+service1[0].toString(16)+'.'+service1[1].toString(16)+'.'+service1[2].toString(16)+'.'+dsmccctag.toString(16)+'/xxx'), true);
+    registerListener(isdsmcc ? 'xxx' : ('dvb://'+svc[0].toString(16)+'.'+svc[1].toString(16)+'.'+svc[2].toString(16)+'.'+dsmccctag.toString(16)+'/xxx'), true);
   } 
 }
 
